@@ -1,0 +1,280 @@
+<!doctype html>
+<html lang="tr">
+<head>
+<meta charset="utf-8"/>
+<meta name="viewport" content="width=device-width,initial-scale=1"/>
+<title>TradePulse • Admin Panel</title>
+<style>
+:root{--bg:#060816;--txt:#eef1ff;--mut:#aeb6db;--a:#7c5cff;--b:#f0b957;--g:#2ee59d;--r:22px}
+*{box-sizing:border-box}
+body{
+  margin:0;min-height:100vh;font-family:system-ui,-apple-system,Segoe UI,Roboto,Arial;color:var(--txt);
+  background:
+    radial-gradient(1100px 560px at 20% 10%, rgba(124,92,255,.28), transparent 60%),
+    radial-gradient(900px 560px at 86% 30%, rgba(240,185,87,.16), transparent 60%),
+    radial-gradient(900px 560px at 50% 92%, rgba(46,229,157,.12), transparent 60%),
+    linear-gradient(180deg,var(--bg),#0a1030);
+  padding:26px;
+}
+.header{display:flex;align-items:center;justify-content:space-between;gap:10px;margin-bottom:30px}
+.header b{letter-spacing:.18em;font-size:18px}
+.back{color:var(--mut);text-decoration:none;padding:8px 16px;border:1px solid rgba(255,255,255,.1);border-radius:999px;font-size:13px}
+.back:hover{background:rgba(255,255,255,.05)}
+.grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(320px,1fr));gap:20px;margin-bottom:30px}
+.card{
+  border-radius:calc(var(--r) + 8px);
+  background:linear-gradient(180deg,rgba(14,18,40,.92),rgba(14,18,40,.62));
+  border:1px solid rgba(124,92,255,.22);
+  box-shadow:0 18px 80px rgba(0,0,0,.58);
+  padding:22px;
+  backdrop-filter: blur(12px);
+  position:relative;overflow:hidden;
+}
+.card:before{
+  content:"";position:absolute;inset:-1px;border-radius:inherit;padding:1px;
+  background:linear-gradient(90deg,rgba(124,92,255,.70),rgba(240,185,87,.40),rgba(46,229,157,.35));
+  -webkit-mask:linear-gradient(#000 0 0) content-box,linear-gradient(#000 0 0);
+  -webkit-mask-composite:xor;mask-composite:exclude;
+  opacity:.85;pointer-events:none;
+}
+.card>*{position:relative}
+.card h2{font-size:16px;margin:0 0 16px;display:flex;align-items:center;gap:8px}
+label{display:block;margin:12px 0 6px;color:var(--mut);font-size:13px}
+input,select{width:100%;padding:12px 12px;border-radius:14px;border:1px solid rgba(124,92,255,.22);background:rgba(10,16,26,.62);color:var(--txt);outline:none}
+input:focus,select:focus{border-color:rgba(240,185,87,.35);box-shadow:0 0 0 4px rgba(124,92,255,.18)}
+.btn{width:100%;border-radius:999px;border:1px solid rgba(124,92,255,.26);background:linear-gradient(90deg,rgba(124,92,255,.92),rgba(240,185,87,.78));color:#070a12;font-weight:1000;padding:12px 14px;cursor:pointer;margin-top:12px}
+.btn:hover{opacity:.9}
+.btn-danger{background:linear-gradient(90deg,rgba(255,92,122,.92),rgba(255,71,87,.78))}
+.btn-success{background:linear-gradient(90deg,rgba(46,229,157,.92),rgba(46,200,140,.78))}
+.btn-warning{background:linear-gradient(90deg,rgba(255,165,2,.92),rgba(230,126,34,.78))}
+.msg{margin-top:12px;font-size:13px;color:var(--mut)}
+.err{color:#ff5c7a} .ok{color:#2ee59d}
+.full{grid-column:1/-1}
+.user-list{max-height:300px;overflow-y:auto}
+.user-item{display:flex;justify-content:space-between;align-items:center;padding:12px;background:rgba(0,0,0,.2);border-radius:12px;margin-bottom:8px}
+.user-info{display:flex;align-items:center;gap:10px}
+.user-name{font-weight:600}
+.role{padding:4px 10px;border-radius:20px;font-size:11px;font-weight:600;text-transform:uppercase}
+.role-admin{background:rgba(124,92,255,.2);color:#7c5cff}
+.role-user{background:rgba(46,229,157,.2);color:#2ee59d}
+.status{text-align:center;padding:20px;color:var(--mut)}
+.loading{text-align:center;padding:20px;color:var(--a)}
+.online{color:#2ee59d}
+.idle{color:#f0b957}
+</style>
+</head>
+<body>
+  <div class="header">
+    <b>TRADEPULSE</b>
+    <a href="/" class="back">← Dashboard</a>
+  </div>
+        
+  <div class="grid">
+    <div class="card">
+      <h2>👤 Yeni Kullanıcı Ekle</h2>
+      <label>Kullanıcı Adı</label>
+      <input type="text" id="newUsername" placeholder="örn: trader1">
+      <label>Şifre</label>
+      <input type="password" id="newPassword" placeholder="En az 6 karakter">
+      <label>Rol</label>
+      <select id="newRole">
+        <option value="user">User</option>
+        <option value="admin">Admin</option>
+      </select>
+      <button class="btn" onclick="addUser()">Kullanıcı Ekle</button>
+      <div id="addMessage" class="msg"></div>
+    </div>
+        
+    <div class="card">
+      <h2>🔄 Kullanıcı Rolünü Değiştir</h2>
+      <label>Kullanıcı Adı</label>
+      <input type="text" id="roleUsername" placeholder="Kullanıcı adı">
+      <label>Yeni Rol</label>
+      <select id="newUserRole">
+        <option value="user">User</option>
+        <option value="admin">Admin</option>
+      </select>
+      <button class="btn btn-warning" onclick="changeRole()">Rol Güncelle</button>
+      <div id="roleMessage" class="msg"></div>
+    </div>
+        
+    <div class="card">
+      <h2>🗑️ Kullanıcı Sil</h2>
+      <label>Kullanıcı Adı</label>
+      <input type="text" id="deleteUsername" placeholder="Silinecek kullanıcı">
+      <button class="btn btn-danger" onclick="deleteUser()">Kullanıcı Sil</button>
+      <div id="deleteMessage" class="msg"></div>
+    </div>
+        
+    <div class="card full" style="border-color:rgba(46,229,157,.35);">
+      <h2 style="color:#2ee59d;">🟢 Online Kullanıcılar <span id="onlineCount" style="font-size:12px;color:var(--mut);font-weight:400;">(Yükleniyor...)</span></h2>
+      <button class="btn btn-success" style="max-width:200px;margin-bottom:16px;" onclick="loadOnlineUsers()">🔄 Yenile</button>
+      <div id="onlineList" class="user-list">
+        <div class="status">Online kullanıcıları görmek için "Yenile" butonuna tıklayın</div>
+      </div>
+    </div>
+        
+    <div class="card full">
+      <h2>📋 Kullanıcı Listesi</h2>
+      <button class="btn btn-success" style="max-width:200px;margin-bottom:16px;" onclick="loadUsers()">🔄 Listeyi Yenile</button>
+      <div id="userList" class="user-list">
+        <div class="status">Kullanıcıları görmek için "Listeyi Yenile" butonuna tıklayın</div>
+      </div>
+    </div>
+  </div>
+
+  <script>
+  const API_BASE = window.location.origin;
+
+  function showMessage(elId, msgTxt, isOk) {
+    const el = document.getElementById(elId);
+    el.textContent = msgTxt;
+    el.className = 'msg ' + (isOk ? 'ok' : 'err');
+    setTimeout(() => el.textContent = '', 5000);
+  }
+
+  async function addUser() {
+    const username = document.getElementById('newUsername').value.trim();
+    const password = document.getElementById('newPassword').value;
+    const role = document.getElementById('newRole').value;
+
+    if (!username || !password) {
+      showMessage('addMessage', 'Kullanıcı adı ve şifre gereklidir!', false);
+      return;
+    }
+
+    try {
+      const response = await fetch(API_BASE + '/api/register', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ username, password, role })
+      });
+      const data = await response.json();
+      if (response.ok) {
+        showMessage('addMessage', '✅ ' + data.message, true);
+        document.getElementById('newUsername').value = '';
+        document.getElementById('newPassword').value = '';
+        loadUsers();
+      } else {
+        showMessage('addMessage', '❌ ' + data.error, false);
+      }
+    } catch (error) {
+      showMessage('addMessage', '❌ Bağlantı hatası: ' + error.message, false);
+    }
+  }
+
+  async function deleteUser() {
+    const username = document.getElementById('deleteUsername').value.trim();
+    if (!username) { showMessage('deleteMessage', 'Kullanıcı adı gereklidir!', false); return; }
+    if (username.toLowerCase() === 'admin') { showMessage('deleteMessage', '❌ Admin silinemez!', false); return; }
+    if (!confirm('"' + username + '" kullanıcısını silmek istediğinizden emin misiniz?')) return;
+
+    try {
+      const response = await fetch(API_BASE + '/api/users/' + username, { method: 'DELETE' });
+      const data = await response.json();
+      if (response.ok) {
+        showMessage('deleteMessage', '✅ ' + data.message, true);
+        document.getElementById('deleteUsername').value = '';
+        loadUsers();
+      } else {
+        showMessage('deleteMessage', '❌ ' + data.error, false);
+      }
+    } catch (error) {
+      showMessage('deleteMessage', '❌ Bağlantı hatası', false);
+    }
+  }
+
+  async function changeRole() {
+    const username = document.getElementById('roleUsername').value.trim();
+    const role = document.getElementById('newUserRole').value;
+    if (!username) { showMessage('roleMessage', 'Kullanıcı adı gereklidir!', false); return; }
+    if (username.toLowerCase() === 'admin') { showMessage('roleMessage', '❌ Admin rolü değiştirilemez!', false); return; }
+
+    try {
+      const response = await fetch(API_BASE + '/api/users/' + username + '/role', {
+        method: 'PUT',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ role })
+      });
+      const data = await response.json();
+      if (response.ok) {
+        showMessage('roleMessage', '✅ ' + data.message, true);
+        document.getElementById('roleUsername').value = '';
+        loadUsers();
+      } else {
+        showMessage('roleMessage', '❌ ' + data.error, false);
+      }
+    } catch (error) {
+      showMessage('roleMessage', '❌ Bağlantı hatası', false);
+    }
+  }
+
+  async function loadUsers() {
+    const userList = document.getElementById('userList');
+    userList.innerHTML = '<div class="loading">Kullanıcılar yükleniyor...</div>';
+    try {
+      const response = await fetch(API_BASE + '/api/users');
+      const users = await response.json();
+      if (response.ok && users.length > 0) {
+        userList.innerHTML = users.map(user => {
+          const isAdmin = user.username === 'admin';
+          const btns = isAdmin ? '<span style="color:#666;font-size:12px;">Ana Admin</span>' :
+            '<button class="btn btn-warning" style="width:auto;padding:6px 12px;margin:0;font-size:12px;" data-action="role" data-user="' + user.username + '">Değiştir</button>' +
+            '<button class="btn btn-danger" style="width:auto;padding:6px 12px;margin:0 0 0 8px;font-size:12px;" data-action="delete" data-user="' + user.username + '">Sil</button>';
+          return '<div class="user-item"><div class="user-info"><span class="user-name">' + user.username + '</span><span class="role role-' + user.role + '">' + user.role + '</span></div><div>' + btns + '</div></div>';
+        }).join('');
+      } else if (response.status === 403) {
+        userList.innerHTML = '<div class="status">❌ Admin yetkisi gerekli</div>';
+      } else {
+        userList.innerHTML = '<div class="status">Kullanıcı bulunamadı</div>';
+      }
+    } catch (error) {
+      userList.innerHTML = '<div class="status">❌ Hata: ' + error.message + '</div>';
+    }
+  }
+
+  document.addEventListener('click', function(e) {
+    if (e.target.dataset.action === 'role') {
+      document.getElementById('roleUsername').value = e.target.dataset.user;
+      document.querySelector('.card:nth-child(2)').scrollIntoView({ behavior: 'smooth' });
+    } else if (e.target.dataset.action === 'delete') {
+      document.getElementById('deleteUsername').value = e.target.dataset.user;
+      document.querySelector('.card:nth-child(3)').scrollIntoView({ behavior: 'smooth' });
+    }
+  });
+
+  async function loadOnlineUsers() {
+    const onlineList = document.getElementById('onlineList');
+    const onlineCount = document.getElementById('onlineCount');
+    onlineList.innerHTML = '<div class="loading">Online kullanıcılar yükleniyor...</div>';
+    try {
+      const response = await fetch(API_BASE + '/api/online-users');
+      if (response.status === 403) {
+        onlineList.innerHTML = '<div class="status">❌ Admin yetkisi gerekli</div>';
+        onlineCount.textContent = '(Yetkisiz)';
+        return;
+      }
+      const data = await response.json();
+      onlineCount.textContent = '(' + data.count + ' kullanıcı aktif)';
+      if (data.users && data.users.length > 0) {
+        onlineList.innerHTML = data.users.map(user => {
+          const statusColor = user.status === 'online' ? '#2ee59d' : '#f0b957';
+          const statusText = user.status === 'online' ? '🟢 Online' : '🟡 Idle (' + user.minutesAgo + ' dk)';
+          return '<div class="user-item" style="border-left:3px solid ' + statusColor + ';"><div class="user-info"><span class="user-name">' + user.username + '</span><span class="role role-' + user.role + '">' + user.role + '</span><span style="color:' + statusColor + ';font-size:12px;margin-left:8px;">' + statusText + '</span></div><span style="color:#666;font-size:12px;">Son aktivite: ' + user.minutesAgo + ' dk önce</span></div>';
+        }).join('');
+      } else {
+        onlineList.innerHTML = '<div class="status">🟢 Şu anda online kullanıcı yok</div>';
+      }
+    } catch (error) {
+      onlineList.innerHTML = '<div class="status">❌ Hata: ' + error.message + '</div>';
+    }
+  }
+
+  document.addEventListener('DOMContentLoaded', function() {
+    loadUsers();
+    loadOnlineUsers();
+    setInterval(loadOnlineUsers, 30000);
+  });
+  </script>
+</body>
+</html>
