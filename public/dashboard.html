@@ -1,12 +1,11 @@
 <!DOCTYPE html>
-<html lang="tr">
+<html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>CrYpTo_AnLhLc Futures Pro - Complete Trading Terminal</title>
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-    <script src="/js/lang/translations.js"></script>
-    <style>
+        <style>
         * { margin: 0; padding: 0; box-sizing: border-box; }
 
         html {
@@ -2312,7 +2311,7 @@
             }
         }
 
-        /* Balina Takipçisi Paneli */
+        /* Whale Tracker Paneli */
         .whale-panel {
             background: linear-gradient(145deg, rgba(22, 27, 34, 0.9), rgba(13, 17, 23, 0.95));
             border: 1px solid rgba(163, 113, 247, 0.3);
@@ -2754,80 +2753,6 @@
             display: none;
         }
     </style>
-    
-    <!-- Language Selector -->
-    <div class="language-selector" style="position: absolute; top: 16px; right: 160px; z-index: 1000;">
-        <button class="language-btn" onclick="toggleLanguageDropdown()" id="languageBtn">
-            <span class="flag" id="currentLangFlag">🇹🇷</span>
-            <span id="currentLangText" data-i18n="lang_current">English</span>
-            <svg width="10" height="10" viewBox="0 0 10 10" fill="currentColor">
-                <path d="M5 6L8 2H2L5 6Z"/>
-            </svg>
-        </button>
-        <div class="language-dropdown" id="languageDropdown">
-            <div class="language-option active" onclick="setLanguage('tr')" data-i18n="lang_turkish">
-                <span class="flag">🇹🇷</span>
-                <span>English</span>
-            </div>
-            <div class="language-option" onclick="setLanguage('en')" data-i18n="lang_english">
-                <span class="flag">🇺🇸</span>
-                <span>English</span>
-            </div>
-        </div>
-    </div>
-
-    <!-- Language Selector Script -->
-    <script>
-        // Dil seçici fonksiyonları
-        function toggleLanguageDropdown() {
-            const dropdown = document.getElementById('languageDropdown');
-            dropdown.classList.toggle('active');
-        }
-        
-        function setLanguage(lang) {
-            i18n.setLanguage(lang);
-            
-            // Dropdown menüyü kapat
-            document.getElementById('languageDropdown').classList.remove('active');
-            
-            // Aktif dili güncelle
-            updateLanguageSelectorUI();
-        }
-        
-        function updateLanguageSelectorUI() {
-            const currentLang = i18n.currentLang;
-            const btnFlag = document.getElementById('currentLangFlag');
-            const btnText = document.getElementById('currentLangText');
-            
-            if (currentLang === 'tr') {
-                btnFlag.textContent = '🇹🇷';
-                btnText.textContent = 'English';
-            } else {
-                btnFlag.textContent = '🇺🇸';
-                btnText.textContent = 'English';
-            }
-            
-            // Dropdown seçeneklerini güncelle
-            document.querySelectorAll('.language-option').forEach(option => {
-                option.classList.remove('active');
-                if (option.getAttribute('onclick').includes(currentLang)) {
-                    option.classList.add('active');
-                }
-            });
-        }
-        
-        // Sayfa yüklendiğinde mevcut dili göster
-        document.addEventListener('DOMContentLoaded', function() {
-            updateLanguageSelectorUI();
-            
-            // Dropdown dışına tıklandığında kapat
-            document.addEventListener('click', function(e) {
-                if (!e.target.closest('.language-selector')) {
-                    document.getElementById('languageDropdown').classList.remove('active');
-                }
-            });
-        });
-    </script>
 </head>
 <body>
     <div class="tooltip-overlay" id="tooltipOverlay"></div>
@@ -2839,14 +2764,14 @@
         <div class="tooltip">
             <button class="tooltip-close" onclick="hideTooltip('MarketData')">×</button>
             <div class="tooltip-arrow"></div>
-            <div class="tooltip-title">📊 Piyasa Verileri</div>
+            <div class="tooltip-title">📊 Market Data</div>
             <div class="tooltip-content">
-                <strong>24s Yüksek/Düşük:</strong> Son 24 saatteki en yüksek ve en düşük fiyat seviyelerini gösterir. Bu seviyeler günlük destek ve direnç olarak çalışabilir.<br><br>
-                <strong>Hacim (Volume):</strong> Son 24 saatte işlem gören toplam coin miktarını ifade eder. Yüksek hacim, piyasanın aktif olduğunu ve trendin güçlü olabileceğini gösterir.<br><br>
-                <strong>OI (Açık Pozisyon):</strong> Piyasadaki toplam açık long ve short pozisyonların toplamıdır. OI artışı = yeni para girişi, OI düşüşü = pozisyon kapatma anlamına gelir.<br><br>
-                <strong>Long/Short Oranı:</strong> Long pozisyonların toplam pozisyonlara oranını gösterir. %50 üzeri bullish, %50 altı bearish eğilim.<br><br>
-                <strong>Fonlama Oranı:</strong> Long'ların short'lara ödediği periyodik ücret. Pozitif = long'lar öder, Negatif = short'lar öder.<br><br>
-                <strong>Emir Defteri:</strong> Alış ve satış emirlerinin dağılımı. Yeşil alanlar destek, kırmızı alanlar direnç seviyelerini gösterir.
+                <strong>24h High/Low:</strong> Shows the highest and lowest price levels from the last 24 hours. These levels can act as daily support and resistance.<br><br>
+                <strong>Volume:</strong> Represents the total amount traded over the last 24 hours. High volume indicates an active market and may confirm a strong trend.<br><br>
+                <strong>OI (Open Interest):</strong> The total number of open long and short positions in the market. Rising OI means new money is entering the market, while falling OI often means positions are being closed.<br><br>
+                <strong>Long/Short Ratio:</strong> Shows the share of long positions relative to total positions. Above 50% suggests bullish sentiment, below 50% suggests bearish sentiment.<br><br>
+                <strong>Funding Rate:</strong> A periodic fee paid between long and short traders. Positive funding means longs pay shorts; negative funding means shorts pay longs.<br><br>
+                <strong>Order Book:</strong> The distribution of buy and sell orders. Green areas highlight support, while red areas highlight resistance.
             </div>
         </div>
     </div>
@@ -2856,14 +2781,14 @@
         <div class="tooltip">
             <button class="tooltip-close" onclick="hideTooltip('PriceChart')">×</button>
             <div class="tooltip-arrow"></div>
-            <div class="tooltip-title">📈 Fiyat Grafiği & İndikatörler</div>
+            <div class="tooltip-title">📈 Price Chart & Indicators</div>
             <div class="tooltip-content">
-                <strong>Fiyat Grafiği:</strong> Mumlar açılış, en yüksek, en düşük ve kapanış fiyatlarını gösterir. Yeşil = yükseliş, Kırmızı = düşüş.<br><br>
-                <strong>RSI (14):</strong> 0-100 arası momentum osilatörü. 70+ aşırı alım (satış sinyali), 30- aşırı satım (alış sinyali).<br><br>
-                <strong>StochRSI:</strong> RSI'ın hızlı versiyonu. 80+ satış, 20- alış bölgesi. Çok sayıda sinyal üretir.<br><br>
-                <strong>Bollinger Bands:</strong> Fiyatın normal aralığını gösterir. Üst/alt bant destek-direnç. Daralma = volatilite düşüşü = yakında hareket.<br><br>
-                <strong>ATR (14):</strong> Volatilite ölçer. Yüksek ATR = geniş stop-loss gerekli. Düşük ATR = sıkı stop-loss yeterli.<br><br>
-                <strong>Oturum Özeti:</strong> Günlük ortalama fiyat (VWAP), oturum yüksek/düşük ve volatiliteyi gösterir.
+                <strong>Price Chart:</strong> Candles show the open, high, low, and close prices. Green means bullish; red means bearish.<br><br>
+                <strong>RSI (14):</strong> A momentum oscillator from 0 to 100. Above 70 is overbought (sell signal), below 30 is oversold (buy signal).<br><br>
+                <strong>StochRSI:</strong> A faster version of RSI. Above 80 signals a possible sell zone, below 20 signals a possible buy zone. It generates many signals.<br><br>
+                <strong>Bollinger Bands:</strong> Show the statistically normal price range. Upper and lower bands often act as resistance and support. Band contraction means lower volatility and may signal an upcoming move.<br><br>
+                <strong>ATR (14):</strong> Measures volatility. High ATR suggests a wider stop-loss is needed, while low ATR allows a tighter stop-loss.<br><br>
+                <strong>Session Summary:</strong> Displays the daily average price (VWAP), session high/low, and volatility.
             </div>
         </div>
     </div>
@@ -2873,13 +2798,13 @@
         <div class="tooltip">
             <button class="tooltip-close" onclick="hideTooltip('TradingTools')">×</button>
             <div class="tooltip-arrow"></div>
-            <div class="tooltip-title">🔧 İşlem Araçları</div>
+            <div class="tooltip-title">🔧 Trading Tools</div>
             <div class="tooltip-content">
-                <strong>PnL Hesaplayıcı:</strong> Kar/zarar hesaplar. Kaldıraç oranı arttıkça kazanç veya kayıp katlanarak artar. ROE = getiri oranı.<br><br>
-                <strong>Likidasyon Hesaplayıcı:</strong> Pozisyonun otomatik kapanacağı fiyatı hesaplar. Kaldıraç arttıkça likidasyon riski artar.<br><br>
-                <strong>Pozisyon Boyutu:</strong> Risk yönetimi için optimal pozisyon büyüklüğü hesaplar. Stop-loss'a göre maksimum pozisyonu belirler.<br><br>
-                <strong>Korelasyon Matrisi:</strong> Coin'lerin birbirleriyle ilişkisini gösterir. Yeşil = aynı yön, Kırmızı = zıt yön hareket.<br><br>
-                <strong>Alarmlar:</strong> Fiyat veya RSI seviyelerine ulaşıldığında bildirim almanızı sağlar.
+                <strong>PnL Calculator:</strong> Calculates profit and loss. As leverage increases, both gains and losses are amplified. ROE stands for return on equity.<br><br>
+                <strong>Liquidation Calculator:</strong> Calculates the price where the position would be automatically closed. Higher leverage increases liquidation risk.<br><br>
+                <strong>Position Size:</strong> Calculates the optimal position size for risk management. It determines the maximum position size based on your stop-loss.<br><br>
+                <strong>Correlation Matrix:</strong> Shows how coins move relative to each other. Green means they move in the same direction, red means they move in opposite directions.<br><br>
+                <strong>Alerts:</strong> Lets you receive notifications when price or RSI reaches selected levels.
             </div>
         </div>
     </div>
@@ -2889,15 +2814,15 @@
         <div class="tooltip">
             <button class="tooltip-close" onclick="hideTooltip('LongShort')">×</button>
             <div class="tooltip-arrow"></div>
-            <div class="tooltip-title">⚖️ Long/Short Oranı Açıklaması</div>
+            <div class="tooltip-title">⚖️ Long/Short Ratio Explanation</div>
             <div class="tooltip-content">
-                <strong>Long (Alış) Pozisyon:</strong> Fiyat yükseleceği beklentisiyle açılan alış pozisyonlarıdır. Fiyat yükselince kar, düşünce zarar edilir.<br><br>
-                <strong>Short (Satış) Pozisyon:</strong> Fiyat düşeceği beklentisiyle açılan satış pozisyonlarıdır. Fiyat düşünce kar, yükselince zarar edilir.<br><br>
-                <strong>Long/Short Oranı:</strong> Long pozisyonların toplam açık pozisyonlara oranıdır. %50 üzeri = bullish hakimiyet, %50 altı = bearish hakimiyet.<br><br>
+                <strong>Long Position:</strong> A buy position opened with the expectation that price will rise. Profit is made when price rises, and loss occurs when it falls.<br><br>
+                <strong>Short Position:</strong> A sell position opened with the expectation that price will fall. Profit is made when price falls, and loss occurs when it rises.<br><br>
+                <strong>Long/Short Ratio:</strong> The percentage of long positions among total open positions. Above 50% indicates bullish dominance; below 50% indicates bearish dominance.<br><br>
                 <strong>Yorumlama:</strong><br>
-                • %60+ Long = Piyasa aşırı bullish, dikkatli olun<br>
-                • %40- Short = Piyasa aşırı bearish, alış fırsatı olabilir<br>
-                • %50 civarı = Denge, kararsız piyasa
+                • %60+ Long = Market is extremely bullish, be cautious<br>
+                • %40- Short = Market is extremely bearish, there may be a buying opportunity<br>
+                • Around 50% = balanced, indecisive market
             </div>
         </div>
     </div>
@@ -2907,13 +2832,13 @@
         <div class="tooltip">
             <button class="tooltip-close" onclick="hideTooltip('OI')">×</button>
             <div class="tooltip-arrow"></div>
-            <div class="tooltip-title">📊 Açık Pozisyon (OI)</div>
+            <div class="tooltip-title">📊 Open Interest (OI)</div>
             <div class="tooltip-content">
-                <strong>Open Interest (OI):</strong> Piyasadaki toplam açık pozisyon sayısıdır. Hem long hem short pozisyonların toplamı.<br><br>
-                <strong>OI Yükseliyorsa:</strong> Yeni para piyasaya giriyor. Trendin devam edebileceğini gösterir.<br><br>
-                <strong>OI Düşüyorsa:</strong> Pozisyonlar kapatılıyor. Trendin zayıflayabileceğini işaret eder.<br><br>
-                <strong>OI + Fiyat Ayrışması:</strong> OI artıyor ama fiyat sabit/düşüyor = potansiyel düzeltme sinyali. Dağıtım (distribution) riski.<br><br>
-                <strong>OI + Fiyat Uyumu:</strong> OI artıyor ve fiyat yükseliyor = güçlü yükseliş trendi. Birikim (accumulation).
+                <strong>Open Interest (OI):</strong> The total number of open positions in the market, including both long and short positions.<br><br>
+                <strong>If OI Is Rising:</strong> New money is entering the market. This may indicate trend continuation.<br><br>
+                <strong>If OI Is Falling:</strong> Positions are being closed. This may indicate the trend is weakening.<br><br>
+                <strong>OI + Price Divergence:</strong> OI rises while price stays flat or falls = a potential correction signal and possible distribution risk.<br><br>
+                <strong>OI + Price Alignment:</strong> OI rises and price rises = a strong bullish trend and possible accumulation.
             </div>
         </div>
     </div>
@@ -2923,13 +2848,13 @@
         <div class="tooltip">
             <button class="tooltip-close" onclick="hideTooltip('Funding')">×</button>
             <div class="tooltip-arrow"></div>
-            <div class="tooltip-title">💰 Funding Oranı Açıklaması</div>
+            <div class="tooltip-title">💰 Funding Rate Explanation</div>
             <div class="tooltip-content">
-                <strong>Funding Rate:</strong> Long pozisyonların short pozisyonlara ödediği periyodik ücrettir. Her 8 saatte bir ödenir.<br><br>
-                <strong>Pozitif Funding:</strong> Long'lar short'lara ödeme yapıyor. Piyasa genellikle bullish. Short'lar long'lara ödeme alıyor.<br><br>
-                <strong>Negatif Funding:</strong> Short'lar long'lara ödeme yapıyor. Piyasa genellikle bearish. Long'lar short'lardan ödeme alıyor.<br><br>
-                <strong>Yüksek Funding:</strong> Aşırı bullish sentiment. Piyasa zirve yapmış olabilir. Dikkatli olun.<br><br>
-                <strong>Düşük/Negatif Funding:</strong> Aşırı bearish sentiment. Piyasa dip yapmış olabilir. Alış fırsatı olabilir.
+                <strong>Funding Rate:</strong> A periodic fee paid by long positions to short positions or vice versa. It is typically settled every 8 hours.<br><br>
+                <strong>Positive Funding:</strong> Longs are paying shorts. The market is generally bullish.<br><br>
+                <strong>Negative Funding:</strong> Shorts are paying longs. The market is generally bearish.<br><br>
+                <strong>High Funding:</strong> Extremely bullish sentiment. The market may be overheated. Use caution.<br><br>
+                <strong>Low/Negative Funding:</strong> Extremely bearish sentiment. The market may be near a bottom and could present a buying opportunity.
             </div>
         </div>
     </div>
@@ -2939,13 +2864,13 @@
         <div class="tooltip">
             <button class="tooltip-close" onclick="hideTooltip('OrderBook')">×</button>
             <div class="tooltip-arrow"></div>
-            <div class="tooltip-title">📋 Emir Defteri Açıklaması</div>
+            <div class="tooltip-title">📋 Order Book Explanation</div>
             <div class="tooltip-content">
-                <strong>Order Book (Emir Defteri):</strong> Bekleyen alış ve satış emirlerinin fiyat seviyelerine göre dağılımını gösterir.<br><br>
-                <strong>Yeşil Alanlar (Bids):</strong> Alış emirleri. Bu seviyelerin altında fiyat düşerse alıcılar emirlerini gerçekleştirir = destek.<br><br>
-                <strong>Kırmızı Alanlar (Asks):</strong> Satış emirleri. Bu seviyelerin üstünde fiyat yükselirse satıcılar emirlerini gerçekleştirir = direnç.<br><br>
-                <strong>Balans (Order Wall):</strong> Büyük miktarda emir tek seviyede bekliyorsa = güçlü destek veya direnç.<br><br>
-                <strong>Kullanım:</strong> Büyük emir kümelerinin olduğu seviyelerden fiyat tepki verebilir.
+                <strong>Order Book:</strong> Shows the distribution of pending buy and sell orders by price level.<br><br>
+                <strong>Green Areas (Bids):</strong> Buy orders. If price falls into these levels, buyers may execute orders, creating support.<br><br>
+                <strong>Red Areas (Asks):</strong> Sell orders. If price rises into these levels, sellers may execute orders, creating resistance.<br><br>
+                <strong>Order Wall:</strong> A large cluster of orders at one price level can create strong support or resistance.<br><br>
+                <strong>Usage:</strong> Price may react around levels where large order clusters are present.
             </div>
         </div>
     </div>
@@ -2957,11 +2882,11 @@
             <div class="tooltip-arrow"></div>
             <div class="tooltip-title">📊 RSI (Relative Strength Index)</div>
             <div class="tooltip-content">
-                <strong>RSI Nedir:</strong> Momentum osilatörü. Fiyat değişimlerinin hızını ve büyüklüğünü ölçer. 0-100 arası değer alır.<br><br>
-                <strong>Formül:</strong> (Gain / (Gain + Loss)) x 100 şeklinde hesaplanır. Varsayılan periyod 14 mum.<br><br>
-                <strong>Alış Sinyali:</strong> RSI 30'un altına düştüğünde aşırı satım bölgesi = potansiyel alış fırsatı.<br><br>
-                <strong>Satış Sinyali:</strong> RSI 70'in üzerine çıktığında aşırı alım bölgesi = potansiyel satış fırsatı.<br><br>
-                <strong>Dikkat:</strong> Güçlü trendlerde RSI uzun süre 70+/30- kalabilir. Sadece RSI'ya göre işlem yapmak risklidir.
+                <strong>What Is RSI?</strong> A momentum oscillator that measures the speed and magnitude of price changes. It ranges from 0 to 100.<br><br>
+                <strong>Formula:</strong> Calculated as (Gain / (Gain + Loss)) × 100. The default period is 14 candles.<br><br>
+                <strong>Buy Signal:</strong> When RSI falls below 30, it enters the oversold zone and may present a buying opportunity.<br><br>
+                <strong>Sell Signal:</strong> When RSI rises above 70, it enters the overbought zone and may present a selling opportunity.<br><br>
+                <strong>Note:</strong> In strong trends, RSI can remain above 70 or below 30 for extended periods. Trading on RSI alone is risky.
             </div>
         </div>
     </div>
@@ -2971,14 +2896,14 @@
         <div class="tooltip">
             <button class="tooltip-close" onclick="hideTooltip('Bollinger')">×</button>
             <div class="tooltip-arrow"></div>
-            <div class="tooltip-title">📊 Bollinger Bantları</div>
+            <div class="tooltip-title">📊 Bollinger Bands</div>
             <div class="tooltip-content">
-                <strong>Bollinger Bantları:</strong> Fiyatın istatistiksel olarak normal hareket aralığını gösteren volatilite göstergesidir.<br><br>
-                <strong>Orta Bant:</strong> 20 periyotluk basit hareketli ortalama (SMA). Trend göstergesi olarak çalışır.<br><br>
-                <strong>Üst Bant:</strong> SMA + (2 x Standart Sapma). Olası direnç seviyesi.<br><br>
-                <strong>Alt Bant:</strong> SMA - (2 x Standart Sapma). Olası destek seviyesi.<br><br>
-                <strong>Squeeze (Sıkışma):</strong> Bantlar daraldığında volatilite düşüyor = yakında büyük hareket gelebilir.<br><br>
-                <strong>Breakout:</strong> Fiyat bant dışına çıktığında trend devam edebilir ama tersi de olabilir.
+                <strong>Bollinger Bands:</strong> A volatility indicator showing the statistically normal movement range of price.<br><br>
+                <strong>Middle Band:</strong> The 20-period simple moving average (SMA). It acts as a trend indicator.<br><br>
+                <strong>Upper Band:</strong> SMA + (2 × Standard Deviation). A possible resistance level.<br><br>
+                <strong>Lower Band:</strong> SMA - (2 × Standard Deviation). A possible support level.<br><br>
+                <strong>Squeeze:</strong> When the bands contract, volatility is falling and a major move may be approaching.<br><br>
+                <strong>Breakout:</strong> When price moves outside the bands, the trend may continue, but reversals are also possible.
             </div>
         </div>
     </div>
@@ -2990,12 +2915,12 @@
             <div class="tooltip-arrow"></div>
             <div class="tooltip-title">📊 ATR (Average True Range)</div>
             <div class="tooltip-content">
-                <strong>ATR Nedir:</strong> Piyasanın volatilitesini (hareket genişliğini) ölçen göstergedir. Direction göstermez.<br><br>
-                <strong>Formül:</strong> Her mumun True Range'i hesaplanır: (Yüksek-Düşük), (Yüksek-Önceki Kapanış), (Önceki Kapanış-Düşük) değerlerinin en büyüğü.<br><br>
+                <strong>What Is ATR?</strong> An indicator that measures market volatility (range of movement). It does not indicate direction.<br><br>
+                <strong>Formula:</strong> For each candle, the True Range is the largest of the following: (High-Low), (High-Previous Close), or (Previous Close-Low).<br><br>
                 <strong>Yorumlama:</strong><br>
-                • Yüksek ATR = Piyasa volatil = geniş stop-loss gerekli<br>
-                • Düşük ATR = Piyasa sakin = sıkı stop-loss yeterli<br><br>
-                <strong>Pratik Kullanım:</strong> Stop-loss seviyesini belirlerken ATR x 1.5 veya 2 değerini fiyattan uzaklık olarak kullanabilirsiniz.
+                • High ATR = volatile market = wider stop-loss needed<br>
+                • Low ATR = calm market = tighter stop-loss is enough<br><br>
+                <strong>Practical Use:</strong> When setting a stop-loss, you can use ATR × 1.5 or 2 as the distance from price.
             </div>
         </div>
     </div>
@@ -3005,14 +2930,14 @@
         <div class="tooltip">
             <button class="tooltip-close" onclick="hideTooltip('Regression')">×</button>
             <div class="tooltip-arrow"></div>
-            <div class="tooltip-title">📐 Regresyon Kanalı</div>
+            <div class="tooltip-title">📐 Regression Channel</div>
             <div class="tooltip-content">
-                <strong>Regresyon Kanalı:</strong> Fiyat verilerine en uygun doğrusal trend çizgisi ve bunun etrafında standart sapma kanalları çizer.<br><br>
-                <strong>Orta Çizgi:</strong> En Küçük Kareler Directiontemi ile hesaplanan optimal trend çizgisi.<br><br>
-                <strong>Üst/Alt Bant:</strong> Standart sapma (stdDev) değeri kadar üst ve alt kanal.<br><br>
-                <strong>StdDev Çarpanı:</strong> Varsayılan 2 = fiyatların %95'i kanal içinde kalır.<br><br>
-                <strong>Kullanım:</strong> Üst bant direnç, alt bant destek. Fiyat üst banda yaklaştığında satış, alt banda yaklaştığında alış düşünülebilir.<br><br>
-                <strong>Mum Sayısı:</strong> Ne kadar geriye dönük veri kullanılacağını belirler. Uzun vade = geniş kanal.
+                <strong>Regression Channel:</strong> Draws the best-fit linear trend line for price data and standard deviation channels around it.<br><br>
+                <strong>Center Line:</strong> The optimal trend line calculated using the least squares method.<br><br>
+                <strong>Upper/Lower Band:</strong> The upper and lower channels offset by the selected standard deviation value.<br><br>
+                <strong>StdDev Multiplier:</strong> The default value of 2 means about 95% of prices stay inside the channel.<br><br>
+                <strong>Usage:</strong> The upper band can act as resistance and the lower band as support. Selling may be considered near the upper band and buying near the lower band.<br><br>
+                <strong>Candle Count:</strong> Determines how much historical data is used. A longer lookback usually creates a wider channel.
             </div>
         </div>
     </div>
@@ -3024,15 +2949,15 @@
             <div class="tooltip-arrow"></div>
             <div class="tooltip-title">🔢 Fibonacci Seviyeleri</div>
             <div class="tooltip-content">
-                <strong>Fibonacci Retracement:</strong> Fiyat hareketinin geri çekilme seviyelerini belirlemek için kullanılan araç.<br><br>
-                <strong>Altın Oran (0.618):</strong> Doğada ve piyasalarda sıkça karşılaşılan oran. Güçlü destek/direnç seviyesi.<br><br>
-                <strong>Önemli Seviyeler:</strong><br>
-                • 0.236 (%23.6) - Zayıf destek/direnç<br>
+                <strong>Fibonacci Retracement:</strong> A tool used to identify pullback levels within a price move.<br><br>
+                <strong>Golden Ratio (0.618):</strong> A ratio commonly found in nature and markets. It is often treated as a strong support/resistance level.<br><br>
+                <strong>Key Levels:</strong><br>
+                • 0.236 (23.6%) - weak support/resistance<br>
                 • 0.382 (%38.2) - Orta seviye<br>
-                • 0.500 (%50) - Yarı nokta<br>
-                • 0.618 (%61.8) - Altın oran, güçlü seviye<br>
-                • 0.786 (%78.6) - Güçlü geri çekilme<br><br>
-                <strong>Kullanım:</strong> Yükselişte düzeltme %61.8'de destek bulabilir. Düşüşte toparlanma %61.8'de dirençle karşılaşabilir.
+                • 0.500 (50%) - midpoint<br>
+                • 0.618 (61.8%) - golden ratio, strong level<br>
+                • 0.786 (78.6%) - deep retracement<br><br>
+                <strong>Usage:</strong> In an uptrend, a pullback may find support near 61.8%. In a downtrend, a rebound may face resistance near 61.8%.
             </div>
         </div>
     </div>
@@ -3048,8 +2973,8 @@
                 <strong>Formüller:</strong><br>
                 • PnL = (Kapanış - Açılış) × Pozisyon Büyüklüğü × Kaldıraç<br>
                 • ROE = (PnL / Marjin) × 100<br><br>
-                <strong>Long İşlem:</strong> Fiyat yükselirse kar edilir.<br><br>
-                <strong>Short İşlem:</strong> Fiyat düşerse kar edilir.<br><br>
+                <strong>Long İşlem:</strong> Price yükselirse kar edilir.<br><br>
+                <strong>Short İşlem:</strong> Price düşerse kar edilir.<br><br>
                 <strong>Dikkat:</strong> Kaldıraç hem kazancı hem kaybı katlar. 10x kaldıraçla %10 hareket = %100 kar veya zarar.
             </div>
         </div>
@@ -3060,10 +2985,10 @@
         <div class="tooltip">
             <button class="tooltip-close" onclick="hideTooltip('Liquidation')">×</button>
             <div class="tooltip-arrow"></div>
-            <div class="tooltip-title">⚠️ Likidasyon Hesaplayıcı</div>
+            <div class="tooltip-title">⚠️ Liquidation Calculator</div>
             <div class="tooltip-content">
-                <strong>Likidasyon:</strong> Pozisyonun zarar nedeniyle otomatik olarak kapatılmasıdır. Marjin yetersizliği nedeniyle olur.<br><br>
-                <strong>Likidasyon Fiyatı:</strong> Pozisyonun otomatik kapanacağı fiyat seviyesi.<br><br>
+                <strong>Liquidation:</strong> Pozisyonun zarar nedeniyle otomatik olarak kapatılmasıdır. Marjin yetersizliği nedeniyle olur.<br><br>
+                <strong>Liquidation Priceı:</strong> Pozisyonun otomatik kapanacağı fiyat seviyesi.<br><br>
                 <strong>İzole Marjin:</strong> Her pozisyon ayrı marjin kullanır. Bir pozisyon likide olsa bile diğerleri etkilenmez.<br><br>
                 <strong>Çapraz Marjin:</strong> Tüm hesap bakiyesi tek pozisyonun marjini olarak kullanılır.<br><br>
                 <strong>Risk:</strong> Kaldıraç arttıkça likidasyon fiyatı giriş fiyatına yaklaşır.<br><br>
@@ -3083,7 +3008,7 @@
                 <strong>Risk Miktarı:</strong> İşleme ayırmak istediğiniz maksimum zarar miktarı.<br><br>
                 <strong>Stop-Loss:</strong> Zararı kabul edeceğiniz fiyat seviyesi.<br><br>
                 <strong>Formül:</strong><br>
-                Pozisyon Büyüklüğü = Risk Miktarı / |Giriş Fiyatı - Stop Loss|<br><br>
+                Pozisyon Büyüklüğü = Risk Miktarı / |Giriş Priceı - Stop Loss|<br><br>
                 <strong>Örnek:</strong> $100 risk, $50000 giriş, $49500 stop = 100 / 500 = 0.002 BTC pozisyon<br><br>
                 <strong>Kural:</strong> Tek işlemde toplam sermayenin %1-2'sinden fazlası risk edilmemeli.
             </div>
@@ -3117,7 +3042,7 @@
             <div class="tooltip-title">🔔 Alarm Sistemi</div>
             <div class="tooltip-content">
                 <strong>Alarmlar:</strong> Belirli fiyat veya RSI seviyelerine ulaşıldığında bildirim almanızı sağlar.<br><br>
-                <strong>Fiyat Alarmı:</strong> Fiyat belirli bir seviyeye ulaştığında uyarı verir. Alış veya satış seviyeleri için kullanışlıdır.<br><br>
+                <strong>Price Alarmı:</strong> Price belirli bir seviyeye ulaştığında uyarı verir. Alış veya satış seviyeleri için kullanışlıdır.<br><br>
                 <strong>RSI Alarmı:</strong> RSI aşırı alım (70+) veya aşırı satım (30-) bölgesine girdiğinde uyarı verir.<br><br>
                 <strong>Pratik Kullanım:</strong><br>
                 • Büyük destek seviyesinin altına stop-loss alarmı<br>
@@ -3135,7 +3060,7 @@
             <div class="tooltip-arrow"></div>
             <div class="tooltip-title">🚀 İleri Düzey Signals</div>
             <div class="tooltip-content">
-                <strong>OI Divergence (Ayrışma):</strong> Fiyat ve OI'nin ters yönde hareket etmesi. Fiyat yükselirken OI düşüyorsa = potansiyel düzeltme.<br><br>
+                <strong>OI Divergence (Ayrışma):</strong> Price ve OI'nin ters yönde hareket etmesi. Price yükselirken OI düşüyorsa = potansiyel düzeltme.<br><br>
                 <strong>Funding Spike:</strong> Funding oranının aniden yükselmesi. Aşırı bullish sentiment = olası zirve.<br><br>
                 <strong>Volatility Squeeze:</strong> Bollinger Bantlarının daralması. Düşük volatilite = yakında büyük hareket gelebilir.<br><br>
                 <strong>Yorumlama:</strong><br>
@@ -3152,7 +3077,7 @@
         <div class="tooltip">
             <button class="tooltip-close" onclick="hideTooltip('SignalScanner')">×</button>
             <div class="tooltip-arrow"></div>
-            <div class="tooltip-title">🔍 Fırsat Scanyıcı</div>
+            <div class="tooltip-title">🔍 Opportunity Scanyıcı</div>
             <div class="tooltip-content">
                 <strong>Signal Scanner:</strong> Tüm coin'leri profesyonel rate limiting ile tarayarak potansiyel işlem fırsatlarını tespit eder.<br><br>
                 <strong>Özellikler:</strong><br>
@@ -3191,14 +3116,14 @@
     
     <!-- Yeni Paneller Tooltips -->
     
-    <!-- Balina Takipçisi Tooltip -->
+    <!-- Whale Tracker Tooltip -->
     <div class="tooltip-container" id="tooltipWhaleTracker">
         <div class="tooltip">
             <button class="tooltip-close" onclick="hideTooltip('WhaleTracker')">×</button>
             <div class="tooltip-arrow"></div>
-            <div class="tooltip-title">🐋 Balina Takipçisi</div>
+            <div class="tooltip-title">🐋 Whale Tracker</div>
             <div class="tooltip-content">
-                <strong>Balina Takipçisi:</strong> Büyük yatırımcıların (balinaların) hareketlerini gerçek zamanlı izler.<br><br>
+                <strong>Whale Tracker:</strong> Tracks the activity of large investors (whales) in real time.<br><br>
                 <strong>Özellikler:</strong><br>
                 • 50K-1M USDT üzeri işlemleri gösterir<br>
                 • Alış ve satış baskısını analiz eder<br>
@@ -3223,7 +3148,7 @@
                 <strong>Tespit Edilen Formasyonlar:</strong><br>
                 • <strong>Doji:</strong> Belirsizlik, trend dönüşü sinyali<br>
                 • <strong>Çekiç (Hammer):</strong> Potansiyel yükseliş dönüşü<br>
-                • <strong>Yutan Formasyon (Engulfing):</strong> Güçlü trend değişimi<br>
+                • <strong>Yutan Formasyon (Engulfing):</strong> Strong trend değişimi<br>
                 • <strong>Yıldız (Star):</strong> Trend dönüşü beklentisi<br>
                 • <strong>Omuz-Baş-Omuz:</strong> Klasik dönüş formasyonu<br><br>
                 <strong>Güven Skoru:</strong> Formasyonun ne kadar net oluştuğunu gösterir.
@@ -3241,7 +3166,7 @@
                 <strong>Backtester:</strong> Geçmiş verilerle stratejilerinizi test eder.<br><br>
                 <strong>Strateji Türleri:</strong><br>
                 • <strong>MA Crossover:</strong> Hareketli ortalama kesişimleri<br>
-                • <strong>RSI:</strong> Aşırı alım/satım sinyalleri<br>
+                • <strong>RSI:</strong> Overbought/oversold signals<br>
                 • <strong>Bollinger Bands:</strong> Bant kırılma stratejileri<br><br>
                 <strong>Sonuçlar:</strong><br>
                 • Net kar/zarar, kazanma oranı, maksimum düşüş<br>
@@ -3270,12 +3195,12 @@
             <div class="header-right">
                 <div class="connection-status">
                     <div class="status-dot"></div>
-                    <span id="connectionStatus">API Connected</span>
+                    <span id="connectionStatus">API Baglanti</span>
                 </div>
                 <span class="ping-indicator" id="pingIndicator">--ms</span>
                 <span class="update-timestamp" id="updateTimestamp" style="display: none;">
                     <span class="icon">🔄</span>
-                    <span>Last Update: <span class="time" id="lastUpdateTime">--:--:--</span></span>
+                    <span>Last update: <span class="time" id="lastUpdateTime">--:--:--</span></span>
                 </span>
             </div>
         </header>
@@ -3283,7 +3208,7 @@
         <!-- Controls -->
         <div class="controls">
             <div class="control-card">
-                <label class="control-label">Select Coin</label>
+                <label class="control-label">Koin Secimi</label>
                 <div class="combo-wrapper">
                     <input type="text" class="combo-input" id="coinSearch" placeholder="Search or select a coin..." readonly>
                     <div class="combo-dropdown" id="coinDropdown"></div>
@@ -3300,7 +3225,7 @@
                 </div>
             </div>
             <div class="control-card">
-                <label class="control-label">Indicators</label>
+                <label class="control-label">Indikatorler</label>
                 <div class="btn-group">
                     <button class="btn btn-secondary active" id="toggleBB" onclick="toggleIndicator('bb')">BB</button>
                     <button class="btn btn-secondary active" id="toggleStoch" onclick="toggleIndicator('stoch')">Stoch</button>
@@ -3308,15 +3233,15 @@
                 </div>
             </div>
             <div class="control-card">
-                <label class="control-label">Analysis Tools</label>
+                <label class="control-label">Analiz Araclari</label>
                 <div class="analysis-controls">
                     <div class="analysis-inputs">
                         <input type="number" class="calc-input" id="lookbackCount" value="50" min="10" max="200" placeholder="Mum sayisi" onchange="updateAnalysisSettings()">
                         <input type="number" class="calc-input" id="stdDevMultiplier" value="2" min="0.5" max="5" step="0.1" placeholder="StdDev" onchange="updateAnalysisSettings()">
                     </div>
                     <div class="btn-group" style="margin-top: 8px;">
-                        <button class="btn btn-secondary" id="toggleRegression" onclick="toggleRegressionChannel()">Regression</button>
-                        <button class="btn btn-secondary" id="toggleSR" onclick="toggleSupportResistance()">Support & Resistance</button>
+                        <button class="btn btn-secondary" id="toggleRegression" onclick="toggleRegressionChannel()">Regresyon</button>
+                        <button class="btn btn-secondary" id="toggleSR" onclick="toggleSupportResistance()">Support/Resistance</button>
                     </div>
                 </div>
             </div>
@@ -3349,7 +3274,7 @@
                             <span></span>
                         </div>
                         <h3 class="panel-title">
-                            <span data-i18n="panel_market">Piyasa Verileri</span>
+                            <span data-i18n="panel_market">Market Data</span>
                             <span class="info-icon" onclick="showTooltip(event, 'MarketData')">i</span>
                         </h3>
                     </div>
@@ -3366,7 +3291,7 @@
                         <div class="mini-stat-value" id="statLow">--</div>
                     </div>
                     <div class="mini-stat">
-                        <div class="mini-stat-label" data-i18n="term_volume">Hacim</div>
+                        <div class="mini-stat-label" data-i18n="term_volume">Volume</div>
                         <div class="mini-stat-value" id="statVolume">--</div>
                     </div>
                     <div class="mini-stat">
@@ -3435,7 +3360,7 @@
                                 <span></span>
                             </div>
                             <h3 class="panel-title">
-                                <span data-i18n="panel_chart">Fiyat Grafiği</span>
+                                <span data-i18n="panel_chart">Price Grafiği</span>
                                 <span class="info-icon" onclick="showTooltip(event, 'PriceChart')">i</span>
                             </h3>
                         </div>
@@ -3536,7 +3461,7 @@
                 <!-- Liquidation Heatmap Section -->
                 <div class="liquidation-section" id="liquidationSection">
                     <div class="liquidation-header">
-                        <div class="liquidation-title">Likidasyon Isı Haritası</div>
+                        <div class="liquidation-title">Liquidation Isı Haritası</div>
                         <div class="liquidation-controls">
                             <select class="liq-symbol-select" id="liqSymbolSelect" onchange="changeLiqSymbol()">
                                 <option value="BTCUSDT">BTCUSDT</option>
@@ -3561,34 +3486,34 @@
                         <canvas id="liquidationChart"></canvas>
                         <div class="liq-loading" id="liqLoading" style="display: none;">
                             <div class="liq-loading-spinner"></div>
-                            <span>Veriler yükleniyor...</span>
+                            <span>Loading data...</span>
                         </div>
                         <div class="liq-no-data" id="liqNoData" style="display: none;">
-                            Bu zaman diliminde likidasyon verisi bulunamadı
+                            No liquidation data available for this timeframe
                         </div>
                     </div>
                     <div class="liq-stats" id="liqStats">
                         <div class="liq-stat-item">
-                            <div class="liq-stat-label">Long Likidasyon</div>
+                            <div class="liq-stat-label">Long Liquidation</div>
                             <div class="liq-stat-value long" id="liqLongTotal">$0</div>
                         </div>
                         <div class="liq-stat-item">
-                            <div class="liq-stat-label">Short Likidasyon</div>
+                            <div class="liq-stat-label">Short Liquidation</div>
                             <div class="liq-stat-value short" id="liqShortTotal">$0</div>
                         </div>
                         <div class="liq-stat-item">
-                            <div class="liq-stat-label">Toplam Likidasyon</div>
+                            <div class="liq-stat-label">Toplam Liquidation</div>
                             <div class="liq-stat-value" id="liqTotal">$0</div>
                         </div>
                     </div>
                     <div class="liq-legend">
                         <div class="liq-legend-item">
                             <div class="liq-legend-dot long"></div>
-                            <span>Long Pozisyon Likidasyonu (Fiyat Düşüşü)</span>
+                            <span>Long Position Liquidationu (Price Düşüşü)</span>
                         </div>
                         <div class="liq-legend-item">
                             <div class="liq-legend-dot short"></div>
-                            <span>Short Pozisyon Likidasyonu (Fiyat Yükselişi)</span>
+                            <span>Short Position Liquidationu (Price Yükselişi)</span>
                         </div>
                     </div>
                 </div>
@@ -3614,18 +3539,18 @@
                 <div class="tools-section">
                     <div class="tool-tabs">
                         <button class="tool-tab active" onclick="switchTool('pnl')" data-i18n="term_pnl">PnL</button>
-                        <button class="tool-tab" onclick="switchTool('liquidation')" data-i18n="calc_liquidation">Likidasyon</button>
+                        <button class="tool-tab" onclick="switchTool('liquidation')" data-i18n="calc_liquidation">Liquidation</button>
                         <button class="tool-tab" onclick="switchTool('position')" data-i18n="calc_position_size">Pozisyon</button>
                     </div>
 
                     <!-- PnL Calculator -->
                     <div class="tool-content active" id="tool-pnl">
                         <div class="calc-input-group">
-                            <label data-i18n="calc_entry_price">Giris Fiyati</label>
+                            <label data-i18n="calc_entry_price">Giris Pricei</label>
                             <input type="number" class="calc-input" id="pnlEntry" placeholder="orn: 50000" step="0.01">
                         </div>
                         <div class="calc-input-group">
-                            <label data-i18n="calc_exit_price">Cikis Fiyati</label>
+                            <label data-i18n="calc_exit_price">Cikis Pricei</label>
                             <input type="number" class="calc-input" id="pnlExit" placeholder="orn: 55000" step="0.01">
                         </div>
                         <div class="calc-input-group">
@@ -3646,7 +3571,7 @@
                     <!-- Liquidation Calculator -->
                     <div class="tool-content" id="tool-liquidation">
                         <div class="calc-input-group">
-                            <label data-i18n="calc_entry_price">Giris Fiyati</label>
+                            <label data-i18n="calc_entry_price">Giris Pricei</label>
                             <input type="number" class="calc-input" id="liqEntry" placeholder="orn: 50000" step="0.01">
                         </div>
                         <div class="calc-input-group">
@@ -3667,7 +3592,7 @@
                         <button class="btn active" style="width: 100%;" onclick="calculateLiquidation()" data-i18n="btn_calculate">Hesapla</button>
                         <div class="calc-result">
                             <div class="calc-result-value" id="liqResult">--</div>
-                            <div class="calc-result-label" id="liqResultLabel">Likidasyon Fiyati</div>
+                            <div class="calc-result-label" id="liqResultLabel">Liquidation Pricei</div>
                         </div>
                     </div>
 
@@ -3682,11 +3607,11 @@
                             <input type="number" class="calc-input" id="posRisk" placeholder="orn: 2" value="2">
                         </div>
                         <div class="calc-input-group">
-                            <label data-i18n="calc_stop_loss">Stop-Loss Fiyati</label>
+                            <label data-i18n="calc_stop_loss">Stop-Loss Pricei</label>
                             <input type="number" class="calc-input" id="posSL" placeholder="orn: 49000" step="0.01">
                         </div>
                         <div class="calc-input-group">
-                            <label data-i18n="calc_entry_price">Giris Fiyati</label>
+                            <label data-i18n="calc_entry_price">Giris Pricei</label>
                             <input type="number" class="calc-input" id="posEntry" placeholder="orn: 50000" step="0.01">
                         </div>
                         <button class="btn active" style="width: 100%;" onclick="calculatePosition()" data-i18n="btn_calculate">Hesapla</button>
@@ -3734,7 +3659,7 @@
 
     <!-- ==================== YENİ PANELLER ==================== -->
     
-    <!-- Balina Takipçisi Paneli -->
+    <!-- Whale Tracker Paneli -->
     <div class="whale-panel" id="whaleTrackerPanel">
         <div class="panel-header" data-handle>
             <div class="panel-title-area">
@@ -3744,7 +3669,7 @@
                     <span></span>
                 </div>
                 <h3 class="panel-title">
-                    🐋 <span data-i18n="panel_whale">Balina Takipçisi</span>
+                    🐋 <span data-i18n="panel_whale">Whale Tracker</span>
                     <span class="info-icon" onclick="showTooltip(event, 'WhaleTracker')">i</span>
                 </h3>
             </div>
@@ -3752,11 +3677,11 @@
         <div class="whale-stats-container">
             <div class="whale-connection">
                 <div class="whale-connection-dot" id="whaleConnectionDot"></div>
-                <span id="whaleConnectionStatus">Bağlanıyor...</span>
+                <span id="whaleConnectionStatus">Connecting...</span>
             </div>
             <div class="whale-stats">
                 <div class="whale-stat">
-                    <div class="whale-stat-label">Alış Baskısı</div>
+                    <div class="whale-stat-label">Buy Pressure</div>
                     <div class="whale-stat-value positive" id="whaleBuyPressure">--</div>
                 </div>
                 <div class="whale-stat">
@@ -3770,7 +3695,7 @@
             </div>
             <div class="whale-stats" style="margin-top: 10px;">
                 <div class="whale-stat">
-                    <div class="whale-stat-label">Toplam Hacim</div>
+                    <div class="whale-stat-label">Toplam Volume</div>
                     <div class="whale-stat-value" id="whaleTotalVolume">--</div>
                 </div>
                 <div class="whale-stat">
@@ -3811,7 +3736,7 @@
             <div style="text-align: center; padding: 20px; color: #8b949e; font-size: 12px;">
                 <div style="margin-bottom: 8px;">🐋</div>
                 Balina hareketleri bekleniyor...<br>
-                <span style="font-size: 10px;">Büyük işlemler otomatik görünecek</span>
+                <span style="font-size: 10px;">Large trades will appear automatically</span>
             </div>
         </div>
     </div>
@@ -3832,7 +3757,7 @@
             </div>
         </div>
         <div class="pattern-filters">
-            <button class="pattern-filter-btn active" data-filter="all" onclick="filterPatterns('all')">All</button>
+            <button class="pattern-filter-btn active" data-filter="all" onclick="filterPatterns('all')">Tümü</button>
             <button class="pattern-filter-btn" data-filter="bullish" onclick="filterPatterns('bullish')">🟢 Alış</button>
             <button class="pattern-filter-btn" data-filter="bearish" onclick="filterPatterns('bearish')">🔴 Satış</button>
             <button class="pattern-filter-btn" onclick="scanPatterns()">🔄 Refresh</button>
@@ -3930,7 +3855,7 @@
             <div class="calc-input-group">
                 <label>Alarm Turu</label>
                 <select class="calc-input" id="alertType">
-                    <option value="price">Fiyat</option>
+                    <option value="price">Price</option>
                     <option value="rsi">RSI</option>
                     <option value="volatility">Volatilite</option>
                 </select>
@@ -3969,18 +3894,18 @@
 
     <!-- Disclaimer Section -->
     <div class="disclaimer-section">
-        <div class="disclaimer-title">Yasal Uyarı ve Sorumluluk Reddi</div>
+        <div class="disclaimer-title">Legal Notice and Disclaimer</div>
         <div class="disclaimer-content">
-            <strong>Önemli Bilgi:</strong> Bu platform yalnızca eğitim ve bilgilendirme amaçlıdır. Sunulan veriler, analizler ve sinyaller yatırım tavsiyesi <strong>DEĞİLDİR</strong>. Kripto para piyasaları yüksek risk içerir ve yatırılan sermayenin tamamının kaybedilmesi olasılığı mevcuttur.<br><br>
+            <strong>Important Information:</strong> This platform is for educational and informational purposes only. The data, analysis, and signals provided are <strong>NOT</strong> financial advice. Cryptocurrency markets involve high risk, and it is possible to lose your entire invested capital.<br><br>
             
             <strong>Risk Uyarısı:</strong> Türev ürünler (futures, options, leveraged tokens) kaldıraçlı işlemler içerir ve bu durum hem kazançları hem de kayıpları büyük ölçüde artırabilir. Yüksek kaldıraç oranlarıyla işlem yapmak, likidasyon riskini önemli ölçüde artırır. İşlem yapmadan önce riskleri tam olarak anlamanız gerekmektedir.<br><br>
             
             <strong>Veri Doğruluğu:</strong> Platformumuz Binance API'si üzerinden gerçek zamanlı veriler sunmaya çalışsa da, verilerin eksik veya hatalı olabileceği durumlar oluşabilir. Herhangi bir işlem kararı vermeden önce birden fazla kaynaktan doğrulama yapmanızı öneririz.<br><br>
             
-            <strong>Sorumluluk Reddi:</strong> Bu platform kullanımından kaynaklanan herhangi bir doğrudan, dolaylı, arızi veya cezai zarardan sorumlu tutulamaz. Tüm işlemler tamamen kullanıcının kendi sorumluluğundadır.
+            <strong>Disclaimer:</strong> No liability is accepted for any direct, indirect, incidental, or punitive damages arising from the use of this platform. All trading decisions are entirely the user’s own responsibility.
         </div>
         <div class="disclaimer-links">
-            <a href="https://www.binance.com/en/terms" target="_blank" class="disclaimer-link">Binance Kullanım Şartları</a>
+            <a href="https://www.binance.com/en/terms" target="_blank" class="disclaimer-link">Binance Terms of Use</a>
             <a href="https://www.binance.com/en/risk-warning" target="_blank" class="disclaimer-link">Risk Uyarısı</a>
             <a href="https://www.binance.com/en/privacy" target="_blank" class="disclaimer-link">Gizlilik Politikası</a>
         </div>
@@ -4006,16 +3931,16 @@
 
         // Coin symbol mapping for news
         const COIN_NEWS_TAGS = {
-            'BTCUSDT': 'Bitcoin,BTC',
+            'BTCUSDT': 'Bitcoins,BTC',
             'ETHUSDT': 'Ethereum,ETH',
             'BNBUSDT': 'BNB,Binance',
             'SOLUSDT': 'Solana,SOL',
             'XRPUSDT': 'XRP,Ripple',
             'ADAUSDT': 'Cardano,ADA',
-            'DOGEUSDT': 'Dogecoin,DOGE',
+            'DOGEUSDT': 'Dogecoins,DOGE',
             'DOTUSDT': 'Polkadot,DOT',
             'MATICUSDT': 'Polygon,MATIC',
-            'LTCUSDT': 'Litecoin,LTC',
+            'LTCUSDT': 'Litecoins,LTC',
             'LINKUSDT': 'Chainlink,LINK',
             'UNIUSDT': 'Uniswap,UNI',
             'ATOMUSDT': 'Cosmos,ATOM',
@@ -4192,7 +4117,7 @@
                 { key: 'funding', name: 'Funding', icon: '💰', value: null, old: true },
                 { key: 'squeeze', name: 'Squeeze', icon: '🔴', value: null, old: true },
                 { key: 'rsi', name: 'RSI', icon: '📊', value: values.rsi },
-                { key: 'macd', name: 'MACD', icon: '📈', value: values.macd, valueLabel: 'MACD: ' + formatIndicatorValue('macd', values.macd) + ' | Sinyal: ' + formatIndicatorValue('macdSignal', values.macdSignal) },
+                { key: 'macd', name: 'MACD', icon: '📈', value: values.macd, valueLabel: 'MACD: ' + formatIndicatorValue('macd', values.macd) + ' | Signal: ' + formatIndicatorValue('macdSignal', values.macdSignal) },
                 { key: 'stoch', name: 'Stochastic', icon: '🔄', value: values.stochK, valueLabel: 'K: ' + formatIndicatorValue('stochK', values.stochK) + ' | D: ' + formatIndicatorValue('stochD', values.stochD) },
                 { key: 'ema', name: 'EMA', icon: '↕️', value: values.ema9, valueLabel: '9: ' + formatIndicatorValue('ema9', values.ema9) + ' | 21: ' + formatIndicatorValue('ema21', values.ema21) },
                 { key: 'supertrend', name: 'Supertrend', icon: '🎯', value: values.supertrend },
@@ -4229,7 +4154,7 @@
                 
                 const rowClass = hasSignal ? signal.direction : 'neutral';
                 const score = hasSignal ? Math.round(signal.confidence) : 0;
-                const title = hasSignal ? signal.title : 'Sinyal Yok';
+                const title = hasSignal ? signal.title : 'Signal Yok';
                 const reason = hasSignal ? signal.reason : 'Bu indikatörden sinyal üretilmedi';
                 
                 // Display indicator value
@@ -4277,7 +4202,7 @@
                                 <span class="value">1:${posInfo.riskReward}</span>
                             </div>
                             <div class="position-info-item">
-                                <span class="label">Fiyat</span>
+                                <span class="label">Price</span>
                                 <span class="value">${coinData.price.toFixed(4)}</span>
                             </div>
                         </div>
@@ -4637,7 +4562,7 @@
             updateSignalBadge();
             updateDataTimestamp();
             
-            // Balina takipçisini yenile - sadece seçili coin için
+            // Balina takipçisini yenile - sadece seçili coin for
             const autoFilter = document.getElementById('whaleAutoFilter')?.classList.contains('active');
             if (autoFilter) {
                 whaleTrades = []; // Eski verileri temizle
@@ -4819,7 +4744,7 @@
 
             } catch (error) {
                 console.error('Market data error:', error);
-                showNotification('Piyasa verileri yüklenemedi! Lütfen sayfayı yenileyin.', 'error');
+                showNotification('Market data could not be loaded! Please refresh the page.', 'error');
                 // Hata durumunda tüm alanları güncelle
                 updateUIOnError();
             }
@@ -4953,7 +4878,7 @@
                 const data = await response.json();
                 
                 if (!data || data.length === 0) {
-                    showNotification('Grafik verisi bos geldi!', 'error');
+                    showNotification('Chart verisi bos geldi!', 'error');
                     state.chartLoading = false;
                     return;
                 }
@@ -4966,7 +4891,7 @@
                 
             } catch (error) {
                 console.error('Chart load error:', error);
-                showNotification('Grafik verisi yuklenemedi!', 'error');
+                showNotification('Chart verisi yuklenemedi!', 'error');
             } finally {
                 state.chartLoading = false;
             }
@@ -5389,25 +5314,25 @@
                     const isUp = candle.close >= candle.open;
                     
                     tooltip.innerHTML = `
-                        <div class="tooltip-title">${candle.time.toLocaleDateString('tr-TR')}</div>
+                        <div class="tooltip-title">${candle.time.toLocaleDateString('en-US')}</div>
                         <div class="tooltip-row">
-                            <span class="tooltip-label">Açılış:</span>
+                            <span class="tooltip-label">Open:</span>
                             <span class="tooltip-value">${formatNumber(candle.open)}</span>
                         </div>
                         <div class="tooltip-row">
-                            <span class="tooltip-label">Yüksek:</span>
+                            <span class="tooltip-label">High:</span>
                             <span class="tooltip-value">${formatNumber(candle.high)}</span>
                         </div>
                         <div class="tooltip-row">
-                            <span class="tooltip-label">Düşük:</span>
+                            <span class="tooltip-label">Low:</span>
                             <span class="tooltip-value">${formatNumber(candle.low)}</span>
                         </div>
                         <div class="tooltip-row">
-                            <span class="tooltip-label">Kapanış:</span>
+                            <span class="tooltip-label">Close:</span>
                             <span class="tooltip-value ${isUp ? 'up' : 'down'}">${formatNumber(candle.close)}</span>
                         </div>
                         <div class="tooltip-row">
-                            <span class="tooltip-label">Fark:</span>
+                            <span class="tooltip-label">Change:</span>
                             <span class="tooltip-value ${isUp ? 'up' : 'down'}">${((candle.close - candle.open) / candle.open * 100).toFixed(2)}%</span>
                         </div>
                     `;
@@ -5671,14 +5596,14 @@
                 data: {
                     datasets: [
                         {
-                            label: 'Long Likidasyon',
+                            label: 'Long Liquidation',
                             data: [],
                             backgroundColor: 'rgba(255, 61, 0, 0.6)',
                             borderColor: '#ff3d00',
                             borderWidth: 1
                         },
                         {
-                            label: 'Short Likidasyon',
+                            label: 'Short Liquidation',
                             data: [],
                             backgroundColor: 'rgba(0, 200, 83, 0.6)',
                             borderColor: '#00c853',
@@ -5708,14 +5633,14 @@
                                 color: '#8b949e',
                                 callback: function(value) {
                                     const date = new Date(value);
-                                    return date.toLocaleTimeString('tr-TR', { hour: '2-digit', minute: '2-digit' });
+                                    return date.toLocaleTimeString('en-US', { hour: '2-digit', minute: '2-digit' });
                                 }
                             }
                         },
                         y: {
                             title: {
                                 display: true,
-                                text: 'Fiyat',
+                                text: 'Price',
                                 color: '#8b949e'
                             },
                             grid: {
@@ -5740,12 +5665,12 @@
                                 label: function(context) {
                                     const data = context.raw;
                                     const side = context.datasetIndex === 0 ? 'Long' : 'Short';
-                                    const time = new Date(data.x).toLocaleString('tr-TR');
+                                    const time = new Date(data.x).toLocaleString('en-US');
                                     const decimals = currentLiqSymbol === 'BTCUSDT' ? 0 : 
                                                    currentLiqSymbol === 'ETHUSDT' ? 2 : 4;
                                     return [
-                                        `${side} Likidasyon`,
-                                        `Fiyat: $${data.y.toFixed(decimals)}`,
+                                        `${side} Liquidation`,
+                                        `Price: $${data.y.toFixed(decimals)}`,
                                         `Miktar: ${data.size.toFixed(4)}`,
                                         `Zaman: ${time}`
                                     ];
@@ -5777,11 +5702,11 @@
                 liqWebSocket = new WebSocket(wsUrl);
 
                 liqWebSocket.onopen = function() {
-                    console.log('Likidasyon WebSocket bağlantısı kuruldu');
+                    console.log('Liquidation WebSocket bağlantısı kuruldu');
                     // Update connection status
                     const loadingEl = document.getElementById('liqLoading');
                     if (loadingEl) {
-                        loadingEl.innerHTML = '<div class="liq-loading-spinner"></div><span>Live bağlantı aktif...</span>';
+                        loadingEl.innerHTML = '<div class="liq-loading-spinner"></div><span>Live connection active...</span>';
                     }
                 };
 
@@ -5792,12 +5717,12 @@
                             processLiqMessage(data.o);
                         }
                     } catch (e) {
-                        console.error('Likidasyon verisi işleme hatası:', e);
+                        console.error('Liquidation data processing error:', e);
                     }
                 };
 
                 liqWebSocket.onerror = function(error) {
-                    console.error('WebSocket hatası:', error);
+                    console.error('WebSocket error:', error);
                 };
 
                 liqWebSocket.onclose = function() {
@@ -5933,15 +5858,15 @@
                     if (noDataEl) noDataEl.style.display = 'none';
                 } else {
                     if (liquidationData.length === 0 && noDataEl) {
-                        noDataEl.innerHTML = 'Live likidasyon verisi bekleniyor...<br><small style="color: #8b949e;">Son seçilen sürede büyük likidasyon yok</small>';
+                        noDataEl.innerHTML = 'Waiting for live liquidation data...<br><small style="color: #8b949e;">No major liquidations in the selected period</small>';
                         noDataEl.style.display = 'block';
                     }
                 }
 
             } catch (error) {
-                console.log('Likidasyon verisi yükleme hatası:', error.message);
+                console.log('Liquidation verisi yükleme hatası:', error.message);
                 if (liquidationData.length === 0 && noDataEl) {
-                    noDataEl.innerHTML = 'Live likidasyon verisi bekleniyor...<br><small style="color: #8b949e;">WebSocket bağlantısı aktif</small>';
+                    noDataEl.innerHTML = 'Waiting for live liquidation data...<br><small style="color: #8b949e;">WebSocket connection is active</small>';
                     noDataEl.style.display = 'block';
                 }
             } finally {
@@ -6567,7 +6492,7 @@
 
             let html = '';
             state.alerts.forEach((alert, i) => {
-                const typeLabels = { price: 'Fiyat', rsi: 'RSI', volatility: 'Volatilite' };
+                const typeLabels = { price: 'Price', rsi: 'RSI', volatility: 'Volatilite' };
                 const conditionLabels = { above: '>', below: '<' };
                 html += `<div class="alert-item">
                     <span class="alert-condition">${typeLabels[alert.type]} ${conditionLabels[alert.condition]} ${alert.value}</span>
@@ -6598,27 +6523,27 @@
                         // Cross-over detection: price was below before
                         if (prevPrice < alert.value) {
                             triggered = true;
-                            description = 'Fiyat yukarı keserek aştı';
+                            description = 'Price yukarı keserek aştı';
                         }
                     }
                     if (alert.condition === 'below' && currentPrice < alert.value) {
                         // Cross-over detection: price was above before
                         if (prevPrice > alert.value) {
                             triggered = true;
-                            description = 'Fiyat aşağı keserek altına düştü';
+                            description = 'Price aşağı keserek altına düştü';
                         }
                     }
                     // Standard above/below (without cross-over)
                     if (!triggered && alert.condition === 'above' && currentPrice > alert.value) {
                         if (prevPrice > alert.value) { // Already above
                             triggered = true;
-                            description = 'Fiyat hedef seviyenin üzerinde';
+                            description = 'Price hedef seviyenin üzerinde';
                         }
                     }
                     if (!triggered && alert.condition === 'below' && currentPrice < alert.value) {
                         if (prevPrice < alert.value) { // Already below
                             triggered = true;
-                            description = 'Fiyat hedef seviyenin altında';
+                            description = 'Price hedef seviyenin altında';
                         }
                     }
                 } else if (alert.type === 'rsi') {
@@ -6940,31 +6865,31 @@
                 const marketDataItems = [
                     {
                         time: currentTimeStr,
-                        title: `${coinSymbol} 24h Change: ${priceChange >= 0 ? '+' : ''}${formatNumber(priceChange, 2)}% | Fiyat: $${formatNumber(lastPrice, coinSymbol === 'BTC' || coinSymbol === 'ETH' ? 2 : 4)}`
+                        title: `${coinSymbol} 24s Change: ${priceChange >= 0 ? '+' : ''}${formatNumber(priceChange, 2)}% | Price: $${formatNumber(lastPrice, coinSymbol === 'BTC' || coinSymbol === 'ETH' ? 2 : 4)}`
                     },
                     {
                         time: formatMarketTime(-5),
-                        title: `Saatlik Değişim: ${hourlyChange >= 0 ? '+' : ''}${formatNumber(hourlyChange, 2)}% (Son 1s mum)`
+                        title: `Saatlik Change: ${hourlyChange >= 0 ? '+' : ''}${formatNumber(hourlyChange, 2)}% (Son 1s mum)`
                     },
                     {
                         time: formatMarketTime(-15),
-                        title: `Hacim: ${formatLargeNumber(currentVol)} | Değişim: ${volChange >= 0 ? '+' : ''}${formatNumber(volChange, 1)}%`
+                        title: `Volume: ${formatLargeNumber(currentVol)} | Change: ${volChange >= 0 ? '+' : ''}${formatNumber(volChange, 1)}%`
                     },
                     {
                         time: formatMarketTime(-30),
-                        title: `Açık Pozisyon (OI): ${formatLargeNumber(openInterest)} | Değişim: ${oiChange >= 0 ? '+' : ''}${formatNumber(oiChange, 2)}%`
+                        title: `Open Interest (OI): ${formatLargeNumber(openInterest)} | Change: ${oiChange >= 0 ? '+' : ''}${formatNumber(oiChange, 2)}%`
                     },
                     {
                         time: formatMarketTime(-45),
-                        title: `Direction: ${priceDirection} | Fark: $${formatNumber(priceChangeAbs, coinSymbol === 'BTC' || coinSymbol === 'ETH' ? 2 : 4)}`
+                        title: `Direction: ${priceDirection} | Change: $${formatNumber(priceChangeAbs, coinSymbol === 'BTC' || coinSymbol === 'ETH' ? 2 : 4)}`
                     },
                     {
                         time: formatMarketTime(-60),
-                        title: `24s Aralık: $${formatNumber(lowPrice, coinSymbol === 'BTC' || coinSymbol === 'ETH' ? 2 : 4)} - $${formatNumber(highPrice, coinSymbol === 'BTC' || coinSymbol === 'ETH' ? 2 : 4)}`
+                        title: `24h Range: $${formatNumber(lowPrice, coinSymbol === 'BTC' || coinSymbol === 'ETH' ? 2 : 4)} - $${formatNumber(highPrice, coinSymbol === 'BTC' || coinSymbol === 'ETH' ? 2 : 4)}`
                     },
                     {
                         time: formatMarketTime(-120),
-                        title: `24s İşlem Hacmi: $${formatLargeNumber(quoteVolume)}`
+                        title: `24h Trading Volume: $${formatLargeNumber(quoteVolume)}`
                     }
                 ];
 
@@ -6983,7 +6908,7 @@
                 const container = document.getElementById('newsFeed');
                 container.innerHTML = `<div class="news-item">
                     <div class="news-time">--:--</div>
-                    <div class="news-title"><span class="news-bullet"></span>Veri yüklenemedi. Lütfen sayfayı yenileyin.</div>
+                    <div class="news-title"><span class="news-bullet"></span>Data could not be loaded. Please refresh the page.</div>
                 </div>`;
             }
         }
@@ -7159,11 +7084,11 @@
                 // OI rising significantly but price is flat - potential reversal signal
                 return {
                     type: 'warning',
-                    title: 'OI Fiyat Ayrışması (Düzeltme Riski)',
+                    title: 'OI Price Ayrışması (Düzeltme Riski)',
                     icon: '⚠️',
                     description: 'Açık pozisyonlar önemli ölçüde artıyor ancak fiyat hareketi sınırlı. Bu durum, "dağıtım" (distribution) işareti olabilir ve yakın vadede düzeltme riski taşıyabilir.',
-                    value: `OI Değişimi: +${formatNumber(oiChange, 2)}% | Fiyat Değişimi: ${formatNumber(priceChangeSinceCheck, 2)}%`,
-                    timestamp: new Date().toLocaleTimeString('tr-TR')
+                    value: `OI Changei: +${formatNumber(oiChange, 2)}% | Price Changei: ${formatNumber(priceChangeSinceCheck, 2)}%`,
+                    timestamp: new Date().toLocaleTimeString('en-US')
                 };
             } else if (oiChange > oiThreshold && priceChangeSinceCheck < -priceThreshold) {
                 // OI rising + price falling = Bearish divergence
@@ -7172,8 +7097,8 @@
                     title: 'Bearish OI Ayrışması',
                     icon: '📉',
                     description: 'OI artarken fiyat düşüyor. Bu durum, short pozisyonların arttığını ve satış baskısının gelebileceğini işaret edebilir.',
-                    value: `OI: +${formatNumber(oiChange, 2)}% | Fiyat: ${formatNumber(priceChangeSinceCheck, 2)}%`,
-                    timestamp: new Date().toLocaleTimeString('tr-TR')
+                    value: `OI: +${formatNumber(oiChange, 2)}% | Price: ${formatNumber(priceChangeSinceCheck, 2)}%`,
+                    timestamp: new Date().toLocaleTimeString('en-US')
                 };
             } else if (oiChange < -oiThreshold && priceChangeSinceCheck > priceThreshold) {
                 // OI falling + price rising = Bullish divergence
@@ -7182,8 +7107,8 @@
                     title: 'Bullish OI Ayrışması',
                     icon: '📈',
                     description: 'OI düşerken fiyat yükseliyor. Bu durum, "birikim" (accumulation) işareti olabilir ve yükseliş momentumunun güçlü olabileceğini gösterir.',
-                    value: `OI: ${formatNumber(oiChange, 2)}% | Fiyat: +${formatNumber(priceChangeSinceCheck, 2)}%`,
-                    timestamp: new Date().toLocaleTimeString('tr-TR')
+                    value: `OI: ${formatNumber(oiChange, 2)}% | Price: +${formatNumber(priceChangeSinceCheck, 2)}%`,
+                    timestamp: new Date().toLocaleTimeString('en-US')
                 };
             }
 
@@ -7217,8 +7142,8 @@
                         description: currentFunding > 0 
                             ? `Funding oranı aniden yükseldi. Long pozisyonlar shortlara önemli miktarda ödeme yapıyor. Piyasa aşırı bullish olabilir, dikkatli olun.`
                             : `Funding oranı aniden düştü. Short pozisyonlar longlara ödeme yapıyor. Piyasa bearish sinyaller veriyor olabilir.`,
-                        value: `Anlık: ${formatNumber(currentFunding, 4)}% | Önceki: ${formatNumber(prevFunding, 4)}% | Değişim: ${formatNumber(fundingChangePercent, 0)}%`,
-                        timestamp: new Date().toLocaleTimeString('tr-TR')
+                        value: `Anlık: ${formatNumber(currentFunding, 4)}% | Önceki: ${formatNumber(prevFunding, 4)}% | Change: ${formatNumber(fundingChangePercent, 0)}%`,
+                        timestamp: new Date().toLocaleTimeString('en-US')
                     };
                 }
 
@@ -7292,9 +7217,9 @@
                     type: 'neutral',
                     title: 'Volatilite Sıkışması (Squeeze)',
                     icon: '�queeze',
-                    description: `Bollinger Bantları daraldı ve volatilite düştü. Bu durum tipik olarak güçlü bir hareketin öncesinde oluşur. Fiyat ${breakoutDirection === 'bullish' ? 'yukarı' : breakoutDirection === 'bearish' ? 'aşağı' : 'her iki yöne'} breakout yapabilir.`,
+                    description: `Bollinger Bantları daraldı ve volatilite düştü. Bu durum tipik olarak güçlü bir hareketin öncesinde oluşur. Price ${breakoutDirection === 'bullish' ? 'yukarı' : breakoutDirection === 'bearish' ? 'aşağı' : 'her iki yöne'} breakout yapabilir.`,
                     value: `BB Genişliği: ${formatNumber(currentWidth, 2)}% (Ort: ${formatNumber(avgWidth, 2)}%) | ATR: ${formatNumber(currentAtr, 2)} | Olası Direction: ${breakoutDirection.toUpperCase()}`,
-                    timestamp: new Date().toLocaleTimeString('tr-TR')
+                    timestamp: new Date().toLocaleTimeString('en-US')
                 };
             }
 
@@ -7368,8 +7293,8 @@
                 content.innerHTML = `
                     <div class="no-signals">
                         <div class="icon">✓</div>
-                        <div>Şu anda aktif sinyal bulunmuyor</div>
-                        <div style="margin-top: 8px; font-size: 10px;">Piyasa normal seyrinde ilerliyor</div>
+                        <div>There are currently no active signals</div>
+                        <div style="margin-top: 8px; font-size: 10px;">The market is moving normally</div>
                     </div>
                 `;
                 return;
@@ -7385,7 +7310,7 @@
                         </div>
                         <div class="signal-description">${signal.description}</div>
                         <div class="signal-value">${signal.value}</div>
-                        <div class="signal-timestamp">Last Update: ${signal.timestamp}</div>
+                        <div class="signal-timestamp">Last update: ${signal.timestamp}</div>
                     </div>
                 `;
             });
@@ -7435,7 +7360,7 @@
         // ==================== DATA UPDATE TIMESTAMP ====================
         function updateDataTimestamp() {
             const now = new Date();
-            const timeStr = now.toLocaleTimeString('tr-TR', { 
+            const timeStr = now.toLocaleTimeString('en-US', { 
                 hour: '2-digit', 
                 minute: '2-digit', 
                 second: '2-digit' 
@@ -7520,10 +7445,10 @@
                         
                         return await response.json();
                     } catch (error) {
-                        console.warn(`İstek başarısız (deneme ${attempt}/${maxRetries}):`, error.message);
+                        console.warn(`Request failed (deneme ${attempt}/${maxRetries}):`, error.message);
                         
                         if (attempt === maxRetries) {
-                            console.error(`İstek tamamen başarısız: ${url}`);
+                            console.error(`Request failed completely: ${url}`);
                             return null;
                         }
                         
@@ -7676,7 +7601,7 @@
                 return symbols;
             } catch (error) {
                 console.error('Error fetching symbols:', error);
-                showNotification('Coin listesi alınamadı!', 'error');
+                showNotification('Failed to fetch coin list!', 'error');
                 return [];
             }
         }
@@ -7725,12 +7650,12 @@
             // Safety check
             if (!modal || !title || !infoContainer) {
                 console.error('Modal elements not found!');
-                alert('Grafik penceresi yüklenemedi! Sayfayı yenileyin.');
+                alert('Chart penceresi yüklenemedi! Sayfayı yenileyin.');
                 return;
             }
 
-            title.textContent = `📈 ${symbol} - ${interval} Grafik`;
-            infoContainer.innerHTML = '<div style="color: #00ff00; padding: 20px; text-align: center; font-size: 24px; background: #161b22; border-radius: 8px;">📊 Grafik Yükleniyor...<br><small style="font-size: 14px;">' + symbol + '</small></div>';
+            title.textContent = `📈 ${symbol} - ${interval} Chart`;
+            infoContainer.innerHTML = '<div style="color: #00ff00; padding: 20px; text-align: center; font-size: 24px; background: #161b22; border-radius: 8px;">📊 Loading chart...<br><small style="font-size: 14px;">' + symbol + '</small></div>';
             indicatorsContainer.innerHTML = '';
             analysisContainer.innerHTML = '';
 
@@ -7767,7 +7692,7 @@
                     if (!data2 || !Array.isArray(data2) || data2.length === 0) {
                         infoContainer.innerHTML = `
                             <div style="color: #f85149; padding: 20px; text-align: center;">
-                                <p style="margin-bottom: 10px;">Bu coin için veri bulunamadı!</p>
+                                <p style="margin-bottom: 10px;">No data found for this coin!</p>
                                 <p style="font-size: 11px; color: #8b949e;">Symbol: ${symbol}</p>
                             </div>
                         `;
@@ -7782,11 +7707,11 @@
                 console.error('Coin chart error:', error);
                 infoContainer.innerHTML = `
                     <div style="color: #f85149; padding: 20px; text-align: center;">
-                        <p style="margin-bottom: 10px;">Grafik yüklenirken hata oluştu!</p>
+                        <p style="margin-bottom: 10px;">An error occurred while loading the chart!</p>
                         <p style="font-size: 11px; color: #8b949e;">${error.message}</p>
                         <button onclick="openCoinChartModal('${symbol}', '${interval}')" 
                                 style="margin-top: 15px; padding: 8px 16px; background: #f0b90b; border: none; border-radius: 6px; cursor: pointer;">
-                            Tekrar Dene
+                            Try Again
                         </button>
                     </div>
                 `;
@@ -7803,7 +7728,7 @@
                     if (infoContainer) {
                         infoContainer.innerHTML = `
                             <div style="color: #f85149; padding: 20px; text-align: center;">
-                                <p style="margin-bottom: 10px;">Bu coin için veri bulunamadı!</p>
+                                <p style="margin-bottom: 10px;">No data found for this coin!</p>
                                 <p style="font-size: 11px; color: #8b949e;">Symbol: ${symbol}</p>
                             </div>
                         `;
@@ -7837,19 +7762,19 @@
             // Update info
             infoContainer.innerHTML = `
                 <div class="coin-info-item">
-                    <span class="label">Fiyat</span>
+                    <span class="label">Price</span>
                     <span class="value ${isUp ? 'positive' : 'negative'}">$${formatNumber(currentCandle.close, symbol === 'BTC' || symbol === 'ETH' ? 2 : 4)}</span>
                 </div>
                 <div class="coin-info-item">
-                    <span class="label">Değişim</span>
+                    <span class="label">Change</span>
                     <span class="value ${change >= 0 ? 'positive' : 'negative'}">${change >= 0 ? '+' : ''}${formatNumber(change, 2)}%</span>
                 </div>
                 <div class="coin-info-item">
-                    <span class="label">24s Yüksek</span>
+                    <span class="label">24h High</span>
                     <span class="value">$${formatNumber(currentCandle.high, symbol === 'BTC' || symbol === 'ETH' ? 2 : 4)}</span>
                 </div>
                 <div class="coin-info-item">
-                    <span class="label">24s Düşük</span>
+                    <span class="label">24h Low</span>
                     <span class="value">$${formatNumber(currentCandle.low, symbol === 'BTC' || symbol === 'ETH' ? 2 : 4)}</span>
                 </div>
             `;
@@ -7903,25 +7828,25 @@
             const resistances = sr && sr.resistances && Array.isArray(sr.resistances) ? sr.resistances : [];
 
             analysisContainer.innerHTML = `
-                <h4>📊 Teknik Analiz (100 Mum)</h4>
+                <h4>📊 Technical Analysis (100 Candles)</h4>
                 <div class="analysis-row">
-                    <span class="analysis-label">Regression Kanal</span>
+                    <span class="analysis-label">Regression Channel</span>
                     <span class="analysis-value ${regressionDiff >= 0 ? 'positive' : 'negative'}">${formatNumber(regressionDiff, 2)}%</span>
                 </div>
                 <div class="analysis-row">
-                    <span class="analysis-label">Destek 1</span>
+                    <span class="analysis-label">Support 1</span>
                     <span class="analysis-value positive">${formatNumber(supports[0] || currentPrice, 2)}</span>
                 </div>
                 <div class="analysis-row">
-                    <span class="analysis-label">Direnç 1</span>
+                    <span class="analysis-label">Resistance 1</span>
                     <span class="analysis-value negative">${formatNumber(resistances[0] || currentPrice, 2)}</span>
                 </div>
                 <div class="analysis-row">
-                    <span class="analysis-label">BB Üst</span>
+                    <span class="analysis-label">BB Upper</span>
                     <span class="analysis-value">${formatNumber(Math.max(...closes) * 1.02, 2)}</span>
                 </div>
                 <div class="analysis-row">
-                    <span class="analysis-label">BB Alt</span>
+                    <span class="analysis-label">BB Lower</span>
                     <span class="analysis-value">${formatNumber(Math.min(...closes) * 0.98, 2)}</span>
                 </div>
             `;
@@ -7934,11 +7859,11 @@
                 if (infoContainer) {
                     infoContainer.innerHTML = `
                         <div style="color: #f85149; padding: 20px; text-align: center;">
-                            <p style="margin-bottom: 10px;">Grafik işlenirken hata oluştu!</p>
+                            <p style="margin-bottom: 10px;">An error occurred while processing the chart!</p>
                             <p style="font-size: 11px; color: #8b949e;">${error.message}</p>
                             <button onclick="openCoinChartModal('${symbol}', '${interval}')" 
                                     style="margin-top: 15px; padding: 8px 16px; background: #f0b90b; border: none; border-radius: 6px; cursor: pointer;">
-                                Tekrar Dene
+                                Try Again
                             </button>
                         </div>
                     `;
@@ -8104,7 +8029,7 @@
                 scanBtn.innerHTML = '<div class="spinner"></div> Scanma yapılıyor...';
             }
             
-            progressText.textContent = 'Coin listesi alınıyor ve hacme göre sıralanıyor...';
+            progressText.textContent = 'Fetching coin list and sorting by volume...';
             progressFill.style.width = '2%';
             
             try {
@@ -8112,7 +8037,7 @@
                 const symbolsWithVolume = await getAllSymbolsWithVolume();
                 
                 if (symbolsWithVolume.length === 0) {
-                    throw new Error('Coin listesi alınamadı!');
+                    throw new Error('Failed to fetch coin list!');
                 }
                 
                 // Apply minimum volume filter
@@ -8121,12 +8046,12 @@
                 const totalSymbols = filteredSymbols.length;
                 
                 if (totalSymbols === 0) {
-                    showNotification('Seçilen minimum hacim kriterine uygun coin bulunamadı!', 'warning');
+                    showNotification('No coins matched the selected minimum volume criteria!', 'warning');
                     resetScannerUI(progressBar, scanBtn);
                     return;
                 }
                 
-                progressText.textContent = `${totalSymbols} coin taranıyor (hacim öncelikli)...`;
+                progressText.textContent = `${totalSymbols} coins are being scanned (volume priority)...`;
                 
                 scannerResults = [];
                 let processed = 0;
@@ -8180,7 +8105,7 @@
                     const elapsed = Math.round((Date.now() - scanStartTime) / 1000);
                     const eta = Math.round((elapsed / processed) * (totalSymbols - processed));
                     
-                    progressText.textContent = `Scanma: ${processed}/${totalSymbols} | Başarısız: ${failed} | Geçen: ${elapsed}s | Tahmini kalan: ${eta}s`;
+                    progressText.textContent = `Scanma: ${processed}/${totalSymbols} | Failed: ${failed} | Elapsed: ${elapsed}s | Estimated remaining: ${eta}s`;
                     
                     await new Promise(resolve => setTimeout(resolve, 100));
                 }
@@ -8203,7 +8128,7 @@
                 
                 const totalTime = Math.round((Date.now() - scanStartTime) / 1000);
                 showNotification(
-                    `✅ Scanma tamamlandı! ${scannerResults.length} fırsat (${totalSymbols} coin, ${totalTime}sn)`, 
+                    `✅ Scanma tamamlandı! ${scannerResults.length} fırsat (${totalSymbols} coins, ${totalTime}sn)`, 
                     'success'
                 );
                 
@@ -8221,7 +8146,7 @@
             isScanning = false;
             if (scanBtn) {
                 scanBtn.disabled = false;
-                scanBtn.innerHTML = '🚀 Fırsat Scan';
+                scanBtn.innerHTML = '🚀 Opportunity Scan';
             }
         }
 
@@ -8517,7 +8442,7 @@
             if (oiChange > oiThreshold && priceChangePct < priceThreshold) {
                 return {
                     type: 'warning',
-                    title: 'OI Fiyat Ayrışması',
+                    title: 'OI Price Ayrışması',
                     direction: 'bearish',
                     confidence: 65 + Math.min(25, oiChange * 5),
                     reason: `OI +${formatNumber(oiChange, 1)}% artarken fiyat ${formatNumber(priceChangePct, 2)}% değişti. Potansiyel düzeltme riski.`
@@ -8674,7 +8599,7 @@
                 rsiScore = -15;
             }
             
-            // Hacim skoru
+            // Volume skoru
             let volumeScore = 0;
             if (avgVolume > 0) {
                 const volumeRatio = currentVolume / avgVolume;
@@ -8697,7 +8622,7 @@
             else if (indicatorCount >= 3) confluenceBonus = 5;
             else confluenceBonus = -20;
             
-            // Güçlü sinyal skoru
+            // Strong sinyal skoru
             let signalStrengthBonus = 0;
             const strongSignals = signals.filter(s => s.confidence >= 70).length;
             if (strongSignals >= 3) signalStrengthBonus = 20;
@@ -8746,7 +8671,7 @@
                 ? Math.round(scannerResults.reduce((a, b) => a + b.powerScore, 0) / scannerResults.length) 
                 : 0;
             
-            document.getElementById('scannerResultCount').textContent = `${filteredResults.length} Fırsat`;
+            document.getElementById('scannerResultCount').textContent = `${filteredResults.length} Opportunity`;
             
             if (filteredResults.length === 0) {
                 tableBody.innerHTML = `
@@ -8778,10 +8703,10 @@
                 // YENİ: Yüksek hassasiyet göstergesi
                 const isHighPrecision = isHighPrecisionSignal(coin.powerScore, coin.signals, coin.direction);
                 const precisionBadge = isHighPrecision 
-                    ? '<span class="precision-badge" title="%80+ Başarı Olasılığı">🎯 YÜKSEK GÜVENİLİRLİK</span>' 
+                    ? '<span class="precision-badge" title="%80+ Success Probability">🎯 HIGH CONFIDENCE</span>' 
                     : '';
                 
-                // YENİ: Güçlü/zayıf sinyal sayısı
+                // YENİ: Strong/zayıf sinyal sayısı
                 const strongCount = coin.signals.filter(s => s.confidence >= 70).length;
                 const weakCount = coin.signals.length - strongCount;
                 const signalQuality = strongCount >= 3 
@@ -8819,7 +8744,7 @@
                             </div>
                         </td>
                         <td>
-                            <div class="chart-icon" data-symbol="${coin.symbol}" data-interval="${state.selectedInterval}" title="Grafik Gör" onclick="openCoinChartModal('${coin.symbol}', '${state.selectedInterval}')">
+                            <div class="chart-icon" data-symbol="${coin.symbol}" data-interval="${state.selectedInterval}" title="Chart Gör" onclick="openCoinChartModal('${coin.symbol}', '${state.selectedInterval}')">
                                 📈
                             </div>
                         </td>
@@ -8920,7 +8845,7 @@
                 return;
             }
             
-            let csv = 'Coin,Fiyat,24h Change,Power Score,Direction,Signals,RSI,MACD,StochK,StochD,EMA9,EMA21,EMA50,ADX,PlusDI,MinusDI,VWAP,OBV,Zaman\n';
+            let csv = 'Coin,Price,24s Change,Power Score,Direction,Signals,RSI,MACD,StochK,StochD,EMA9,EMA21,EMA50,ADX,PlusDI,MinusDI,VWAP,OBV,Zaman\n';
             
             scannerResults.forEach(coin => {
                 const iv = coin.indicatorValues || {};
@@ -8989,7 +8914,7 @@
         ];
 
         function initWhaleTracker() {
-            console.log('🐋 Balina Takipçisi başlatılıyor...');
+            console.log('🐋 Whale Tracker başlatılıyor...');
             whaleConnectionCount = 0;
             whaleCurrentUrlIndex = 0;
             connectWhaleWebSocket();
@@ -9082,7 +9007,7 @@
         }
         
         function onWhaleDisconnected() {
-            updateWhaleStatus('Reconnecting...');
+            updateWhaleStatus('Yeniden bağlanıyor...');
             const dot = document.getElementById('whaleConnectionDot');
             if (dot) dot.classList.remove('live');
             
@@ -9120,7 +9045,7 @@
                             color: white;
                             cursor: pointer;
                             font-weight: 600;
-                        ">Tekrar Dene 🔄</button>
+                        ">Try Again 🔄</button>
                     </div>
                 `;
             }
@@ -9166,7 +9091,7 @@
                 amount: amount,
                 side: tradeData.m ? 'sell' : 'buy',
                 price: parseFloat(tradeData.p),
-                time: new Date(tradeData.T).toLocaleTimeString('tr-TR'),
+                time: new Date(tradeData.T).toLocaleTimeString('en-US'),
                 timestamp: tradeData.T
             };
             
@@ -9238,7 +9163,7 @@
             if (autoFilter || symbolFilter !== 'all') {
                 const filterText = autoFilter && state.selectedCoin 
                     ? `🤖 Otomatik: ${state.selectedCoin.replace('USDT', '')}`
-                    : `📍 Filter: ${symbolFilter.replace('USDT', '')}`;
+                    : `📍 Filtre: ${symbolFilter.replace('USDT', '')}`;
                 html = `<div style="background: rgba(14, 203, 129, 0.1); padding: 8px 12px; border-radius: 6px; margin-bottom: 10px; font-size: 11px; color: #0ecb81;">${filterText}</div>` + html;
             }
             
@@ -9329,7 +9254,7 @@
             if (btn) {
                 btn.classList.toggle('active');
                 const active = btn.classList.contains('active');
-                updateWhaleStatus(active ? `Filter: ${state.selectedCoin?.replace('USDT', '')}` : 'Live');
+                updateWhaleStatus(active ? `Filtre: ${state.selectedCoin?.replace('USDT', '')}` : 'Live');
                 renderWhaleFeed();
                 updateWhaleStats();
                 
@@ -9361,7 +9286,7 @@
                 feed.innerHTML = `
                     <div style="text-align: center; padding: 30px; color: #8b949e; font-size: 12px;">
                         <div style="font-size: 24px; margin-bottom: 8px;">🔄</div>
-                        Yeniden bağlanılıyor...
+                        Reconnecting...
                     </div>
                 `;
             }
@@ -9408,7 +9333,7 @@
             for (let i = 30; i < klines.length; i++) {
                 const candles = klines.slice(i - 30, i + 1);
                 const currentCandle = candles[candles.length - 1];
-                const candleTime = new Date(parseInt(currentCandle[0])).toLocaleTimeString('tr-TR');
+                const candleTime = new Date(parseInt(currentCandle[0])).toLocaleTimeString('en-US');
                 
                 // Doji tespiti
                 const doji = detectDoji(currentCandle);
@@ -9449,7 +9374,7 @@
                         confidence: 85,
                         time: candleTime,
                         timestamp: parseInt(currentCandle[0]),
-                        description: engulfing.type === 'bullish' ? 'Güçlü alış sinyali' : 'Güçlü satış sinyali'
+                        description: engulfing.type === 'bullish' ? 'Strong alış sinyali' : 'Strong satış sinyali'
                     });
                 }
                 
@@ -9884,7 +9809,7 @@
                 return {
                     type: 'bullish',
                     confidence: 75,
-                    description: 'Sabah Yıldızı (Morning Star) - Güçlü yükseliş sinyali'
+                    description: 'Sabah Yıldızı (Morning Star) - Strong yükseliş sinyali'
                 };
             }
 
@@ -9926,7 +9851,7 @@
                 return {
                     type: 'bearish',
                     confidence: 75,
-                    description: 'Akşam Yıldızı (Evening Star) - Güçlü düşüş sinyali'
+                    description: 'Akşam Yıldızı (Evening Star) - Strong düşüş sinyali'
                 };
             }
 
@@ -10768,7 +10693,7 @@
                         title: 'Fibonacci Destek',
                         direction: 'bullish',
                         confidence: 65 + (1 - Math.abs(currentLevel - closestLevel)) * 15,
-                        reason: `Fiyat Fibonacci ${(closestLevel * 100).toFixed(1)}% destek seviyesinde (${swingHigh > swingLow ? 'yükseliş trendi' : 'düşüş trendi'})`
+                        reason: `Price Fibonacci ${(closestLevel * 100).toFixed(1)}% destek seviyesinde (${swingHigh > swingLow ? 'yükseliş trendi' : 'düşüş trendi'})`
                     };
                 }
             } else {
@@ -10795,7 +10720,7 @@
                         title: 'Fibonacci Direnç',
                         direction: 'bearish',
                         confidence: 65 + (1 - Math.abs(currentLevel - closestLevel)) * 15,
-                        reason: `Fiyat Fibonacci ${(closestLevel * 100).toFixed(1)}% direnç seviyesinde`
+                        reason: `Price Fibonacci ${(closestLevel * 100).toFixed(1)}% direnç seviyesinde`
                     };
                 }
                 
@@ -10806,7 +10731,7 @@
                         title: 'Fibonacci Destek',
                         direction: 'bullish',
                         confidence: 70 + (closestLevel - 0.618) * 20,
-                        reason: `Fiyat güçlü Fibonacci destek bölgesinde (%${(closestLevel * 100).toFixed(1)})`
+                        reason: `Price güçlü Fibonacci destek bölgesinde (%${(closestLevel * 100).toFixed(1)})`
                     };
                 }
             }
@@ -10896,7 +10821,7 @@
             if (currentRSI > 50 && currentRSI > prevRSI) {
                 return {
                     type: 'bullish',
-                    title: 'RSI Güçlü',
+                    title: 'RSI Strong',
                     direction: 'bullish',
                     confidence: 55,
                     value: currentRSI,
@@ -10908,7 +10833,7 @@
             if (currentRSI < 50 && currentRSI < prevRSI) {
                 return {
                     type: 'bearish',
-                    title: 'RSI Zayıf',
+                    title: 'RSI Weak',
                     direction: 'bearish',
                     confidence: 55,
                     value: currentRSI,
@@ -10969,7 +10894,7 @@
                     direction: 'bullish',
                     confidence: 85,
                     value: macd,
-                    reason: `MACD crossed upward (MACD: ${macd.toFixed(4)}, Sinyal: ${signal.toFixed(4)}) - Güçlü alım sinyali`
+                    reason: `MACD sinyali yukarı kesti (MACD: ${macd.toFixed(4)}, Signal: ${signal.toFixed(4)}) - Strong alım sinyali`
                 };
             }
 
@@ -10981,7 +10906,7 @@
                     direction: 'bearish',
                     confidence: 85,
                     value: macd,
-                    reason: `MACD crossed downward (MACD: ${macd.toFixed(4)}, Sinyal: ${signal.toFixed(4)}) - Güçlü satım sinyali`
+                    reason: `MACD sinyali aşağı kesti (MACD: ${macd.toFixed(4)}, Signal: ${signal.toFixed(4)}) - Strong satım sinyali`
                 };
             }
 
@@ -11010,31 +10935,31 @@
                 };
             }
 
-            // Güçlü bullish: MACD pozitif bölgede ve histogram artıyor
+            // Strong bullish: MACD pozitif bölgede ve histogram artıyor
             if (macd > 0 && hist > 0 && hist > prevHist) {
                 return {
                     type: 'bullish',
-                    title: 'MACD Güçlü Yükseliş',
+                    title: 'MACD Strong Yükseliş',
                     direction: 'bullish',
                     confidence: 70,
                     value: macd,
-                    reason: `MACD pozitif bölgede ve histogram yükseliyor - Güçlü yükseliş momentumu`
+                    reason: `MACD pozitif bölgede ve histogram yükseliyor - Strong yükseliş momentumu`
                 };
             }
 
-            // Güçlü bearish: MACD negatif bölgede ve histogram düşüyor
+            // Strong bearish: MACD negatif bölgede ve histogram düşüyor
             if (macd < 0 && hist < 0 && hist < prevHist) {
                 return {
                     type: 'bearish',
-                    title: 'MACD Güçlü Düşüş',
+                    title: 'MACD Strong Düşüş',
                     direction: 'bearish',
                     confidence: 70,
                     value: macd,
-                    reason: `MACD negatif bölgede ve histogram düşüyor - Güçlü düşüş momentumu`
+                    reason: `MACD negatif bölgede ve histogram düşüyor - Strong düşüş momentumu`
                 };
             }
 
-            // Zayıf bullish
+            // Weak bullish
             if (macd > 0 && hist > 0) {
                 return {
                     type: 'bullish',
@@ -11046,7 +10971,7 @@
                 };
             }
 
-            // Zayıf bearish
+            // Weak bearish
             if (macd < 0 && hist < 0) {
                 return {
                     type: 'bearish',
@@ -11164,11 +11089,11 @@
                 currentPrice > ema50[ema50.length - 1]) {
                 return {
                     type: 'bullish',
-                    title: 'Fiyat EMA Üstünde',
+                    title: 'Price EMA Üstünde',
                     direction: 'bullish',
                     confidence: 60,
                     value: currentPrice,
-                    reason: `Fiyat tüm EMA'ların üzerinde (güçlü yükseliş trendi)`
+                    reason: `Price tüm EMA'ların üzerinde (güçlü yükseliş trendi)`
                 };
             }
             
@@ -11178,11 +11103,11 @@
                 currentPrice < ema50[ema50.length - 1]) {
                 return {
                     type: 'bearish',
-                    title: 'Fiyat EMA Altında',
+                    title: 'Price EMA Altında',
                     direction: 'bearish',
                     confidence: 60,
                     value: currentPrice,
-                    reason: `Fiyat tüm EMA'ların altında (güçlü düşüş trendi)`
+                    reason: `Price tüm EMA'ların altında (güçlü düşüş trendi)`
                 };
             }
             
@@ -11201,7 +11126,7 @@
                 if (plusDI > minusDI) {
                     return {
                         type: 'bullish',
-                        title: 'ADX Güçlü Trend',
+                        title: 'ADX Strong Trend',
                         direction: 'bullish',
                         confidence: 60 + Math.min(20, adx - 25),
                         value: adx,
@@ -11210,7 +11135,7 @@
                 } else {
                     return {
                         type: 'bearish',
-                        title: 'ADX Güçlü Trend',
+                        title: 'ADX Strong Trend',
                         direction: 'bearish',
                         confidence: 60 + Math.min(20, adx - 25),
                         value: adx,
@@ -11223,7 +11148,7 @@
             if (adx < 20) {
                 return {
                     type: 'neutral',
-                    title: 'ADX Zayıf Trend',
+                    title: 'ADX Weak Trend',
                     direction: 'neutral',
                     confidence: 50,
                     value: adx,
@@ -11244,11 +11169,11 @@
             if (deviation > 2) {
                 return {
                     type: 'bullish',
-                    title: 'Fiyat VWAP Üstünde',
+                    title: 'Price VWAP Üstünde',
                     direction: 'bullish',
                     confidence: 60,
                     value: currentPrice,
-                    reason: `Fiyat VWAP'ın %${deviation.toFixed(1)} üzerinde (güçlü alım baskısı)`
+                    reason: `Price VWAP'ın %${deviation.toFixed(1)} üzerinde (güçlü alım baskısı)`
                 };
             }
             
@@ -11256,11 +11181,11 @@
             if (deviation < -2) {
                 return {
                     type: 'bearish',
-                    title: 'Fiyat VWAP Altında',
+                    title: 'Price VWAP Altında',
                     direction: 'bearish',
                     confidence: 60,
                     value: currentPrice,
-                    reason: `Fiyat VWAP'ın %${Math.abs(deviation).toFixed(1)} altında (güçlü satım baskısı)`
+                    reason: `Price VWAP'ın %${Math.abs(deviation).toFixed(1)} altında (güçlü satım baskısı)`
                 };
             }
             
@@ -11307,7 +11232,7 @@
             if (obvChange > 10) {
                 return {
                     type: 'bullish',
-                    title: 'OBV Güçlü',
+                    title: 'OBV Strong',
                     direction: 'bullish',
                     confidence: 55,
                     value: obv[obv.length - 1],
@@ -11338,32 +11263,32 @@
             const currentPrice = supertrendData.close;
             const atrValue = supertrendData.atr?.[supertrendData.atr.length - 1] || 0;
 
-            // Trend değişimi (crossover) - Güçlü sinyaller
+            // Trend değişimi (crossover) - Strong sinyaller
             if (prevDir === -1 && currentDir === 1) {
                 return {
                     type: 'bullish',
-                    title: 'Supertrend Long Sinyali',
+                    title: 'Supertrend Long Signali',
                     direction: 'bullish',
                     confidence: 85,
                     value: currentST,
-                    reason: `Supertrend yukarı kırdı - Trend değişimi (Fiyat: ${currentPrice.toFixed(4)}, ST: ${currentST.toFixed(4)}, ATR: ${atrValue.toFixed(2)})`
+                    reason: `Supertrend yukarı kırdı - Trend değişimi (Price: ${currentPrice.toFixed(4)}, ST: ${currentST.toFixed(4)}, ATR: ${atrValue.toFixed(2)})`
                 };
             }
 
             if (prevDir === 1 && currentDir === -1) {
                 return {
                     type: 'bearish',
-                    title: 'Supertrend Short Sinyali',
+                    title: 'Supertrend Short Signali',
                     direction: 'bearish',
                     confidence: 85,
                     value: currentST,
-                    reason: `Supertrend aşağı kırdı - Trend değişimi (Fiyat: ${currentPrice.toFixed(4)}, ST: ${currentST.toFixed(4)}, ATR: ${atrValue.toFixed(2)})`
+                    reason: `Supertrend aşağı kırdı - Trend değişimi (Price: ${currentPrice.toFixed(4)}, ST: ${currentST.toFixed(4)}, ATR: ${atrValue.toFixed(2)})`
                 };
             }
 
             // Mevcut bullish trendin devamı
             if (currentDir === 1) {
-                // Fiyatın ST'ye yakınlığını kontrol et
+                // Priceın ST'ye yakınlığını kontrol et
                 const distance = (currentPrice - currentST) / currentST * 100;
                 
                 if (distance < 1) {
@@ -11373,7 +11298,7 @@
                         direction: 'bullish',
                         confidence: 65,
                         value: currentST,
-                        reason: `Fiyat Supertrend'e yakın (%${distance.toFixed(2)}), destek seviyesi test ediliyor`
+                        reason: `Price Supertrend'e yakın (%${distance.toFixed(2)}), destek seviyesi test ediliyor`
                     };
                 }
 
@@ -11383,13 +11308,13 @@
                     direction: 'bullish',
                     confidence: 60,
                     value: currentST,
-                    reason: `Fiyat Supertrend üzerinde - Yükseliş trendi devam ediyor (ST: ${currentST.toFixed(4)})`
+                    reason: `Price Supertrend üzerinde - Yükseliş trendi devam ediyor (ST: ${currentST.toFixed(4)})`
                 };
             }
 
             // Mevcut bearish trendin devamı
             if (currentDir === -1) {
-                // Fiyatın ST'ye yakınlığını kontrol et
+                // Priceın ST'ye yakınlığını kontrol et
                 const distance = (currentST - currentPrice) / currentPrice * 100;
                 
                 if (distance < 1) {
@@ -11399,7 +11324,7 @@
                         direction: 'bearish',
                         confidence: 65,
                         value: currentST,
-                        reason: `Fiyat Supertrend'e yakın (%${distance.toFixed(2)}), direnç seviyesi test ediliyor`
+                        reason: `Price Supertrend'e yakın (%${distance.toFixed(2)}), direnç seviyesi test ediliyor`
                     };
                 }
 
@@ -11409,7 +11334,7 @@
                     direction: 'bearish',
                     confidence: 60,
                     value: currentST,
-                    reason: `Fiyat Supertrend altında - Düşüş trendi devam ediyor (ST: ${currentST.toFixed(4)})`
+                    reason: `Price Supertrend altında - Düşüş trendi devam ediyor (ST: ${currentST.toFixed(4)})`
                 };
             }
 
@@ -11451,7 +11376,7 @@
                 direction: 'neutral',
                 confidence: 50,
                 value: currentATR,
-                reason: `ATR: ${currentATR.toFixed(4)} | SL Uzun: ${longStopLoss.toFixed(4)} | SL Kısa: ${shortStopLoss.toFixed(4)}`,
+                reason: `ATR: ${currentATR.toFixed(4)} | SL Long: ${longStopLoss.toFixed(4)} | SL Short: ${shortStopLoss.toFixed(4)}`,
                 atr: currentATR,
                 stopLossLong: longStopLoss,
                 stopLossShort: shortStopLoss,
@@ -11491,31 +11416,31 @@
             const squeezeRatio = bandWidth / prevBandWidth;
 
             // Breakout sinyalleri
-            // Fiyat üst bandı yukarı kırarsa (güçlü bullish)
+            // Price üst bandı yukarı kırarsa (güçlü bullish)
             if (prevClose <= upper && currentClose > upper) {
                 return {
                     type: 'bullish',
-                    title: 'BB Üst Bant Breakout',
+                    title: 'BB Upper Bant Breakout',
                     direction: 'bullish',
                     confidence: 75,
                     value: currentClose,
-                    reason: `Fiyat üst bandı yukarı kırdı - Aşırı alım bölgesi (Üst: ${upper.toFixed(4)}, Fiyat: ${currentClose.toFixed(4)})`
+                    reason: `Price üst bandı yukarı kırdı - Aşırı alım bölgesi (Üst: ${upper.toFixed(4)}, Price: ${currentClose.toFixed(4)})`
                 };
             }
 
-            // Fiyat alt bandı aşağı kırarsa (güçlü bearish)
+            // Price alt bandı aşağı kırarsa (güçlü bearish)
             if (prevClose >= lower && currentClose < lower) {
                 return {
                     type: 'bearish',
-                    title: 'BB Alt Bant Breakout',
+                    title: 'BB Lower Bant Breakout',
                     direction: 'bearish',
                     confidence: 75,
                     value: currentClose,
-                    reason: `Fiyat alt bandı aşağı kırdı - Aşırı satış bölgesi (Alt: ${lower.toFixed(4)}, Fiyat: ${currentClose.toFixed(4)})`
+                    reason: `Price alt bandı aşağı kırdı - Aşırı satış bölgesi (Alt: ${lower.toFixed(4)}, Price: ${currentClose.toFixed(4)})`
                 };
             }
 
-            // Fiyat üst bandının üzerinde (overbought)
+            // Price üst bandının üzerinde (overbought)
             if (currentClose > upper) {
                 return {
                     type: 'bearish',
@@ -11523,11 +11448,11 @@
                     direction: 'bearish',
                     confidence: 70,
                     value: currentClose,
-                    reason: `Fiyat üst bandın üzerinde - Düzeltme riski (Üst: ${upper.toFixed(4)}, Fiyat: ${currentClose.toFixed(4)})`
+                    reason: `Price üst bandın üzerinde - Düzeltme riski (Üst: ${upper.toFixed(4)}, Price: ${currentClose.toFixed(4)})`
                 };
             }
 
-            // Fiyat alt bandının altında (oversold)
+            // Price alt bandının altında (oversold)
             if (currentClose < lower) {
                 return {
                     type: 'bullish',
@@ -11535,7 +11460,7 @@
                     direction: 'bullish',
                     confidence: 70,
                     value: currentClose,
-                    reason: `Fiyat alt bandın altında - Dip alım fırsatı (Alt: ${lower.toFixed(4)}, Fiyat: ${currentClose.toFixed(4)})`
+                    reason: `Price alt bandın altında - Dip alım fırsatı (Alt: ${lower.toFixed(4)}, Price: ${currentClose.toFixed(4)})`
                 };
             }
 
@@ -11547,31 +11472,31 @@
                     direction: 'neutral',
                     confidence: 55,
                     value: currentClose,
-                    reason: `Bollinger Bantları daralıyor (%${((1-squeezeRatio)*100).toFixed(0)} volatilite düşüşü) - Güçlü breakout bekleniyor`
+                    reason: `Bollinger Bantları daralıyor (%${((1-squeezeRatio)*100).toFixed(0)} volatilite düşüşü) - Strong breakout bekleniyor`
                 };
             }
 
-            // Fiyat üst bant yakınında ve yükseliş momentumu
+            // Price üst bant yakınında ve yükseliş momentumu
             if (currentClose > middle && currentClose < upper && positionPercent > 50) {
                 return {
                     type: 'bullish',
-                    title: 'BB Güçlü Yükseliş',
+                    title: 'BB Strong Yükseliş',
                     direction: 'bullish',
                     confidence: 60,
                     value: currentClose,
-                    reason: `Fiyat üst banda yaklaşıyor - Güçlü yükseliş momentumu`
+                    reason: `Price üst banda yaklaşıyor - Strong yükseliş momentumu`
                 };
             }
 
-            // Fiyat alt bant yakınında ve düşüş momentumu
+            // Price alt bant yakınında ve düşüş momentumu
             if (currentClose < middle && currentClose > lower && positionPercent < -50) {
                 return {
                     type: 'bearish',
-                    title: 'BB Güçlü Düşüş',
+                    title: 'BB Strong Düşüş',
                     direction: 'bearish',
                     confidence: 60,
                     value: currentClose,
-                    reason: `Fiyat alt banda yaklaşıyor - Güçlü düşüş momentumu`
+                    reason: `Price alt banda yaklaşıyor - Strong düşüş momentumu`
                 };
             }
 
@@ -11583,7 +11508,7 @@
                     direction: 'bullish',
                     confidence: 55,
                     value: currentClose,
-                    reason: `Fiyat orta bant üzerinde - Destek bölgesi test ediliyor`
+                    reason: `Price orta bant üzerinde - Destek bölgesi test ediliyor`
                 };
             }
 
@@ -11595,7 +11520,7 @@
                     direction: 'bearish',
                     confidence: 55,
                     value: currentClose,
-                    reason: `Fiyat orta bant altında - Direnç bölgesi test ediliyor`
+                    reason: `Price orta bant altında - Direnç bölgesi test ediliyor`
                 };
             }
 
@@ -11605,7 +11530,7 @@
                 direction: 'neutral',
                 confidence: 50,
                 value: currentClose,
-                reason: `Fiyat bantların ortasında - Belirsiz bölge`
+                reason: `Price bantların ortasında - Belirsiz bölge`
             };
         }
         
@@ -11651,7 +11576,7 @@
             initWhaleTracker();
             initPatternRecognition();
             initBacktester();
-            // Likidasyon grafiğini başlat
+            // Liquidation grafiğini başlat
             initLiquidationChart();
         });
     </script>
@@ -11661,12 +11586,12 @@
         <div class="scanner-container">
             <div class="scanner-header">
                 <div class="scanner-title">
-                    <h2>📊 Fırsat Scanyıcı</h2>
-                    <span class="badge" id="scannerResultCount">All Coins</span>
+                    <h2>📊 Opportunity Scanyıcı</h2>
+                    <span class="badge" id="scannerResultCount">Tüm Coin'ler</span>
                 </div>
                 <div class="scanner-controls">
                     <div class="scanner-filter">
-                        <button class="filter-btn active" data-filter="all" onclick="filterScannerResults('all')">All</button>
+                        <button class="filter-btn active" data-filter="all" onclick="filterScannerResults('all')">Tümü</button>
                         <button class="filter-btn bullish" data-filter="bullish" onclick="filterScannerResults('bullish')">Long</button>
                         <button class="filter-btn bearish" data-filter="bearish" onclick="filterScannerResults('bearish')">Short</button>
                     </div>
@@ -11674,8 +11599,8 @@
                     <button class="precision-toggle ${scannerMode === 'high_precision' ? 'active' : ''}" 
                             id="precisionToggle" 
                             onclick="togglePrecisionMode()"
-                            title="Show only signals with an 80%+ success probability">
-                        🎯 High Precision
+                            title="Sadece %80+ başarı olasılıklı sinyalleri göster">
+                        🎯 Yüksek Hassasiyet
                     </button>
                     <button class="export-btn" onclick="exportScannerResults()">📥 CSV</button>
                     <button class="scanner-close" onclick="closeScannerModal()">×</button>
@@ -11684,7 +11609,7 @@
             
             <div class="scanner-settings">
                 <div class="settings-group">
-                    <label>Timeframe:</label>
+                    <label>Zaman Dilimi:</label>
                     <select id="scannerTimeframe" onchange="updateScannerTimeframe()">
                         <option value="5m" selected>5d</option>
                         <option value="15m">15m</option>
@@ -11694,7 +11619,7 @@
                     </select>
                 </div>
                 <div class="settings-group">
-                    <label>Min.Hacim (24s):</label>
+                    <label>Min.Volume (24s):</label>
                     <select id="scannerMinVolume">
                         <option value="1000000">1M USDT</option>
                         <option value="5000000">5M USDT</option>
@@ -11718,13 +11643,13 @@
                     <thead>
                         <tr>
                             <th onclick="sortScannerResults('symbol')">Coin</th>
-                            <th onclick="sortScannerResults('price')">Fiyat</th>
-                            <th onclick="sortScannerResults('change24h')">24h Change</th>
+                            <th onclick="sortScannerResults('price')">Price</th>
+                            <th onclick="sortScannerResults('change24h')">24s Change</th>
                             <th onclick="sortScannerResults('powerScore')">Power Score</th>
                             <th onclick="sortScannerResults('direction')">Direction</th>
-                            <th>Sinyal</th>
+                            <th>Signal</th>
                             <th>Statistics</th>
-                            <th>Grafik</th>
+                            <th>Chart</th>
                         </tr>
                     </thead>
                     <tbody id="scannerTableBody">
@@ -11747,7 +11672,7 @@
                     <span class="value" id="bearishCount">0</span>
                 </div>
                 <div class="summary-item">
-                    <span>Ort. Power Score:</span>
+                    <span>Avg. Power Score:</span>
                     <span class="value" id="avgScore">0</span>
                 </div>
                 <!-- YENİ: Yüksek hassasiyet sayacı -->
@@ -11762,14 +11687,14 @@
     <!-- Scanner Progress Bar -->
     <div class="scanner-progress" id="scannerProgress">
         <div class="scanner-progress-bar" id="scannerProgressBar"></div>
-        <div class="scanner-progress-text" id="scannerProgressText">0 / 0 coins scanned</div>
+        <div class="scanner-progress-text" id="scannerProgressText">0 / 0 Coins Scanned</div>
     </div>
     
     <!-- Indicator Statistics Modal -->
     <div class="modal-overlay" id="indicatorStatsModal">
         <div class="indicator-stats-container">
             <div class="indicator-stats-header">
-                <h3>📊 İndikatör Statisticsleri</h3>
+                <h3>📊 Indicator Statistics</h3>
                 <button class="modal-close" id="statsModalCloseBtn" onclick="closeStatsModal()">×</button>
             </div>
             <div class="indicator-stats-content" id="indicatorStatsContent">
