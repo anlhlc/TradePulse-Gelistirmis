@@ -1,0 +1,22 @@
+{
+  "name": "secure-binance-dashboard",
+  "version": "1.0.0",
+  "description": "Secure Binance Futures Dashboard with authentication",
+  "main": "server.js",
+  "scripts": {
+    "start": "node server.js",
+    "dev": "node server.js"
+  },
+  "dependencies": {
+    "apicache": "^1.6.3",
+    "bcryptjs": "^2.4.3",
+    "connect-redis": "^7.1.0",
+    "dotenv": "^16.3.1",
+    "express": "^4.18.2",
+    "express-rate-limit": "^7.1.5",
+    "express-session": "^1.17.3",
+    "helmet": "^7.1.0",
+    "mongoose": "^8.0.3",
+    "redis": "^4.6.12"
+  }
+}

@@ -1,0 +1,190 @@
+<!doctype html>
+<html lang="tr">
+<head>
+<meta charset="utf-8"/>
+<meta name="viewport" content="width=device-width,initial-scale=1"/>
+<title>TradePulse • Giriş</title>
+<style>
+:root{--bg:#060816;--txt:#eef1ff;--mut:#aeb6db;--a:#7c5cff;--b:#f0b957;--g:#2ee59d;--r:22px}
+*{box-sizing:border-box}
+body{
+  margin:0;min-height:100vh;font-family:system-ui,-apple-system,Segoe UI,Roboto,Arial;color:var(--txt);
+  background:
+    radial-gradient(1100px 560px at 20% 10%, rgba(124,92,255,.28), transparent 60%),
+    radial-gradient(900px 560px at 86% 30%, rgba(240,185,87,.16), transparent 60%),
+    radial-gradient(900px 560px at 50% 92%, rgba(46,229,157,.12), transparent 60%),
+    linear-gradient(180deg,var(--bg),#0a1030);
+  display:grid;place-items:center;padding:26px;overflow:hidden;
+}
+.cloud{
+  position:fixed;inset:0;pointer-events:none;
+}
+.coincard{
+  position:absolute;width:180px;height:110px;border-radius:22px;
+  border:1px solid rgba(255,255,255,.10);
+  background:rgba(0,0,0,.16);
+  backdrop-filter:blur(10px);
+  box-shadow:0 18px 60px rgba(0,0,0,.35);
+  display:flex;align-items:center;gap:12px;padding:12px;
+  opacity:.55;
+}
+.coincard strong{display:block;letter-spacing:.12em}
+.coincard span{display:block;color:var(--mut);font-size:12px;margin-top:2px}
+.cA{left:5%;top:18%} .cB{right:6%;top:26%} .cC{left:10%;bottom:18%} .cD{right:10%;bottom:14%}
+@media (max-width:900px){.coincard{display:none}}
+.card{
+  width:min(560px,100%);
+  border-radius:calc(var(--r) + 8px);
+  background:linear-gradient(180deg,rgba(14,18,40,.92),rgba(14,18,40,.62));
+  border:1px solid rgba(124,92,255,.22);
+  box-shadow:0 18px 80px rgba(0,0,0,.58);
+  padding:22px;
+  backdrop-filter: blur(12px);
+  position:relative;overflow:hidden;
+}
+.card:before{
+  content:"";position:absolute;inset:-1px;border-radius:inherit;padding:1px;
+  background:linear-gradient(90deg,rgba(124,92,255,.70),rgba(240,185,87,.40),rgba(46,229,157,.35));
+  -webkit-mask:linear-gradient(#000 0 0) content-box,linear-gradient(#000 0 0);
+  -webkit-mask-composite:xor;mask-composite:exclude;
+  opacity:.85;pointer-events:none;
+}
+.card>*{position:relative}
+.brand{display:flex;align-items:center;justify-content:space-between;gap:10px}
+.brand b{letter-spacing:.18em}
+.pill{padding:7px 10px;border-radius:999px;border:1px solid rgba(255,255,255,.10);background:rgba(0,0,0,.14);color:var(--mut);font-size:12px}
+h1{margin:10px 0 6px;font-size:22px;font-weight:1000}
+p{margin:0 0 14px;color:var(--mut);line-height:1.45}
+label{display:block;margin:12px 0 6px;color:var(--mut);font-size:13px}
+input{width:100%;padding:12px 12px;border-radius:14px;border:1px solid rgba(124,92,255,.22);background:rgba(10,16,26,.62);color:var(--txt);outline:none}
+input:focus{border-color:rgba(240,185,87,.35);box-shadow:0 0 0 4px rgba(124,92,255,.18)}
+.btn{margin-top:16px;width:100%;border-radius:999px;border:1px solid rgba(124,92,255,.26);background:linear-gradient(90deg,rgba(124,92,255,.92),rgba(240,185,87,.78));color:#070a12;font-weight:1000;padding:12px 14px;cursor:pointer}
+.btn:disabled{opacity:.6;cursor:not-allowed}
+.msg{margin-top:12px;font-size:13px;color:var(--mut)}
+.err{color:#ff5c7a} .ok{color:#2ee59d}
+a{color:var(--a);text-decoration:none} a:hover{color:var(--b)}
+.foot{margin-top:14px;color:var(--mut);font-size:13px;text-align:center}
+.foot a{font-weight:800}
+.hr{height:1px;background:linear-gradient(90deg,transparent,rgba(255,255,255,.14),transparent);margin:10px 0 0}
+</style>
+</head>
+<body>
+  <div class="cloud" aria-hidden="true">
+    <div class="coincard cA">
+<svg class="coin" viewBox="0 0 64 64" aria-hidden="true">
+  <defs>
+    <radialGradient id="g" cx="30%" cy="30%">
+      <stop offset="0" stop-color="rgba(255,255,255,.75)"/>
+      <stop offset="0.35" stop-color="rgba(255,255,255,.15)"/>
+      <stop offset="1" stop-color="rgba(0,0,0,.15)"/>
+    </radialGradient>
+  </defs>
+  <circle cx="32" cy="32" r="28" fill="rgba(255,255,255,.06)" stroke="rgba(255,255,255,.14)" stroke-width="2"/>
+  <circle cx="32" cy="32" r="22" fill="url(#g)" opacity=".45"/>
+  <path d="M22 34c4 6 16 10 22 3 6-7-2-18-12-18-7 0-12 6-10 15z" fill="rgba(124,92,255,.35)"/>
+  <path d="M26 40h16" stroke="rgba(240,185,87,.65)" stroke-width="3" stroke-linecap="round"/>
+</svg>
+<div><strong>BTC</strong><span>Market pulse</span></div></div>
+    <div class="coincard cB">
+<svg class="coin" viewBox="0 0 64 64" aria-hidden="true">
+  <defs>
+    <radialGradient id="g" cx="30%" cy="30%">
+      <stop offset="0" stop-color="rgba(255,255,255,.75)"/>
+      <stop offset="0.35" stop-color="rgba(255,255,255,.15)"/>
+      <stop offset="1" stop-color="rgba(0,0,0,.15)"/>
+    </radialGradient>
+  </defs>
+  <circle cx="32" cy="32" r="28" fill="rgba(255,255,255,.06)" stroke="rgba(255,255,255,.14)" stroke-width="2"/>
+  <circle cx="32" cy="32" r="22" fill="url(#g)" opacity=".45"/>
+  <path d="M22 34c4 6 16 10 22 3 6-7-2-18-12-18-7 0-12 6-10 15z" fill="rgba(124,92,255,.35)"/>
+  <path d="M26 40h16" stroke="rgba(240,185,87,.65)" stroke-width="3" stroke-linecap="round"/>
+</svg>
+<div><strong>ETH</strong><span>Liquidity flow</span></div></div>
+    <div class="coincard cC">
+<svg class="coin" viewBox="0 0 64 64" aria-hidden="true">
+  <defs>
+    <radialGradient id="g" cx="30%" cy="30%">
+      <stop offset="0" stop-color="rgba(255,255,255,.75)"/>
+      <stop offset="0.35" stop-color="rgba(255,255,255,.15)"/>
+      <stop offset="1" stop-color="rgba(0,0,0,.15)"/>
+    </radialGradient>
+  </defs>
+  <circle cx="32" cy="32" r="28" fill="rgba(255,255,255,.06)" stroke="rgba(255,255,255,.14)" stroke-width="2"/>
+  <circle cx="32" cy="32" r="22" fill="url(#g)" opacity=".45"/>
+  <path d="M22 34c4 6 16 10 22 3 6-7-2-18-12-18-7 0-12 6-10 15z" fill="rgba(124,92,255,.35)"/>
+  <path d="M26 40h16" stroke="rgba(240,185,87,.65)" stroke-width="3" stroke-linecap="round"/>
+</svg>
+<div><strong>SOL</strong><span>Momentum</span></div></div>
+    <div class="coincard cD">
+<svg class="coin" viewBox="0 0 64 64" aria-hidden="true">
+  <defs>
+    <radialGradient id="g" cx="30%" cy="30%">
+      <stop offset="0" stop-color="rgba(255,255,255,.75)"/>
+      <stop offset="0.35" stop-color="rgba(255,255,255,.15)"/>
+      <stop offset="1" stop-color="rgba(0,0,0,.15)"/>
+    </radialGradient>
+  </defs>
+  <circle cx="32" cy="32" r="28" fill="rgba(255,255,255,.06)" stroke="rgba(255,255,255,.14)" stroke-width="2"/>
+  <circle cx="32" cy="32" r="22" fill="url(#g)" opacity=".45"/>
+  <path d="M22 34c4 6 16 10 22 3 6-7-2-18-12-18-7 0-12 6-10 15z" fill="rgba(124,92,255,.35)"/>
+  <path d="M26 40h16" stroke="rgba(240,185,87,.65)" stroke-width="3" stroke-linecap="round"/>
+</svg>
+<div><strong>XRP</strong><span>Trend</span></div></div>
+  </div>
+
+  <div class="card" role="region" aria-label="TradePulse login">
+    <div class="brand">
+      <b>TRADEPULSE</b>
+      <span class="pill">Premium Login</span>
+    </div>
+
+    <h1>Hoş geldiniz</h1>
+    <p>Devam etmek için giriş yapın.</p>
+
+    <form id="f">
+      <label>Kullanıcı Adı</label>
+      <input id="username" type="text" autocomplete="username" required placeholder="admin veya kullanıcı adınız"/>
+
+      <label>Şifre</label>
+      <input id="password" type="password" autocomplete="current-password" required placeholder="••••••••"/>
+
+      <button class="btn" id="btn" type="submit">Giriş Yap</button>
+      <div class="msg" id="msg"></div>
+
+      <div class="hr" aria-hidden="true"></div>
+      <div class="foot" aria-hidden="true" style="margin-top:10px;letter-spacing:.14em;font-size:11px">TRADEPULSE • MARKET INSIGHT ACCESS</div>
+    </form>
+  </div>
+
+  
+<script>
+const $ = (id)=>document.getElementById(id);
+const msg = (t, cls="") => { $("msg").className="msg "+cls; $("msg").textContent=t; };
+
+$("f").addEventListener("submit", async (e)=>{
+  e.preventDefault();
+  $("btn").disabled=true;
+  msg("Giriş yapılıyor…");
+  try{
+    const r = await fetch("/login",{
+      method:"POST",
+      headers:{"Content-Type":"application/json"},
+      body: JSON.stringify({
+        username:$("username").value.trim(),
+        password:$("password").value
+      })
+    });
+    const j = await r.json();
+    if(!r.ok || j.error) throw new Error(j.error || "Giriş başarısız");
+    msg("Başarılı! Yönlendiriliyor…","ok");
+    setTimeout(()=>location.href=(j.redirect || "/"), 350);
+  }catch(err){
+    msg(err.message,"err");
+  }finally{
+    $("btn").disabled=false;
+  }
+});
+</script>
+
+</body>
+</html>

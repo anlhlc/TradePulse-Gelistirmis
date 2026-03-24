@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sayfa Bulunamadı - 404</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: #0d1117;
+            color: #e6edf3;
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            padding: 20px;
+        }
+
+        .container {
+            max-width: 500px;
+        }
+
+        .icon {
+            font-size: 80px;
+            margin-bottom: 24px;
+        }
+
+        h1 {
+            font-size: 32px;
+            margin-bottom: 16px;
+            color: #f0f0f0;
+        }
+
+        p {
+            color: #8b949e;
+            margin-bottom: 32px;
+            line-height: 1.6;
+        }
+
+        .btn {
+            display: inline-block;
+            padding: 14px 32px;
+            background: linear-gradient(135deg, #f0b90b 0%, #d4a106 100%);
+            color: #0d1117;
+            text-decoration: none;
+            border-radius: 8px;
+            font-weight: 600;
+            transition: all 0.2s ease;
+        }
+
+        .btn:hover {
+            background: linear-gradient(135deg, #f5c518 0%, #e6b108 100%);
+            transform: translateY(-2px);
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="icon">🔒</div>
+        <h1>Sayfa Bulunamadı</h1>
+        <p>Erişmeye çalıştığınız sayfa mevcut değil veya yetkiniz bulunmuyor.</p>
+        <a href="/login" class="btn">Giriş Sayfasına Dön</a>
+    </div>
+</body>
+</html>
