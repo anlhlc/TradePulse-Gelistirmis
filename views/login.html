@@ -1,9 +1,9 @@
 <!doctype html>
-<html lang="tr">
+<html lang="en">
 <head>
 <meta charset="utf-8"/>
 <meta name="viewport" content="width=device-width,initial-scale=1"/>
-<title>TradePulse • Giriş</title>
+<title>TradePulse • Login</title>
 <style>
 :root{--bg:#060816;--txt:#eef1ff;--mut:#aeb6db;--a:#7c5cff;--b:#f0b957;--g:#2ee59d;--r:22px}
 *{box-sizing:border-box}
@@ -138,17 +138,17 @@ a{color:var(--a);text-decoration:none} a:hover{color:var(--b)}
       <span class="pill">Premium Login</span>
     </div>
 
-    <h1>Hoş geldiniz</h1>
-    <p>Devam etmek için giriş yapın.</p>
+    <h1>Welcome</h1>
+    <p>Sign in to continue.</p>
 
     <form id="f">
-      <label>Kullanıcı Adı</label>
-      <input id="username" type="text" autocomplete="username" required placeholder="admin veya kullanıcı adınız"/>
+      <label>Username</label>
+      <input id="username" type="text" autocomplete="username" required placeholder="admin or your username"/>
 
-      <label>Şifre</label>
+      <label>Password</label>
       <input id="password" type="password" autocomplete="current-password" required placeholder="••••••••"/>
 
-      <button class="btn" id="btn" type="submit">Giriş Yap</button>
+      <button class="btn" id="btn" type="submit">Sign In</button>
       <div class="msg" id="msg"></div>
 
       <div class="hr" aria-hidden="true"></div>
@@ -164,7 +164,7 @@ const msg = (t, cls="") => { $("msg").className="msg "+cls; $("msg").textContent
 $("f").addEventListener("submit", async (e)=>{
   e.preventDefault();
   $("btn").disabled=true;
-  msg("Giriş yapılıyor…");
+  msg("Signing in…");
   try{
     const r = await fetch("/login",{
       method:"POST",
@@ -175,8 +175,8 @@ $("f").addEventListener("submit", async (e)=>{
       })
     });
     const j = await r.json();
-    if(!r.ok || j.error) throw new Error(j.error || "Giriş başarısız");
-    msg("Başarılı! Yönlendiriliyor…","ok");
+    if(!r.ok || j.error) throw new Error(j.error || "Login failed");
+    msg("Success! Redirecting…","ok");
     setTimeout(()=>location.href=(j.redirect || "/"), 350);
   }catch(err){
     msg(err.message,"err");
