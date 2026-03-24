@@ -3270,12 +3270,12 @@
             <div class="header-right">
                 <div class="connection-status">
                     <div class="status-dot"></div>
-                    <span id="connectionStatus">API Baglanti</span>
+                    <span id="connectionStatus">API Connected</span>
                 </div>
                 <span class="ping-indicator" id="pingIndicator">--ms</span>
                 <span class="update-timestamp" id="updateTimestamp" style="display: none;">
                     <span class="icon">🔄</span>
-                    <span>Son güncelleme: <span class="time" id="lastUpdateTime">--:--:--</span></span>
+                    <span>Last Update: <span class="time" id="lastUpdateTime">--:--:--</span></span>
                 </span>
             </div>
         </header>
@@ -3283,7 +3283,7 @@
         <!-- Controls -->
         <div class="controls">
             <div class="control-card">
-                <label class="control-label">Koin Secimi</label>
+                <label class="control-label">Select Coin</label>
                 <div class="combo-wrapper">
                     <input type="text" class="combo-input" id="coinSearch" placeholder="Search or select a coin..." readonly>
                     <div class="combo-dropdown" id="coinDropdown"></div>
@@ -3300,7 +3300,7 @@
                 </div>
             </div>
             <div class="control-card">
-                <label class="control-label">Indikatorler</label>
+                <label class="control-label">Indicators</label>
                 <div class="btn-group">
                     <button class="btn btn-secondary active" id="toggleBB" onclick="toggleIndicator('bb')">BB</button>
                     <button class="btn btn-secondary active" id="toggleStoch" onclick="toggleIndicator('stoch')">Stoch</button>
@@ -3308,15 +3308,15 @@
                 </div>
             </div>
             <div class="control-card">
-                <label class="control-label">Analiz Araclari</label>
+                <label class="control-label">Analysis Tools</label>
                 <div class="analysis-controls">
                     <div class="analysis-inputs">
                         <input type="number" class="calc-input" id="lookbackCount" value="50" min="10" max="200" placeholder="Mum sayisi" onchange="updateAnalysisSettings()">
                         <input type="number" class="calc-input" id="stdDevMultiplier" value="2" min="0.5" max="5" step="0.1" placeholder="StdDev" onchange="updateAnalysisSettings()">
                     </div>
                     <div class="btn-group" style="margin-top: 8px;">
-                        <button class="btn btn-secondary" id="toggleRegression" onclick="toggleRegressionChannel()">Regresyon</button>
-                        <button class="btn btn-secondary" id="toggleSR" onclick="toggleSupportResistance()">Destek/Direnç</button>
+                        <button class="btn btn-secondary" id="toggleRegression" onclick="toggleRegressionChannel()">Regression</button>
+                        <button class="btn btn-secondary" id="toggleSR" onclick="toggleSupportResistance()">Support & Resistance</button>
                     </div>
                 </div>
             </div>
@@ -7385,7 +7385,7 @@
                         </div>
                         <div class="signal-description">${signal.description}</div>
                         <div class="signal-value">${signal.value}</div>
-                        <div class="signal-timestamp">Son güncelleme: ${signal.timestamp}</div>
+                        <div class="signal-timestamp">Last Update: ${signal.timestamp}</div>
                     </div>
                 `;
             });
