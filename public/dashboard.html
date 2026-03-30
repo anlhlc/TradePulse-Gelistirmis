@@ -2971,7 +2971,7 @@
             <div class="tooltip-content">
                 <strong>PnL (Profit and Loss):</strong> Potansiyel kar veya zararı hesaplar.<br><br>
                 <strong>Formüller:</strong><br>
-                • PnL = (Kapanış - Açılış) × Pozisyon Büyüklüğü × Kaldıraç<br>
+                • PnL = (Close - Open) × Position Size × Leverage<br>
                 • ROE = (PnL / Marjin) × 100<br><br>
                 <strong>Long İşlem:</strong> Price yükselirse kar edilir.<br><br>
                 <strong>Short İşlem:</strong> Price düşerse kar edilir.<br><br>
@@ -2987,12 +2987,12 @@
             <div class="tooltip-arrow"></div>
             <div class="tooltip-title">⚠️ Liquidation Calculator</div>
             <div class="tooltip-content">
-                <strong>Liquidation:</strong> Pozisyonun zarar nedeniyle otomatik olarak kapatılmasıdır. Marjin yetersizliği nedeniyle olur.<br><br>
-                <strong>Liquidation Priceı:</strong> Pozisyonun otomatik kapanacağı fiyat seviyesi.<br><br>
-                <strong>İzole Marjin:</strong> Her pozisyon ayrı marjin kullanır. Bir pozisyon likide olsa bile diğerleri etkilenmez.<br><br>
-                <strong>Çapraz Marjin:</strong> Tüm hesap bakiyesi tek pozisyonun marjini olarak kullanılır.<br><br>
-                <strong>Risk:</strong> Kaldıraç arttıkça likidasyon fiyatı giriş fiyatına yaklaşır.<br><br>
-                <strong>Güvenli İşlem:</strong> Kaldıraç 10x ve altında tutulmalı. Stop-loss mutlaka kullanılmalı.
+                <strong>Liquidation:</strong> Automatic closing of position due to losses. Happens due to insufficient margin.<br><br>
+                <strong>Liquidation Price:</strong> The price level at which the position will automatically close.
+                <strong>Isolated Margin:</strong> Each position uses separate margin. If one position liquidates, others are not affected.<br><br>
+                <strong>Cross Margin:</strong> Entire account balance is used as margin for a single position.<br><br>
+                <strong>Risk:</strong> As leverage increases, liquidation price approaches entry price.<br><br>
+                <strong>Safe Trading:</strong> Leverage should be kept at 10x or lower. Stop-loss must always be used.
             </div>
         </div>
     </div>
@@ -3002,15 +3002,15 @@
         <div class="tooltip">
             <button class="tooltip-close" onclick="hideTooltip('PositionSize')">×</button>
             <div class="tooltip-arrow"></div>
-            <div class="tooltip-title">📊 Pozisyon Boyutu Hesaplayıcı</div>
+            <div class="tooltip-title">📊 Position Size Calculator</div>
             <div class="tooltip-content">
-                <strong>Pozisyon Boyutu:</strong> Risk yönetimi için en uygun pozisyon büyüklüğünü hesaplar.<br><br>
-                <strong>Risk Miktarı:</strong> İşleme ayırmak istediğiniz maksimum zarar miktarı.<br><br>
-                <strong>Stop-Loss:</strong> Zararı kabul edeceğiniz fiyat seviyesi.<br><br>
-                <strong>Formül:</strong><br>
-                Pozisyon Büyüklüğü = Risk Miktarı / |Giriş Priceı - Stop Loss|<br><br>
-                <strong>Örnek:</strong> $100 risk, $50000 giriş, $49500 stop = 100 / 500 = 0.002 BTC pozisyon<br><br>
-                <strong>Kural:</strong> Tek işlemde toplam sermayenin %1-2'sinden fazlası risk edilmemeli.
+                <strong>Position Size:</strong> Calculates optimal position size for risk management.<br><br>
+                <strong>Risk Amount:</strong> Maximum loss amount you want to allocate for the trade.<br><br>
+                <strong>Stop-Loss:</strong> Price level where you accept the loss.<br><br>
+                <strong>Formula:</strong><br>
+                Position Size = Risk Amount / |Entry Price - Stop Loss|<br><br>
+                <strong>Example:</strong> $100 risk, $50000 entry, $49500 stop = 100 / 500 = 0.002 BTC position<br><br>
+                <strong>Rule:</strong> Do not risk more than 1-2% of total capital on a single trade.
             </div>
         </div>
     </div>
@@ -3327,7 +3327,7 @@
 
                 <!-- Open Interest -->
                 <div class="oi-display">
-                    <label class="control-label">Acik Pozisyon (OI)</label>
+                    <label class="control-label">Open Interest (OI)</label>
                     <div>
                         <span class="oi-value" id="oiValue">--</span>
                         <span class="oi-change" id="oiChange">--</span>
@@ -3558,7 +3558,7 @@
                             <input type="number" class="calc-input" id="pnlLeverage" placeholder="orn: 10" value="10">
                         </div>
                         <div class="calc-input-group">
-                            <label data-i18n="calc_position_size">Pozisyon Buyuklugu (USDT)</label>
+                            <label data-i18n="calc_position_size">Position Size (USDT)</label>
                             <input type="number" class="calc-input" id="pnlSize" placeholder="orn: 1000" value="1000">
                         </div>
                         <button class="btn active" style="width: 100%;" onclick="calculatePnL()" data-i18n="btn_calculate">Hesapla</button>
@@ -3617,7 +3617,7 @@
                         <button class="btn active" style="width: 100%;" onclick="calculatePosition()" data-i18n="btn_calculate">Hesapla</button>
                         <div class="calc-result">
                             <div class="calc-result-value" id="posResult">--</div>
-                            <div class="calc-result-label" id="posResultLabel" data-i18n="calc_position_size">Pozisyon Buyuklugu</div>
+                            <div class="calc-result-label" id="posResultLabel" data-i18n="calc_position_size">Position Size</div>
                         </div>
                     </div>
                 </div>
@@ -4053,10 +4053,8 @@
         }
 
         function formatLargeNumber(num) {
-            if (num >= 1000000000) return (num / 1000000000).toFixed(2) + 'B';
-            if (num >= 1000000) return (num / 1000000).toFixed(2) + 'M';
-            if (num >= 1000) return (num / 1000).toFixed(2) + 'K';
-            return num.toFixed(2);
+            // Show full number with 2 decimal places (no abbreviations like K, M, B)
+            return Number(num).toFixed(2);
         }
 
         function showNotification(message, type = 'info') {
@@ -4179,7 +4177,7 @@
             if (posInfo && posInfo.atr) {
                 statsHtml += `
                     <div class="position-sizing-section">
-                        <h4>📊 Pozisyon Boyutlandırma & Risk Directionetimi</h4>
+                        <h4>📊 Position Sizing & Risk Management</h4>
                         <div class="position-info-grid">
                             <div class="position-info-item">
                                 <span class="label">ATR (14)</span>
