@@ -530,21 +530,17 @@ app.use('/assets', express.static(path.join(__dirname, 'public', 'assets')));
 // ÖNEMLİ: Bu rotalar /api/users ve /api/online-users gibi SPESİFİK rotalardan SONRA tanımlanmalı
 // Express'te wildcard rotaların altında olması gerekiyor
 
-// Likidasyonlar endpoint proxy
+// Likidasyonlar endpoint proxy - Güncel Binance API endpoint
 app.get('/api/binance/liquidations', requireAuth, async (req, res) => {
   try {
     const { symbol, startTime, limit } = req.query;
     
     if (!symbol) {
-      return res.status(400).json({ error: 'Symbol parametresi gerekli' });
+      return res.status(400).json({ error: 'Symbol parameter required' });
     }
     
-    const params = new URLSearchParams();
-    params.append('symbol', symbol);
-    if (startTime) params.append('startTime', startTime);
-    if (limit) params.append('limit', limit || '100');
-    
-    const url = `https://fapi.binance.com/fapi/v1/allForceOrders?${params.toString()}`;
+    // Yeni Binance API endpoint - single symbol liquidations
+    let url = `https://fapi.binance.com/fapi/v1/forceOrders?symbol=${symbol}&limit=${limit || 100}`;
     
     const response = await fetch(url, {
       headers: {
@@ -554,16 +550,15 @@ app.get('/api/binance/liquidations', requireAuth, async (req, res) => {
     });
     
     if (!response.ok) {
-      // Binance API hatası durumunda boş array dön
-      console.log(`Binance API yanıt kodu: ${response.status}`);
+      console.log(`Binance API response code: ${response.status}`);
       return res.json([]);
     }
     
     const data = await response.json();
     res.json(data);
   } catch (error) {
-    console.error('Likidasyonlar proxy hatası:', error.message);
-    res.json([]); // Hata durumunda boş array dön
+    console.error('Liquidations proxy error:', error.message);
+    res.json([]);
   }
 });
 

@@ -3461,7 +3461,7 @@
                 <!-- Liquidation Heatmap Section -->
                 <div class="liquidation-section" id="liquidationSection">
                     <div class="liquidation-header">
-                        <div class="liquidation-title">Liquidation Isı Haritası</div>
+                        <div class="liquidation-title">Liquidation Heat Map</div>
                         <div class="liquidation-controls">
                             <select class="liq-symbol-select" id="liqSymbolSelect" onchange="changeLiqSymbol()">
                                 <option value="BTCUSDT">BTCUSDT</option>
@@ -3502,18 +3502,18 @@
                             <div class="liq-stat-value short" id="liqShortTotal">$0</div>
                         </div>
                         <div class="liq-stat-item">
-                            <div class="liq-stat-label">Toplam Liquidation</div>
+                            <div class="liq-stat-label">Total Liquidation</div>
                             <div class="liq-stat-value" id="liqTotal">$0</div>
                         </div>
                     </div>
                     <div class="liq-legend">
                         <div class="liq-legend-item">
                             <div class="liq-legend-dot long"></div>
-                            <span>Long Position Liquidationu (Price Düşüşü)</span>
+                            <span>Long Position Liquidation (Price Drop)</span>
                         </div>
                         <div class="liq-legend-item">
                             <div class="liq-legend-dot short"></div>
-                            <span>Short Position Liquidationu (Price Yükselişi)</span>
+                            <span>Short Position Liquidation (Price Rise)</span>
                         </div>
                     </div>
                 </div>
@@ -5621,7 +5621,7 @@
                             position: 'bottom',
                             title: {
                                 display: true,
-                                text: 'Zaman',
+                                text: 'Time',
                                 color: '#8b949e'
                             },
                             grid: {
@@ -5694,13 +5694,13 @@
             }
 
             // Binance WebSocket URL for all liquidation orders
-            const wsUrl = 'wss://fstream.binance.com/ws/!forceOrder';
+            const wsUrl = 'wss://fstream.binance.com/ws/!forceOrder@arr';
 
             try {
                 liqWebSocket = new WebSocket(wsUrl);
 
                 liqWebSocket.onopen = function() {
-                    console.log('Liquidation WebSocket bağlantısı kuruldu');
+                    console.log('Liquidation WebSocket connected');
                     // Update connection status
                     const loadingEl = document.getElementById('liqLoading');
                     if (loadingEl) {
@@ -5711,8 +5711,13 @@
                 liqWebSocket.onmessage = function(event) {
                     try {
                         const data = JSON.parse(event.data);
-                        if (data && data.o) {
-                            processLiqMessage(data.o);
+                        // Array format from !forceOrder@arr endpoint
+                        if (Array.isArray(data)) {
+                            data.forEach(item => {
+                                if (item.s === currentLiqSymbol) {
+                                    processLiqMessage(item);
+                                }
+                            });
                         }
                     } catch (e) {
                         console.error('Liquidation data processing error:', e);
@@ -5835,15 +5840,16 @@
                 
                 if (data && data.length > 0) {
                     data.forEach(item => {
+                        // Binance API returns: time, price, quantity (USDT value), type (0=liquidate, 1=deleverage)
                         const point = {
                             x: item.time,
                             y: parseFloat(item.price),
-                            size: parseFloat(item.origQty || item.quantity || item.executedQty),
+                            size: parseFloat(item.price) * parseFloat(item.quantity), // Convert to USDT value
                             raw: {
-                                S: item.side, // BUY veya SELL
-                                s: item.symbol,
+                                S: item.side || (parseFloat(item.price) > 0 ? 'SELL' : 'BUY'), // side
+                                s: symbol,
                                 p: item.price,
-                                q: item.origQty || item.quantity || item.executedQty
+                                q: item.quantity
                             }
                         };
                         liquidationData.push(point);
@@ -5862,9 +5868,9 @@
                 }
 
             } catch (error) {
-                console.log('Liquidation verisi yükleme hatası:', error.message);
+                console.log('Liquidation data loading error:', error.message);
                 if (liquidationData.length === 0 && noDataEl) {
-                    noDataEl.innerHTML = 'Waiting for live liquidation data...<br><small style="color: #8b949e;">WebSocket connection is active</small>';
+                    noDataEl.innerHTML = 'Error loading liquidation data<br><small style="color: #8b949e;">Please check API connection</small>';
                     noDataEl.style.display = 'block';
                 }
             } finally {
