@@ -1,0 +1,129 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>TradePulse Login Tasarımları</title>
+    <style>
+        * { box-sizing: border-box; margin: 0; padding: 0; }
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+            background: #0a0a0a;
+            min-height: 100vh;
+            color: #fff;
+            padding: 40px;
+        }
+        h1 {
+            text-align: center;
+            font-size: 36px;
+            margin-bottom: 20px;
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+        p {
+            text-align: center;
+            color: #888;
+            margin-bottom: 50px;
+            font-size: 18px;
+        }
+        .grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+            gap: 40px;
+            max-width: 1400px;
+            margin: 0 auto;
+        }
+        .card {
+            background: #1a1a1a;
+            border-radius: 20px;
+            overflow: hidden;
+            border: 1px solid #333;
+            transition: all 0.3s ease;
+        }
+        .card:hover {
+            transform: translateY(-10px);
+            border-color: #667eea;
+            box-shadow: 0 20px 60px rgba(102, 126, 234, 0.3);
+        }
+        .preview {
+            height: 450px;
+            overflow: hidden;
+        }
+        .preview iframe {
+            width: 100%;
+            height: 100%;
+            border: none;
+            transform: scale(0.65);
+            transform-origin: top left;
+            width: 153.8%;
+            height: 153.8%;
+        }
+        .info {
+            padding: 24px;
+        }
+        .info h3 {
+            font-size: 22px;
+            margin-bottom: 10px;
+        }
+        .info p {
+            color: #888;
+            font-size: 14px;
+            margin-bottom: 20px;
+        }
+        .btn {
+            display: inline-block;
+            padding: 12px 24px;
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            color: #fff;
+            text-decoration: none;
+            border-radius: 10px;
+            font-weight: 600;
+            transition: all 0.3s ease;
+        }
+        .btn:hover {
+            transform: scale(1.05);
+            box-shadow: 0 10px 30px rgba(102, 126, 234, 0.4);
+        }
+    </style>
+</head>
+<body>
+    <h1>TradePulse Login Sayfası Tasarımları</h1>
+    <p>Mevcut login sayfasındaki tüm özellikleri içeren 3 farklı tasarım</p>
+
+    <div class="grid">
+        <div class="card">
+            <div class="preview">
+                <iframe src="login-neon.html"></iframe>
+            </div>
+            <div class="info">
+                <h3>Neon Cyberpunk</h3>
+                <p>Mor/siyan neon efektleri, animasyonlu grid arka plan ve parçacıklar</p>
+                <a href="login-neon.html" class="btn" target="_blank">Tam Boyutlu Görüntüle</a>
+            </div>
+        </div>
+
+        <div class="card">
+            <div class="preview">
+                <iframe src="login-glass.html"></iframe>
+            </div>
+            <div class="info">
+                <h3>Glass Morphism</h3>
+                <p>Modern cam efektleri, animasyonlu gradientler ve blob'lar</p>
+                <a href="login-glass.html" class="btn" target="_blank">Tam Boyutlu Görüntüle</a>
+            </div>
+        </div>
+
+        <div class="card">
+            <div class="preview">
+                <iframe src="login-luxury.html"></iframe>
+            </div>
+            <div class="info">
+                <h3>Dark Luxurious</h3>
+                <p>Altın tonları, elegant tipografi ve premium görünüm</p>
+                <a href="login-luxury.html" class="btn" target="_blank">Tam Boyutlu Görüntüle</a>
+            </div>
+        </div>
+    </div>
+</body>
+</html>
