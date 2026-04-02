@@ -703,7 +703,7 @@
         .atr-chart-container { position: relative; height: 100px; margin-top: 8px; }
         .atr-chart-container.hidden { display: none; }
 
-        /* Liquidation Heatmap */
+        /* Pro Liquidation Heatmap */
         .liquidation-section { margin-bottom: 16px; }
         .liquidation-header {
             display: flex;
@@ -712,6 +712,8 @@
             margin-bottom: 12px;
             padding-bottom: 10px;
             border-bottom: 1px solid rgba(255, 0, 85, 0.2);
+            flex-wrap: wrap;
+            gap: 8px;
         }
         .liquidation-title {
             font-size: 14px;
@@ -721,23 +723,29 @@
             align-items: center;
             gap: 8px;
         }
-        .liquidation-title::before {
-            content: '';
-            width: 3px;
-            height: 14px;
-            background: linear-gradient(180deg, var(--neon-red), #ff6e00);
-            border-radius: 2px;
-            box-shadow: 0 0 10px var(--neon-red);
+        .liq-pulse {
+            width: 10px;
+            height: 10px;
+            border-radius: 50%;
+            background: var(--neon-green);
+            box-shadow: 0 0 0 0 rgba(0, 255, 136, 0.55);
+            animation: liqPulse 2s infinite;
+        }
+        @keyframes liqPulse {
+            0% { box-shadow: 0 0 0 0 rgba(0, 255, 136, 0.55); }
+            70% { box-shadow: 0 0 0 10px rgba(0, 255, 136, 0); }
+            100% { box-shadow: 0 0 0 0 rgba(0, 255, 136, 0); }
         }
         .liquidation-controls {
             display: flex;
             gap: 8px;
             align-items: center;
+            flex-wrap: wrap;
         }
         .liq-symbol-select {
             padding: 6px 12px;
             background: rgba(15, 0, 25, 0.8);
-            border: 1px solid rgba(255, 215, 0, 0.3);
+            border: 1px solid rgba(191, 0, 255, 0.3);
             border-radius: 6px;
             color: #fff;
             font-size: 12px;
@@ -746,8 +754,8 @@
         }
         .liq-symbol-select:focus {
             outline: none;
-            border-color: var(--neon-gold);
-            box-shadow: 0 0 10px rgba(255, 215, 0, 0.3);
+            border-color: var(--neon-purple);
+            box-shadow: 0 0 10px rgba(191, 0, 255, 0.3);
         }
         .liq-time-btns {
             display: flex;
@@ -773,98 +781,180 @@
             color: var(--neon-red);
             box-shadow: 0 0 10px rgba(255, 0, 85, 0.3);
         }
-        .liquidation-chart-container {
+
+        /* Pro Heatmap Container */
+        .pro-heatmap-container {
             position: relative;
-            height: 300px;
-            min-height: 300px;
-            background: rgba(15, 0, 25, 0.6);
-            border: 1px solid rgba(255, 0, 85, 0.2);
-            border-radius: 10px;
+            height: 280px;
+            min-height: 280px;
+            background: linear-gradient(180deg, rgba(14, 26, 46, 0.98), rgba(6, 12, 22, 0.98));
+            border: 1px solid rgba(0, 255, 255, 0.2);
+            border-radius: 12px;
             overflow: hidden;
+            margin-bottom: 12px;
         }
-        .liquidation-chart-container.hidden { display: none; }
-        #liquidationChart {
+        #proHeatmapCanvas {
             width: 100%;
             height: 100%;
-            min-height: 300px;
+            display: block;
         }
-        .liq-legend {
-            display: flex;
-            justify-content: center;
-            gap: 24px;
-            margin-top: 12px;
-            padding: 10px;
-            background: rgba(15, 0, 25, 0.4);
-            border-radius: 6px;
-        }
-        .liq-legend-item {
-            display: flex;
-            align-items: center;
-            gap: 8px;
-            font-size: 11px;
-            color: rgba(255, 255, 255, 0.6);
+        .pro-heatmap-tooltip {
+            position: absolute;
+            z-index: 5;
+            min-width: 200px;
+            padding: 12px;
+            border-radius: 10px;
+            background: rgba(5, 0, 15, 0.95);
+            border: 1px solid var(--neon-cyan);
+            box-shadow: 0 0 30px rgba(0, 255, 255, 0.3), 0 8px 20px rgba(0,0,0,0.5);
+            backdrop-filter: blur(10px);
+            pointer-events: none;
+            transform: translate(10px, 10px);
+            opacity: 0;
+            transition: opacity 0.12s ease;
             font-family: 'Rajdhani', sans-serif;
         }
-        .liq-legend-dot {
-            width: 12px;
-            height: 12px;
-            border-radius: 50%;
-        }
-        .liq-legend-dot.long { background: var(--neon-red); box-shadow: 0 0 10px var(--neon-red); }
-        .liq-legend-dot.short { background: var(--neon-green); box-shadow: 0 0 10px var(--neon-green); }
-        .liq-stats {
-            display: grid;
-            grid-template-columns: repeat(3, 1fr);
-            gap: 12px;
-            margin-top: 12px;
-        }
-        .liq-stat-item {
-            background: rgba(15, 0, 25, 0.6);
-            border: 1px solid rgba(255, 0, 85, 0.2);
-            border-radius: 10px;
-            padding: 12px;
-            text-align: center;
-            transition: all 0.3s ease;
-        }
-        .liq-stat-item:hover {
-            border-color: var(--neon-red);
-            box-shadow: 0 0 15px rgba(255, 0, 85, 0.2);
-        }
-        .liq-stat-label { font-size: 10px; color: rgba(255, 0, 85, 0.6); text-transform: uppercase; margin-bottom: 4px; font-family: 'Orbitron', sans-serif; }
-        .liq-stat-value { font-size: 16px; font-weight: 600; font-family: 'Rajdhani', sans-serif; }
-        .liq-stat-value.long { color: var(--neon-red); text-shadow: 0 0 10px rgba(255, 0, 85, 0.5); }
-        .liq-stat-value.short { color: var(--neon-green); text-shadow: 0 0 10px rgba(0, 255, 136, 0.5); }
-        .liq-loading {
+        .pro-heatmap-tooltip.visible { opacity: 1; }
+        .pro-heatmap-tooltip strong { display: block; font-size: 13px; margin-bottom: 6px; color: var(--neon-cyan); }
+        .pro-heatmap-tooltip .row { display: flex; justify-content: space-between; gap: 10px; margin-top: 4px; font-size: 11px; color: rgba(255,255,255,0.6); }
+        .pro-heatmap-tooltip .row span:last-child { color: #fff; }
+        .pro-heatmap-loading {
             position: absolute;
             top: 50%;
             left: 50%;
             transform: translate(-50%, -50%);
             color: var(--neon-cyan);
-            font-size: 14px;
+            font-size: 13px;
             display: flex;
             flex-direction: column;
             align-items: center;
-            gap: 8px;
+            gap: 10px;
             font-family: 'Rajdhani', sans-serif;
         }
         .liq-loading-spinner {
-            width: 24px;
-            height: 24px;
+            width: 28px;
+            height: 28px;
             border: 2px solid rgba(0, 255, 255, 0.2);
             border-top-color: var(--neon-cyan);
             border-radius: 50%;
             animation: spin 1s linear infinite;
+            box-shadow: 0 0 15px rgba(0, 255, 255, 0.3);
         }
-        .liq-no-data {
-            position: absolute;
-            top: 50%;
-            left: 50%;
-            transform: translate(-50%, -50%);
-            color: rgba(255, 255, 255, 0.4);
-            font-size: 12px;
+
+        /* Pro Heatmap Controls */
+        .pro-heatmap-controls {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 10px;
+            margin-bottom: 12px;
+        }
+        .pro-ctrl-group {
+            display: flex;
+            flex-direction: column;
+            gap: 4px;
+            background: rgba(15, 0, 25, 0.5);
+            padding: 10px;
+            border-radius: 8px;
+            border: 1px solid rgba(0, 255, 255, 0.1);
+        }
+        .pro-ctrl-group label {
+            font-size: 10px;
+            color: rgba(0, 255, 255, 0.6);
+            text-transform: uppercase;
+            font-family: 'Orbitron', sans-serif;
+        }
+        .pro-ctrl-group input[type="range"] {
+            width: 100%;
+            height: 6px;
+            appearance: none;
+            background: linear-gradient(90deg, rgba(191,0,255,0.3), rgba(0,255,255,0.4));
+            border-radius: 3px;
+            outline: none;
+        }
+        .pro-ctrl-group input[type="range"]::-webkit-slider-thumb {
+            appearance: none;
+            width: 14px;
+            height: 14px;
+            border-radius: 50%;
+            background: #fff;
+            border: 2px solid var(--neon-cyan);
+            box-shadow: 0 0 10px rgba(0, 255, 255, 0.4);
+            cursor: pointer;
+        }
+        .pro-ctrl-group span {
+            font-size: 11px;
+            color: #fff;
             font-family: 'Rajdhani', sans-serif;
-            text-align: center;
+            font-weight: 600;
         }
+
+        /* Pro Heatmap Stats */
+        .pro-heatmap-stats {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 8px;
+            margin-bottom: 12px;
+        }
+        .pro-stat {
+            background: rgba(15, 0, 25, 0.6);
+            border: 1px solid rgba(191, 0, 255, 0.2);
+            border-radius: 8px;
+            padding: 8px 10px;
+            text-align: center;
+            transition: all 0.2s;
+        }
+        .pro-stat:hover {
+            border-color: var(--neon-purple);
+            box-shadow: 0 0 10px rgba(191, 0, 255, 0.2);
+        }
+        .pro-stat-label { display: block; font-size: 9px; color: rgba(191, 0, 255, 0.6); text-transform: uppercase; margin-bottom: 4px; font-family: 'Orbitron', sans-serif; }
+        .pro-stat-value { font-size: 12px; font-weight: 600; font-family: 'Rajdhani', sans-serif; color: #fff; }
+        .pro-stat-value.long { color: var(--neon-green); text-shadow: 0 0 8px rgba(0, 255, 136, 0.5); }
+        .pro-stat-value.short { color: var(--neon-red); text-shadow: 0 0 8px rgba(255, 0, 85, 0.5); }
+        .pro-stat-value.up { color: var(--neon-green); }
+        .pro-stat-value.down { color: var(--neon-red); }
+
+        /* Pro Heatmap Legend */
+        .pro-heatmap-legend {
+            margin-bottom: 10px;
+        }
+        .legend-bar {
+            height: 10px;
+            border-radius: 5px;
+            background: linear-gradient(90deg, #0a1230 0%, #173a8f 18%, #0fb4b8 42%, #ffb845 70%, #ff5b79 100%);
+            border: 1px solid rgba(0, 255, 255, 0.15);
+        }
+        .legend-scale {
+            display: flex;
+            justify-content: space-between;
+            margin-top: 6px;
+            font-size: 9px;
+            color: rgba(255, 255, 255, 0.5);
+            font-family: 'Rajdhani', sans-serif;
+        }
+
+        /* Source Status */
+        .pro-source-status {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            padding: 8px 12px;
+            background: rgba(15, 0, 25, 0.4);
+            border-radius: 6px;
+            font-size: 11px;
+            color: rgba(255, 255, 255, 0.6);
+            font-family: 'Rajdhani', sans-serif;
+        }
+        .status-dot {
+            width: 8px;
+            height: 8px;
+            border-radius: 50%;
+            background: rgba(145, 174, 255, 0.35);
+            box-shadow: 0 0 0 3px rgba(145, 174, 255, 0.08);
+        }
+        .status-dot.ok { background: var(--neon-green); box-shadow: 0 0 0 3px rgba(0, 255, 136, 0.1); }
+        .status-dot.warn { background: var(--neon-gold); box-shadow: 0 0 0 3px rgba(255, 215, 0, 0.1); }
+        .status-dot.bad { background: var(--neon-red); box-shadow: 0 0 0 3px rgba(255, 0, 85, 0.1); }
 
         /* Right Panel - Tools */
         .tools-section { margin-bottom: 16px; }
@@ -3663,63 +3753,106 @@
                     </div>
                 </div>
 
-                <!-- Liquidation Heatmap Section -->
+                <!-- Pro Liquidation Heatmap Section -->
                 <div class="liquidation-section" id="liquidationSection">
                     <div class="liquidation-header">
-                        <div class="liquidation-title">Liquidation Heat Map</div>
+                        <div class="liquidation-title">
+                            <span class="liq-pulse"></span>
+                            Pro Likidasyon Isı Haritası
+                        </div>
                         <div class="liquidation-controls">
                             <select class="liq-symbol-select" id="liqSymbolSelect" onchange="changeLiqSymbol()">
                                 <option value="BTCUSDT">BTCUSDT</option>
                                 <option value="ETHUSDT">ETHUSDT</option>
                                 <option value="SOLUSDT">SOLUSDT</option>
                                 <option value="XRPUSDT">XRPUSDT</option>
-                                <option value="ADAUSDT">ADAUSDT</option>
-                                <option value="DOGEUSDT">DOGEUSDT</option>
-                                <option value="DOTUSDT">DOTUSDT</option>
-                                <option value="LINKUSDT">LINKUSDT</option>
-                                <option value="LTCUSDT">LTCUSDT</option>
-                                <option value="BCHUSDT">BCHUSDT</option>
+                            </select>
+                            <select class="liq-symbol-select" id="liqExchangeSelect" onchange="changeLiqExchange()">
+                                <option value="auto">Auto</option>
+                                <option value="binance">Binance</option>
+                                <option value="bybit">Bybit</option>
+                                <option value="okx">OKX</option>
                             </select>
                             <div class="liq-time-btns">
                                 <button class="liq-time-btn active" onclick="changeLiqTime('1h', this)">1s</button>
                                 <button class="liq-time-btn" onclick="changeLiqTime('4h', this)">4s</button>
-                                <button class="liq-time-btn" onclick="changeLiqTime('24h', this)">24s</button>
+                                <button class="liq-time-btn" onclick="changeLiqTime('1d', this)">1d</button>
                             </div>
                         </div>
                     </div>
-                    <div class="liquidation-chart-container" id="liqChartContainer">
-                        <canvas id="liquidationChart"></canvas>
-                        <div class="liq-loading" id="liqLoading" style="display: none;">
+
+                    <!-- Pro Heatmap Canvas -->
+                    <div class="pro-heatmap-container" id="proHeatmapContainer">
+                        <canvas id="proHeatmapCanvas"></canvas>
+                        <div class="pro-heatmap-tooltip" id="proHeatmapTooltip"></div>
+                        <div class="pro-heatmap-loading" id="proHeatmapLoading">
                             <div class="liq-loading-spinner"></div>
-                            <span>Loading data...</span>
-                        </div>
-                        <div class="liq-no-data" id="liqNoData" style="display: none;">
-                            No liquidation data available for this timeframe
+                            <span>Veriler yükleniyor...</span>
                         </div>
                     </div>
-                    <div class="liq-stats" id="liqStats">
-                        <div class="liq-stat-item">
-                            <div class="liq-stat-label">Long Liquidation</div>
-                            <div class="liq-stat-value long" id="liqLongTotal">$0</div>
+
+                    <!-- Heatmap Controls -->
+                    <div class="pro-heatmap-controls">
+                        <div class="pro-ctrl-group">
+                            <label>Kaldıraç</label>
+                            <input type="range" id="liqLeverageRange" min="10" max="150" value="75" step="5">
+                            <span id="liqLeverageValue">75x</span>
                         </div>
-                        <div class="liq-stat-item">
-                            <div class="liq-stat-label">Short Liquidation</div>
-                            <div class="liq-stat-value short" id="liqShortTotal">$0</div>
+                        <div class="pro-ctrl-group">
+                            <label>Yoğunluk</label>
+                            <input type="range" id="liqIntensityRange" min="40" max="180" value="100" step="5">
+                            <span id="liqIntensityValue">100%</span>
                         </div>
-                        <div class="liq-stat-item">
-                            <div class="liq-stat-label">Total Liquidation</div>
-                            <div class="liq-stat-value" id="liqTotal">$0</div>
+                        <div class="pro-ctrl-group">
+                            <label>Volatilite</label>
+                            <input type="range" id="liqVolatilityRange" min="30" max="180" value="100" step="5">
+                            <span id="liqVolatilityValue">1.00x</span>
                         </div>
                     </div>
-                    <div class="liq-legend">
-                        <div class="liq-legend-item">
-                            <div class="liq-legend-dot long"></div>
-                            <span>Long Position Liquidation (Price Drop)</span>
+
+                    <!-- Pro Stats -->
+                    <div class="pro-heatmap-stats" id="proHeatmapStats">
+                        <div class="pro-stat">
+                            <span class="pro-stat-label">Anlık Fiyat</span>
+                            <span class="pro-stat-value" id="proCurrentPrice">-</span>
                         </div>
-                        <div class="liq-legend-item">
-                            <div class="liq-legend-dot short"></div>
-                            <span>Short Position Liquidation (Price Rise)</span>
+                        <div class="pro-stat">
+                            <span class="pro-stat-label">24s Değişim</span>
+                            <span class="pro-stat-value" id="proPriceChange">-</span>
                         </div>
+                        <div class="pro-stat">
+                            <span class="pro-stat-label">Açık Pozisyon</span>
+                            <span class="pro-stat-value" id="proOpenInterest">-</span>
+                        </div>
+                        <div class="pro-stat">
+                            <span class="pro-stat-label">Long/Short</span>
+                            <span class="pro-stat-value" id="proRatio">-</span>
+                        </div>
+                        <div class="pro-stat">
+                            <span class="pro-stat-label">En Güçlü Long</span>
+                            <span class="pro-stat-value long" id="proStrongLong">-</span>
+                        </div>
+                        <div class="pro-stat">
+                            <span class="pro-stat-label">En Güçlü Short</span>
+                            <span class="pro-stat-value short" id="proStrongShort">-</span>
+                        </div>
+                    </div>
+
+                    <!-- Legend -->
+                    <div class="pro-heatmap-legend">
+                        <div class="legend-bar"></div>
+                        <div class="legend-scale">
+                            <span>Düşük</span>
+                            <span>Orta</span>
+                            <span>Yüksek</span>
+                            <span>Kritik</span>
+                        </div>
+                    </div>
+
+                    <!-- Source Status -->
+                    <div class="pro-source-status" id="proSourceStatus">
+                        <span class="status-dot ok"></span>
+                        <span id="proActiveSource">Binance</span>
                     </div>
                 </div>
             </div>
@@ -5773,344 +5906,542 @@
             ctx.globalAlpha = 1;
         }
 
-        // ==================== LIQUIDATION HEATMAP ====================
-        let liquidationChart = null;
-        let liquidationData = [];
+        // ==================== PRO LIQUIDATION HEATMAP ====================
+        let proHeatmap = null;
+        let proLiqData = {
+            binance: [],
+            bybit: [],
+            okx: []
+        };
         let currentLiqSymbol = 'BTCUSDT';
         let currentLiqTime = '1h';
-        let liqChartInterval = null;
+        let currentLiqExchange = 'auto';
         let liqWebSocket = null;
-        let liqReconnectInterval = null;
-        let priceCache = {}; // Live fiyatları önbellekle
+        let liqLeverage = 75;
+        let liqIntensity = 100;
+        let liqVolatility = 100;
 
-        // Initialize liquidation chart on page load
-        function initLiquidationChart() {
-            const canvas = document.getElementById('liquidationChart');
+        // Pro Heatmap Configuration
+        const PRO_HEATMAP_CONFIG = {
+            priceZones: 50,
+            timeZones: 24,
+            maxDataPoints: 500,
+            colors: {
+                long: {
+                    low: '#0a1230',
+                    mid: '#173a8f',
+                    high: '#0fb4b8',
+                    critical: '#ffb845'
+                },
+                short: {
+                    low: '#0a1230',
+                    mid: '#173a8f',
+                    high: '#ff5b79',
+                    critical: '#ff2d55'
+                }
+            },
+            exchanges: {
+                binance: { name: 'Binance', color: '#F0B90B', ws: 'wss://fstream.binance.com/ws/!forceOrder@arr' },
+                bybit: { name: 'Bybit', color: '#F7A600', ws: null },
+                okx: { name: 'OKX', color: '#FFFFFF', ws: null }
+            }
+        };
+
+        // Initialize Pro Heatmap
+        function initProHeatmap() {
+            const canvas = document.getElementById('proHeatmapCanvas');
             if (!canvas) return;
 
-            const ctx = canvas.getContext('2d');
-            const container = canvas.parentElement;
+            const container = document.getElementById('proHeatmapContainer');
+            if (!container) return;
+
             canvas.width = container.offsetWidth * 2;
             canvas.height = container.offsetHeight * 2;
-            ctx.scale(2, 2);
 
-            liquidationChart = new Chart(ctx, {
-                type: 'bubble',
-                data: {
-                    datasets: [
-                        {
-                            label: 'Long Liquidation',
-                            data: [],
-                            backgroundColor: 'rgba(255, 61, 0, 0.6)',
-                            borderColor: '#ff3d00',
-                            borderWidth: 1
-                        },
-                        {
-                            label: 'Short Liquidation',
-                            data: [],
-                            backgroundColor: 'rgba(0, 200, 83, 0.6)',
-                            borderColor: '#00c853',
-                            borderWidth: 1
-                        }
-                    ]
-                },
-                options: {
-                    responsive: true,
-                    maintainAspectRatio: false,
-                    animation: {
-                        duration: 500
-                    },
-                    scales: {
-                        x: {
-                            type: 'linear',
-                            position: 'bottom',
-                            title: {
-                                display: true,
-                                text: 'Time',
-                                color: '#8b949e'
-                            },
-                            grid: {
-                                color: 'rgba(139, 148, 158, 0.1)'
-                            },
-                            ticks: {
-                                color: '#8b949e',
-                                callback: function(value) {
-                                    const date = new Date(value);
-                                    return date.toLocaleTimeString('en-US', { hour: '2-digit', minute: '2-digit' });
-                                }
-                            }
-                        },
-                        y: {
-                            title: {
-                                display: true,
-                                text: 'Price',
-                                color: '#8b949e'
-                            },
-                            grid: {
-                                color: 'rgba(139, 148, 158, 0.1)'
-                            },
-                            ticks: {
-                                color: '#8b949e',
-                                callback: function(value) {
-                                    const decimals = currentLiqSymbol === 'BTCUSDT' ? 0 : 
-                                                   currentLiqSymbol === 'ETHUSDT' ? 2 : 4;
-                                    return '$' + value.toFixed(decimals);
-                                }
-                            }
-                        }
-                    },
-                    plugins: {
-                        legend: {
-                            display: false
-                        },
-                        tooltip: {
-                            callbacks: {
-                                label: function(context) {
-                                    const data = context.raw;
-                                    const side = context.datasetIndex === 0 ? 'Long' : 'Short';
-                                    const time = new Date(data.x).toLocaleString('en-US');
-                                    const decimals = currentLiqSymbol === 'BTCUSDT' ? 0 : 
-                                                   currentLiqSymbol === 'ETHUSDT' ? 2 : 4;
-                                    return [
-                                        `${side} Liquidation`,
-                                        `Price: $${data.y.toFixed(decimals)}`,
-                                        `Miktar: ${data.size.toFixed(4)}`,
-                                        `Zaman: ${time}`
-                                    ];
-                                }
-                            }
-                        }
+            proHeatmap = {
+                canvas: canvas,
+                ctx: canvas.getContext('2d'),
+                width: container.offsetWidth,
+                height: container.offsetHeight,
+                data: [],
+                currentPrice: 0,
+                priceRange: { min: 0, max: 0 }
+            };
+
+            // Setup event listeners
+            setupProHeatmapControls();
+            setupProHeatmapTooltip();
+
+            // Load initial data
+            loadProHeatmapData();
+
+            // Connect to WebSocket
+            connectProLiqWebSocket();
+        }
+
+        // Setup heatmap controls
+        function setupProHeatmapControls() {
+            const leverageRange = document.getElementById('liqLeverageRange');
+            const leverageValue = document.getElementById('liqLeverageValue');
+            const intensityRange = document.getElementById('liqIntensityRange');
+            const intensityValue = document.getElementById('liqIntensityValue');
+            const volatilityRange = document.getElementById('liqVolatilityRange');
+            const volatilityValue = document.getElementById('liqVolatilityValue');
+
+            if (leverageRange) {
+                leverageRange.addEventListener('input', (e) => {
+                    liqLeverage = parseInt(e.target.value);
+                    if (leverageValue) leverageValue.textContent = liqLeverage + 'x';
+                    renderProHeatmap();
+                });
+            }
+
+            if (intensityRange) {
+                intensityRange.addEventListener('input', (e) => {
+                    liqIntensity = parseInt(e.target.value);
+                    if (intensityValue) intensityValue.textContent = liqIntensity + '%';
+                    renderProHeatmap();
+                });
+            }
+
+            if (volatilityRange) {
+                volatilityRange.addEventListener('input', (e) => {
+                    liqVolatility = parseInt(e.target.value);
+                    if (volatilityValue) volatilityValue.textContent = (liqVolatility / 100).toFixed(2) + 'x';
+                    renderProHeatmap();
+                });
+            }
+        }
+
+        // Setup tooltip for heatmap
+        function setupProHeatmapTooltip() {
+            const canvas = document.getElementById('proHeatmapCanvas');
+            const tooltip = document.getElementById('proHeatmapTooltip');
+            if (!canvas || !tooltip) return;
+
+            canvas.addEventListener('mousemove', (e) => {
+                const rect = canvas.getBoundingClientRect();
+                const x = e.clientX - rect.left;
+                const y = e.clientY - rect.top;
+
+                const zone = getHeatmapZone(x, y);
+                if (zone && zone.value > 0) {
+                    showProHeatmapTooltip(e.clientX, e.clientY, zone);
+                } else {
+                    hideProHeatmapTooltip();
+                }
+            });
+
+            canvas.addEventListener('mouseleave', hideProHeatmapTooltip);
+        }
+
+        // Get heatmap zone data at position
+        function getHeatmapZone(x, y) {
+            if (!proHeatmap || proHeatmap.data.length === 0) return null;
+
+            const zoneW = proHeatmap.width / PRO_HEATMAP_CONFIG.timeZones;
+            const zoneH = proHeatmap.height / PRO_HEATMAP_CONFIG.priceZones;
+
+            const timeIdx = Math.floor(x / zoneW);
+            const priceIdx = Math.floor(y / zoneH);
+
+            const zone = proHeatmap.data.find(d => d.timeIdx === timeIdx && d.priceIdx === priceIdx);
+            return zone;
+        }
+
+        // Show tooltip
+        function showProHeatmapTooltip(mouseX, mouseY, zone) {
+            const tooltip = document.getElementById('proHeatmapTooltip');
+            if (!tooltip) return;
+
+            const decimals = currentLiqSymbol === 'BTCUSDT' ? 0 : currentLiqSymbol === 'ETHUSDT' ? 2 : 4;
+            const sideClass = zone.side === 'long' ? 'long' : 'short';
+            const sideLabel = zone.side === 'long' ? 'Long Likidasyon' : 'Short Likidasyon';
+
+            tooltip.innerHTML = `
+                <strong class="${sideClass}">${sideLabel}</strong>
+                <div class="row"><span>Fiyat:</span><span>$${zone.price.toFixed(decimals)}</span></div>
+                <div class="row"><span>Değer:</span><span>$${formatLargeNumber(zone.value)}</span></div>
+                <div class="row"><span>Zaman:</span><span>${zone.timeLabel}</span></div>
+                <div class="row"><span>Yoğunluk:</span><span>${zone.intensity.toFixed(1)}%</span></div>
+            `;
+
+            tooltip.style.left = (mouseX + 15) + 'px';
+            tooltip.style.top = (mouseY + 15) + 'px';
+            tooltip.classList.add('visible');
+        }
+
+        // Hide tooltip
+        function hideProHeatmapTooltip() {
+            const tooltip = document.getElementById('proHeatmapTooltip');
+            if (tooltip) tooltip.classList.remove('visible');
+        }
+
+        // Load Pro Heatmap data
+        async function loadProHeatmapData() {
+            const loading = document.getElementById('proHeatmapLoading');
+            if (loading) loading.style.display = 'flex';
+
+            try {
+                // Get market data for price range
+                await fetchMarketDataForHeatmap();
+
+                // Fetch from Binance
+                const binanceData = await fetchBinanceLiquidations();
+                proLiqData.binance = binanceData;
+
+                // Render heatmap
+                processAndRenderHeatmap();
+
+                updateProHeatmapStats();
+
+            } catch (error) {
+                console.log('Pro Heatmap data error:', error);
+            } finally {
+                if (loading) loading.style.display = 'none';
+            }
+        }
+
+        // Fetch market data for price range
+        async function fetchMarketDataForHeatmap() {
+            try {
+                const response = await fetch(`${API_CONFIG.ticker24hr}?symbol=${currentLiqSymbol}`);
+                const data = await response.json();
+
+                if (data && data.lastPrice) {
+                    proHeatmap.currentPrice = parseFloat(data.lastPrice);
+                    const change24h = parseFloat(data.priceChangePercent);
+
+                    // Calculate price range based on volatility
+                    const volatilityMultiplier = liqVolatility / 100;
+                    const priceChange = proHeatmap.currentPrice * (Math.abs(change24h) / 100) * volatilityMultiplier;
+                    const baseRange = priceChange || proHeatmap.currentPrice * 0.02;
+
+                    proHeatmap.priceRange.min = proHeatmap.currentPrice - baseRange * 2;
+                    proHeatmap.priceRange.max = proHeatmap.currentPrice + baseRange * 2;
+
+                    // Update stats
+                    updateProHeatmapStats();
+                }
+            } catch (error) {
+                console.log('Market data error:', error);
+            }
+        }
+
+        // Fetch Binance liquidations via backend proxy
+        async function fetchBinanceLiquidations() {
+            try {
+                const now = Date.now();
+                let startTime;
+                switch (currentLiqTime) {
+                    case '1h': startTime = now - 3600000; break;
+                    case '4h': startTime = now - 14400000; break;
+                    case '1d': startTime = now - 86400000; break;
+                    default: startTime = now - 3600000;
+                }
+
+                const url = `/api/binance/liquidations?symbol=${currentLiqSymbol}&startTime=${startTime}&limit=200`;
+                const response = await fetch(url);
+                const data = await response.json();
+
+                return data.map(item => ({
+                    time: item.time,
+                    price: parseFloat(item.price),
+                    quantity: parseFloat(item.quantity),
+                    side: item.side === 'SELL' ? 'long' : 'short',
+                    exchange: 'binance'
+                }));
+
+            } catch (error) {
+                console.log('Binance liquidations error:', error);
+                return [];
+            }
+        }
+
+        // Process data and render heatmap
+        function processAndRenderHeatmap() {
+            if (!proHeatmap || !proHeatmap.currentPrice) return;
+
+            const data = proLiqData.binance;
+            const priceRange = proHeatmap.priceRange.max - proHeatmap.priceRange.min;
+            const priceStep = priceRange / PRO_HEATMAP_CONFIG.priceZones;
+
+            // Create grid data
+            proHeatmap.data = [];
+            const now = Date.now();
+            let startTime;
+            switch (currentLiqTime) {
+                case '1h': startTime = now - 3600000; break;
+                case '4h': startTime = now - 14400000; break;
+                case '1d': startTime = now - 86400000; break;
+                default: startTime = now - 3600000;
+            }
+            const timeRange = now - startTime;
+
+            // Initialize grid
+            for (let t = 0; t < PRO_HEATMAP_CONFIG.timeZones; t++) {
+                for (let p = 0; p < PRO_HEATMAP_CONFIG.priceZones; p++) {
+                    proHeatmap.data.push({
+                        timeIdx: t,
+                        priceIdx: p,
+                        price: proHeatmap.priceRange.min + (p + 0.5) * priceStep,
+                        value: 0,
+                        longValue: 0,
+                        shortValue: 0,
+                        count: 0,
+                        side: 'neutral',
+                        intensity: 0
+                    });
+                }
+            }
+
+            // Fill grid with data
+            data.forEach(liq => {
+                const timeIdx = Math.floor(((liq.time - startTime) / timeRange) * PRO_HEATMAP_CONFIG.timeZones);
+                const priceIdx = Math.floor((liq.price - proHeatmap.priceRange.min) / priceStep);
+
+                if (timeIdx >= 0 && timeIdx < PRO_HEATMAP_CONFIG.timeZones &&
+                    priceIdx >= 0 && priceIdx < PRO_HEATMAP_CONFIG.priceZones) {
+
+                    const zoneIdx = timeIdx * PRO_HEATMAP_CONFIG.priceZones + priceIdx;
+                    const zone = proHeatmap.data[zoneIdx];
+                    const liqValue = liq.price * liq.quantity;
+
+                    zone.value += liqValue;
+                    zone.count++;
+                    if (liq.side === 'long') {
+                        zone.longValue += liqValue;
+                    } else {
+                        zone.shortValue += liqValue;
+                    }
+                    zone.side = zone.longValue > zone.shortValue ? 'long' : 'short';
+                    zone.intensity = Math.min(100, (zone.value / (proHeatmap.currentPrice * 100)) * 100 * (liqIntensity / 100));
+
+                    // Calculate time label
+                    const timePercent = timeIdx / PRO_HEATMAP_CONFIG.timeZones;
+                    const zoneTime = new Date(startTime + timeRange * timePercent);
+                    zone.timeLabel = zoneTime.toLocaleTimeString('tr-TR', { hour: '2-digit', minute: '2-digit' });
+                }
+            });
+
+            renderProHeatmap();
+        }
+
+        // Render Pro Heatmap
+        function renderProHeatmap() {
+            if (!proHeatmap || !proHeatmap.ctx) return;
+
+            const ctx = proHeatmap.ctx;
+            const w = proHeatmap.width;
+            const h = proHeatmap.height;
+
+            // Clear canvas
+            ctx.fillStyle = 'rgba(14, 26, 46, 1)';
+            ctx.fillRect(0, 0, w, h);
+
+            // Draw grid
+            const zoneW = w / PRO_HEATMAP_CONFIG.timeZones;
+            const zoneH = h / PRO_HEATMAP_CONFIG.priceZones;
+
+            // Find max value for normalization
+            const maxValue = Math.max(...proHeatmap.data.map(d => d.value), 1);
+
+            // Draw cells
+            proHeatmap.data.forEach(zone => {
+                if (zone.value > 0) {
+                    const x = zone.timeIdx * zoneW;
+                    const y = h - (zone.priceIdx + 1) * zoneH;
+
+                    // Calculate color based on intensity and side
+                    const intensity = Math.min(zone.intensity / 100, 1);
+                    const color = getHeatmapColor(zone.side, intensity);
+
+                    ctx.fillStyle = color;
+                    ctx.fillRect(x + 1, y + 1, zoneW - 2, zoneH - 2);
+
+                    // Add glow effect for high intensity
+                    if (intensity > 0.5) {
+                        ctx.shadowColor = zone.side === 'long' ? '#00ff88' : '#ff0055';
+                        ctx.shadowBlur = 8;
+                        ctx.fillRect(x + 1, y + 1, zoneW - 2, zoneH - 2);
+                        ctx.shadowBlur = 0;
                     }
                 }
             });
 
-            // Start Binance WebSocket for real-time data
-            connectLiqWebSocket();
-            
-            // Fetch initial data via REST API with proxy
-            loadLiqHistoricalData();
+            // Draw current price line
+            if (proHeatmap.currentPrice > proHeatmap.priceRange.min &&
+                proHeatmap.currentPrice < proHeatmap.priceRange.max) {
+                const priceY = h - ((proHeatmap.currentPrice - proHeatmap.priceRange.min) /
+                    (proHeatmap.priceRange.max - proHeatmap.priceRange.min)) * h;
+
+                ctx.strokeStyle = '#00ffff';
+                ctx.lineWidth = 2;
+                ctx.setLineDash([5, 5]);
+                ctx.beginPath();
+                ctx.moveTo(0, priceY);
+                ctx.lineTo(w, priceY);
+                ctx.stroke();
+                ctx.setLineDash([]);
+
+                // Price label
+                ctx.fillStyle = '#00ffff';
+                ctx.font = '10px Rajdhani';
+                ctx.fillText('$' + proHeatmap.currentPrice.toFixed(0), 5, priceY - 5);
+            }
+
+            // Draw price scale
+            ctx.fillStyle = 'rgba(0, 255, 255, 0.6)';
+            ctx.font = '9px Rajdhani';
+            const decimals = currentLiqSymbol === 'BTCUSDT' ? 0 : currentLiqSymbol === 'ETHUSDT' ? 2 : 4;
+
+            for (let i = 0; i <= 4; i++) {
+                const price = proHeatmap.priceRange.min + (proHeatmap.priceRange.max - proHeatmap.priceRange.min) * (i / 4);
+                const y = h - i * (h / 4);
+                ctx.fillText('$' + price.toFixed(decimals), w - 55, y + 10);
+            }
         }
 
-        // Connect to Binance WebSocket for real-time liquidations
-        function connectLiqWebSocket() {
-            // Close existing connection
+        // Get heatmap color based on side and intensity
+        function getHeatmapColor(side, intensity) {
+            const colors = side === 'long' ? PRO_HEATMAP_CONFIG.colors.long : PRO_HEATMAP_CONFIG.colors.short;
+
+            if (intensity < 0.25) {
+                return colors.low;
+            } else if (intensity < 0.5) {
+                return colors.mid;
+            } else if (intensity < 0.75) {
+                return colors.high;
+            } else {
+                return colors.critical;
+            }
+        }
+
+        // Update Pro Heatmap Stats
+        function updateProHeatmapStats() {
+            const data = proLiqData.binance;
+            const decimals = currentLiqSymbol === 'BTCUSDT' ? 0 : currentLiqSymbol === 'ETHUSDT' ? 2 : 4;
+
+            // Current price
+            const priceEl = document.getElementById('proCurrentPrice');
+            if (priceEl) {
+                priceEl.textContent = proHeatmap.currentPrice ? '$' + proHeatmap.currentPrice.toFixed(decimals) : '-';
+            }
+
+            // 24h change
+            fetch(`${API_CONFIG.ticker24hr}?symbol=${currentLiqSymbol}`)
+                .then(r => r.json())
+                .then(data => {
+                    const change = parseFloat(data.priceChangePercent);
+                    const changeEl = document.getElementById('proPriceChange');
+                    if (changeEl) {
+                        changeEl.textContent = (change >= 0 ? '+' : '') + change.toFixed(2) + '%';
+                        changeEl.className = 'pro-stat-value ' + (change >= 0 ? 'up' : 'down');
+                    }
+                });
+
+            // Calculate strongest levels
+            let totalLong = 0, totalShort = 0;
+            let strongLong = { price: 0, value: 0 }, strongShort = { price: 0, value: 0 };
+
+            data.forEach(liq => {
+                const value = liq.price * liq.quantity;
+                if (liq.side === 'long') {
+                    totalLong += value;
+                    if (value > strongLong.value) {
+                        strongLong = { price: liq.price, value };
+                    }
+                } else {
+                    totalShort += value;
+                    if (value > strongShort.value) {
+                        strongShort = { price: liq.price, value };
+                    }
+                }
+            });
+
+            const longShortEl = document.getElementById('proRatio');
+            if (longShortEl) {
+                const ratio = totalShort > 0 ? (totalLong / totalShort) : 1;
+                longShortEl.textContent = ratio.toFixed(2) + 'x';
+                longShortEl.className = 'pro-stat-value ' + (ratio >= 1 ? 'up' : 'down');
+            }
+
+            const strongLongEl = document.getElementById('proStrongLong');
+            if (strongLongEl) {
+                strongLongEl.textContent = strongLong.price > 0 ? '$' + strongLong.price.toFixed(decimals) : '-';
+            }
+
+            const strongShortEl = document.getElementById('proStrongShort');
+            if (strongShortEl) {
+                strongShortEl.textContent = strongShort.price > 0 ? '$' + strongShort.price.toFixed(decimals) : '-';
+            }
+        }
+
+        // Connect to Pro Liquidation WebSocket
+        function connectProLiqWebSocket() {
             if (liqWebSocket) {
                 liqWebSocket.close();
             }
 
-            // Binance WebSocket URL for all liquidation orders
-            const wsUrl = 'wss://fstream.binance.com/ws/!forceOrder@arr';
+            const wsUrl = PRO_HEATMAP_CONFIG.exchanges.binance.ws;
+            if (!wsUrl) return;
 
             try {
                 liqWebSocket = new WebSocket(wsUrl);
 
-                liqWebSocket.onopen = function() {
-                    console.log('Liquidation WebSocket connected');
-                    // Update connection status
-                    const loadingEl = document.getElementById('liqLoading');
-                    if (loadingEl) {
-                        loadingEl.innerHTML = '<div class="liq-loading-spinner"></div><span>Live connection active...</span>';
+                liqWebSocket.onopen = () => {
+                    const statusEl = document.getElementById('proActiveSource');
+                    const statusDot = document.querySelector('.pro-source-status .status-dot');
+                    if (statusEl) statusEl.textContent = 'Binance (Live)';
+                    if (statusDot) {
+                        statusDot.className = 'status-dot ok';
                     }
                 };
 
-                liqWebSocket.onmessage = function(event) {
+                liqWebSocket.onmessage = (event) => {
                     try {
                         const data = JSON.parse(event.data);
-                        // Array format from !forceOrder@arr endpoint
                         if (Array.isArray(data)) {
                             data.forEach(item => {
                                 if (item.s === currentLiqSymbol) {
-                                    processLiqMessage(item);
+                                    addProLiqData(item);
                                 }
                             });
                         }
                     } catch (e) {
-                        console.error('Liquidation data processing error:', e);
+                        console.log('Pro Liq WebSocket error:', e);
                     }
                 };
 
-                liqWebSocket.onerror = function(error) {
-                    console.error('WebSocket error:', error);
-                };
-
-                liqWebSocket.onclose = function() {
-                    console.log('WebSocket bağlantısı kapandı, yeniden bağlanılıyor...');
-                    // Auto reconnect after 5 seconds
-                    if (!liqReconnectInterval) {
-                        liqReconnectInterval = setInterval(connectLiqWebSocket, 5000);
-                    }
+                liqWebSocket.onclose = () => {
+                    setTimeout(connectProLiqWebSocket, 5000);
                 };
 
             } catch (error) {
-                console.error('WebSocket bağlantı hatası:', error);
+                console.log('WebSocket error:', error);
             }
         }
 
-        // Process liquidation message from WebSocket
-        function processLiqMessage(data) {
-            if (!data) return;
-
-            const symbol = data.s; // Symbol
-            const price = parseFloat(data.p); // Price
-            const quantity = parseFloat(data.q); // Quantity
-            const side = data.S; // Side: BUY or SELL
-            const time = data.T; // Timestamp
-            const type = data.o; // Order type
-
-            // Filter for selected symbol
-            if (symbol !== currentLiqSymbol) return;
-
-            const value = price * quantity;
-
-            // Create bubble data point
-            const point = {
-                x: time,
-                y: price,
-                size: quantity,
-                raw: data
+        // Add liquidation data from WebSocket
+        function addProLiqData(data) {
+            const liq = {
+                time: data.T,
+                price: parseFloat(data.p),
+                quantity: parseFloat(data.q),
+                side: data.S === 'SELL' ? 'long' : 'short',
+                exchange: 'binance'
             };
 
-            // Add to data array
-            liquidationData.push(point);
+            proLiqData.binance.push(liq);
 
-            // Keep only last 100 data points
-            if (liquidationData.length > 100) {
-                liquidationData.shift();
+            // Limit data size
+            if (proLiqData.binance.length > PRO_HEATMAP_CONFIG.maxDataPoints) {
+                proLiqData.binance.shift();
             }
 
-            // Filter by time range
-            const now = Date.now();
-            let startTime;
-            switch (currentLiqTime) {
-                case '1h': startTime = now - 3600000; break;
-                case '4h': startTime = now - 14400000; break;
-                case '24h': startTime = now - 86400000; break;
-                default: startTime = now - 3600000;
-            }
-
-            const filteredData = liquidationData.filter(d => d.x >= startTime);
-
-            // Separate long and short liquidations
-            // SELL = Long liquidation (fiyat düşüyor = long pozisyonlar liquid oluyor)
-            // BUY = Short liquidation (fiyat yükseliyor = short pozisyonlar liquid oluyor)
-            const longData = filteredData.filter(d => d.raw.S === 'SELL');
-            const shortData = filteredData.filter(d => d.raw.S === 'BUY');
-
-            // Calculate totals
-            let longTotal = 0;
-            let shortTotal = 0;
-            longData.forEach(d => longTotal += d.y * d.size);
-            shortData.forEach(d => shortTotal += d.y * d.size);
-
-            // Update chart
-            if (liquidationChart) {
-                liquidationChart.data.datasets[0].data = longData;
-                liquidationChart.data.datasets[1].data = shortData;
-                liquidationChart.update('none'); // Update without animation for performance
-            }
-
-            // Update stats
-            updateLiqStats(longTotal, shortTotal);
-
-            // Hide loading and no-data messages
-            const loadingEl = document.getElementById('liqLoading');
-            const noDataEl = document.getElementById('liqNoData');
-            if (loadingEl) loadingEl.style.display = 'none';
-            if (noDataEl) noDataEl.style.display = 'none';
-        }
-
-        // Load historical liquidation data via backend proxy
-        async function loadLiqHistoricalData() {
-            const loadingEl = document.getElementById('liqLoading');
-            const noDataEl = document.getElementById('liqNoData');
-
-            if (loadingEl) loadingEl.style.display = 'flex';
-
-            // Calculate time range
-            const now = Date.now();
-            let startTime;
-            switch (currentLiqTime) {
-                case '1h': startTime = now - 3600000; break;
-                case '4h': startTime = now - 14400000; break;
-                case '24h': startTime = now - 86400000; break;
-                default: startTime = now - 3600000;
-            }
-
-            try {
-                // Backend proxy kullan (CORS sorunu yok)
-                const url = `/api/binance/liquidations?symbol=${currentLiqSymbol}&startTime=${startTime}&limit=100`;
-                
-                const response = await fetch(url);
-                const data = await response.json();
-                
-                if (data && data.length > 0) {
-                    data.forEach(item => {
-                        // Binance API returns: time, price, quantity (USDT value), type (0=liquidate, 1=deleverage)
-                        const point = {
-                            x: item.time,
-                            y: parseFloat(item.price),
-                            size: parseFloat(item.price) * parseFloat(item.quantity), // Convert to USDT value
-                            raw: {
-                                S: item.side || (parseFloat(item.price) > 0 ? 'SELL' : 'BUY'), // side
-                                s: symbol,
-                                p: item.price,
-                                q: item.quantity
-                            }
-                        };
-                        liquidationData.push(point);
-                    });
-
-                    liquidationData.sort((a, b) => a.x - b.x);
-
-                    updateLiqChartFromData();
-                    
-                    if (noDataEl) noDataEl.style.display = 'none';
-                } else {
-                    if (liquidationData.length === 0 && noDataEl) {
-                        noDataEl.innerHTML = 'Waiting for live liquidation data...<br><small style="color: #8b949e;">No major liquidations in the selected period</small>';
-                        noDataEl.style.display = 'block';
-                    }
-                }
-
-            } catch (error) {
-                console.log('Liquidation data loading error:', error.message);
-                if (liquidationData.length === 0 && noDataEl) {
-                    noDataEl.innerHTML = 'Error loading liquidation data<br><small style="color: #8b949e;">Please check API connection</small>';
-                    noDataEl.style.display = 'block';
-                }
-            } finally {
-                if (loadingEl) loadingEl.style.display = 'none';
-            }
-        }
-
-        // Update chart from current data array
-        function updateLiqChartFromData() {
-            const now = Date.now();
-            let startTime;
-            switch (currentLiqTime) {
-                case '1h': startTime = now - 3600000; break;
-                case '4h': startTime = now - 14400000; break;
-                case '24h': startTime = now - 86400000; break;
-                default: startTime = now - 3600000;
-            }
-
-            const filteredData = liquidationData.filter(d => d.x >= startTime);
-            
-            const longData = filteredData.filter(d => d.raw.S === 'SELL');
-            const shortData = filteredData.filter(d => d.raw.S === 'BUY');
-
-            let longTotal = 0;
-            let shortTotal = 0;
-            longData.forEach(d => longTotal += d.y * d.size);
-            shortData.forEach(d => shortTotal += d.y * d.size);
-
-            if (liquidationChart) {
-                liquidationChart.data.datasets[0].data = longData;
-                liquidationChart.data.datasets[1].data = shortData;
-                liquidationChart.update();
-            }
-
-            updateLiqStats(longTotal, shortTotal);
+            // Update heatmap
+            processAndRenderHeatmap();
+            updateProHeatmapStats();
         }
 
         // Change liquidation symbol
@@ -6118,20 +6449,22 @@
             const select = document.getElementById('liqSymbolSelect');
             if (select) {
                 currentLiqSymbol = select.value;
-                liquidationData = []; // Clear old data
-                
-                // Reset chart
-                if (liquidationChart) {
-                    liquidationChart.data.datasets[0].data = [];
-                    liquidationChart.data.datasets[1].data = [];
-                    liquidationChart.update();
-                }
-                
-                // Update stats
-                updateLiqStats(0, 0);
+                proLiqData.binance = [];
+                proHeatmap.data = [];
+                proHeatmap.currentPrice = 0;
+                loadProHeatmapData();
+            }
+        }
 
-                // Load new data
-                loadLiqHistoricalData();
+        // Change liquidation exchange
+        function changeLiqExchange() {
+            const select = document.getElementById('liqExchangeSelect');
+            if (select) {
+                currentLiqExchange = select.value;
+                const statusEl = document.getElementById('proActiveSource');
+                if (statusEl) {
+                    statusEl.textContent = PRO_HEATMAP_CONFIG.exchanges[currentLiqExchange]?.name || 'Auto';
+                }
             }
         }
 
@@ -6139,35 +6472,23 @@
         function changeLiqTime(time, btn) {
             currentLiqTime = time;
 
-            // Update button states
             const buttons = document.querySelectorAll('.liq-time-btn');
             buttons.forEach(b => b.classList.remove('active'));
             if (btn) btn.classList.add('active');
 
-            // Clear data and reload
-            liquidationData = [];
-            loadLiqHistoricalData();
+            proLiqData.binance = [];
+            proHeatmap.data = [];
+            loadProHeatmapData();
         }
 
-        // Update liquidation statistics
-        function updateLiqStats(longTotal, shortTotal) {
-            const longEl = document.getElementById('liqLongTotal');
-            const shortEl = document.getElementById('liqShortTotal');
-            const totalEl = document.getElementById('liqTotal');
-
-            if (longEl) longEl.textContent = formatNumber(longTotal, 0);
-            if (shortEl) shortEl.textContent = formatNumber(shortTotal, 0);
-            if (totalEl) totalEl.textContent = formatNumber(longTotal + shortTotal, 0);
-        }
-
-        // Format number for display
-        function formatNumber(num, decimals = 2) {
+        // Format large numbers
+        function formatLargeNumber(num) {
             if (num >= 1000000) {
                 return '$' + (num / 1000000).toFixed(2) + 'M';
             } else if (num >= 1000) {
                 return '$' + (num / 1000).toFixed(2) + 'K';
             }
-            return '$' + num.toFixed(decimals);
+            return '$' + num.toFixed(2);
         }
 
         // ==================== TECHNICAL INDICATORS ====================
@@ -11785,8 +12106,8 @@
             initWhaleTracker();
             initPatternRecognition();
             initBacktester();
-            // Liquidation grafiğini başlat
-            initLiquidationChart();
+            // Pro Liquidation heatmap başlat
+            initProHeatmap();
         });
     </script>
 
