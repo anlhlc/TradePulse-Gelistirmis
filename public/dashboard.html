@@ -11766,12 +11766,15 @@
     </div>
 
     <script>
-        // Logout function
-        function logout() {
+        // Logout function - calls server-side logout endpoint
+        async function logout() {
             if (confirm('Çıkış yapmak istediğinizden emin misiniz?')) {
-                // Clear session storage
+                try {
+                    await fetch('/logout', { method: 'POST' });
+                } catch (e) {
+                    console.log('Logout fetch completed');
+                }
                 sessionStorage.clear();
-                // Redirect to login page
                 window.location.href = '/';
             }
         }

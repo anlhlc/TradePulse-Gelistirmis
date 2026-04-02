@@ -449,7 +449,7 @@ app.post('/api/register', registerLimiter, async (req, res) => {
   }
 });
 
-// Çıkış işlemi
+// Çıkış işlemi - GET (redirect ile)
 app.get('/logout', (req, res) => {
   if (req.session && req.session.username) {
     onlineUsers.delete(req.session.username);
@@ -461,6 +461,22 @@ app.get('/logout', (req, res) => {
       console.error('Çıkış hatası:', err);
     }
     res.redirect('/login');
+  });
+});
+
+// Çıkış işlemi - POST (AJAX için JSON yanıtı)
+app.post('/logout', (req, res) => {
+  if (req.session && req.session.username) {
+    onlineUsers.delete(req.session.username);
+    console.log(`👋 ${req.session.username} çıkış yaptı.`);
+  }
+
+  req.session.destroy((err) => {
+    if (err) {
+      console.error('Çıkış hatası:', err);
+      return res.json({ success: false, error: 'Çıkış sırasında hata oluştu.' });
+    }
+    res.json({ success: true });
   });
 });
 
@@ -882,9 +898,9 @@ app.get('/api/binance/liquidations', checkTrialAccess, async (req, res) => {
   }
 });
 
-app.get('/api/binance/*', checkTrialAccess, async (req, res) => {
+app.get('/api/binance/:endpoint', checkTrialAccess, async (req, res) => {
   try {
-    const endpoint = req.params[0];
+    const endpoint = req.params.endpoint;
     const queryString = new URLSearchParams(req.query).toString();
     const url = `https://fapi.binance.com/fapi/v1/${endpoint}${queryString ? '?' + queryString : ''}`;
 
