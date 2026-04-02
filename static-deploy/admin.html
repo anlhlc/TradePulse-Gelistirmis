@@ -1,0 +1,1182 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>TradePulse - Admin Panel</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --bg: #060816;
+            --txt: #eef1ff;
+            --mut: #aeb6db;
+            --a: #7c5cff;
+            --b: #f0b957;
+            --g: #2ee59d;
+            --r: 22px;
+            --danger: #ff5c7a;
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+            background: var(--bg);
+            min-height: 100vh;
+            color: var(--txt);
+            padding: 30px;
+            line-height: 1.6;
+        }
+
+        .header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            margin-bottom: 30px;
+            padding-bottom: 20px;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .header-left {
+            display: flex;
+            align-items: center;
+            gap: 16px;
+        }
+
+        .logo {
+            font-size: 24px;
+            font-weight: 800;
+            letter-spacing: 0.1em;
+            background: linear-gradient(135deg, var(--a), var(--b));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .admin-badge {
+            background: linear-gradient(135deg, var(--a), #6344e5);
+            color: white;
+            padding: 6px 14px;
+            border-radius: 20px;
+            font-size: 12px;
+            font-weight: 600;
+        }
+
+        .back-btn {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            color: var(--mut);
+            text-decoration: none;
+            padding: 10px 20px;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 10px;
+            font-size: 14px;
+            transition: all 0.3s ease;
+        }
+
+        .back-btn:hover {
+            background: rgba(255, 255, 255, 0.05);
+            border-color: var(--a);
+            color: var(--txt);
+        }
+
+        .grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(340px, 1fr));
+            gap: 20px;
+            margin-bottom: 30px;
+        }
+
+        .card {
+            background: linear-gradient(180deg, rgba(14, 18, 40, 0.95), rgba(14, 18, 40, 0.7));
+            border: 1px solid rgba(124, 92, 255, 0.2);
+            border-radius: 20px;
+            padding: 24px;
+            backdrop-filter: blur(12px);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .card::before {
+            content: "";
+            position: absolute;
+            inset: -1px;
+            border-radius: inherit;
+            padding: 1px;
+            background: linear-gradient(90deg, rgba(124, 92, 255, 0.5), rgba(240, 185, 87, 0.3), rgba(46, 229, 157, 0.3));
+            -webkit-mask: linear-gradient(#000 0 0) content-box, linear-gradient(#000 0 0);
+            -webkit-mask-composite: xor;
+            mask-composite: exclude;
+            opacity: 0.7;
+            pointer-events: none;
+        }
+
+        .card-header {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            margin-bottom: 20px;
+        }
+
+        .card-icon {
+            width: 44px;
+            height: 44px;
+            background: linear-gradient(135deg, var(--a), #6344e5);
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 20px;
+        }
+
+        .card-icon.warning {
+            background: linear-gradient(135deg, var(--b), #e67e00);
+        }
+
+        .card-icon.danger {
+            background: linear-gradient(135deg, var(--danger), #e63950);
+        }
+
+        .card-icon.success {
+            background: linear-gradient(135deg, var(--g), #10b981);
+        }
+
+        .card-icon.info {
+            background: linear-gradient(135deg, #0ea5e9, #0284c7);
+        }
+
+        .card-title {
+            font-size: 16px;
+            font-weight: 700;
+        }
+
+        .input-group {
+            margin-bottom: 16px;
+        }
+
+        .input-group label {
+            display: block;
+            font-size: 13px;
+            font-weight: 600;
+            color: var(--mut);
+            margin-bottom: 8px;
+        }
+
+        .input-wrapper {
+            position: relative;
+        }
+
+        .input-wrapper input,
+        .input-wrapper select {
+            width: 100%;
+            padding: 14px 16px;
+            background: rgba(10, 16, 26, 0.8);
+            border: 2px solid rgba(124, 92, 255, 0.2);
+            border-radius: 12px;
+            font-family: inherit;
+            font-size: 14px;
+            color: var(--txt);
+            transition: all 0.3s ease;
+        }
+
+        .input-wrapper input::placeholder {
+            color: rgba(174, 182, 219, 0.4);
+        }
+
+        .input-wrapper input:focus,
+        .input-wrapper select:focus {
+            outline: none;
+            border-color: var(--a);
+            box-shadow: 0 0 0 4px rgba(124, 92, 255, 0.15);
+        }
+
+        .input-wrapper select {
+            cursor: pointer;
+            appearance: none;
+            background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='20' height='20' viewBox='0 0 24 24' fill='none' stroke='%23aeb6db' stroke-width='2'%3E%3Cpath d='M6 9l6 6 6-6'/%3E%3C/svg%3E");
+            background-repeat: no-repeat;
+            background-position: right 14px center;
+            padding-right: 44px;
+        }
+
+        .btn {
+            width: 100%;
+            padding: 14px 20px;
+            border: none;
+            border-radius: 12px;
+            font-family: inherit;
+            font-size: 14px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+        }
+
+        .btn-primary {
+            background: linear-gradient(135deg, var(--a), #6344e5);
+            color: white;
+        }
+
+        .btn-primary:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 20px rgba(124, 92, 255, 0.3);
+        }
+
+        .btn-warning {
+            background: linear-gradient(135deg, var(--b), #e67e00);
+            color: white;
+        }
+
+        .btn-danger {
+            background: linear-gradient(135deg, var(--danger), #e63950);
+            color: white;
+        }
+
+        .btn-success {
+            background: linear-gradient(135deg, var(--g), #10b981);
+            color: #0a0f1a;
+        }
+
+        .btn-info {
+            background: linear-gradient(135deg, #0ea5e9, #0284c7);
+            color: white;
+        }
+
+        .btn:hover {
+            opacity: 0.9;
+            transform: translateY(-1px);
+        }
+
+        .btn:active {
+            transform: translateY(0);
+        }
+
+        .msg {
+            margin-top: 12px;
+            padding: 12px 16px;
+            border-radius: 10px;
+            font-size: 13px;
+            text-align: center;
+            display: none;
+        }
+
+        .msg.show {
+            display: block;
+        }
+
+        .msg.error {
+            background: rgba(255, 92, 122, 0.15);
+            border: 1px solid rgba(255, 92, 122, 0.3);
+            color: var(--danger);
+        }
+
+        .msg.success {
+            background: rgba(46, 229, 157, 0.15);
+            border: 1px solid rgba(46, 229, 157, 0.3);
+            color: var(--g);
+        }
+
+        /* Full width card */
+        .full {
+            grid-column: 1 / -1;
+        }
+
+        /* User List Styles */
+        .user-list {
+            max-height: 400px;
+            overflow-y: auto;
+            margin-top: 16px;
+        }
+
+        .user-list::-webkit-scrollbar {
+            width: 6px;
+        }
+
+        .user-list::-webkit-scrollbar-track {
+            background: rgba(0, 0, 0, 0.2);
+            border-radius: 3px;
+        }
+
+        .user-list::-webkit-scrollbar-thumb {
+            background: var(--a);
+            border-radius: 3px;
+        }
+
+        .user-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 16px;
+            background: rgba(0, 0, 0, 0.3);
+            border-radius: 12px;
+            margin-bottom: 10px;
+            border: 1px solid rgba(255, 255, 255, 0.05);
+            transition: all 0.3s ease;
+        }
+
+        .user-item:hover {
+            border-color: rgba(124, 92, 255, 0.3);
+            background: rgba(0, 0, 0, 0.4);
+        }
+
+        .user-info {
+            display: flex;
+            flex-direction: column;
+            gap: 4px;
+        }
+
+        .user-name {
+            font-weight: 600;
+            font-size: 15px;
+        }
+
+        .user-email {
+            font-size: 12px;
+            color: var(--mut);
+        }
+
+        .user-meta {
+            display: flex;
+            flex-direction: column;
+            align-items: flex-end;
+            gap: 4px;
+        }
+
+        .badges {
+            display: flex;
+            gap: 6px;
+            flex-wrap: wrap;
+        }
+
+        .badge {
+            padding: 4px 10px;
+            border-radius: 20px;
+            font-size: 11px;
+            font-weight: 600;
+            text-transform: uppercase;
+        }
+
+        .badge-admin {
+            background: rgba(124, 92, 255, 0.2);
+            color: var(--a);
+        }
+
+        .badge-user {
+            background: rgba(46, 229, 157, 0.2);
+            color: var(--g);
+        }
+
+        .badge-trial {
+            background: rgba(245, 158, 11, 0.2);
+            color: var(--b);
+        }
+
+        .badge-active {
+            background: rgba(46, 229, 157, 0.2);
+            color: var(--g);
+        }
+
+        .badge-expired {
+            background: rgba(255, 92, 122, 0.2);
+            color: var(--danger);
+        }
+
+        .badge-banned {
+            background: rgba(255, 92, 122, 0.3);
+            color: var(--danger);
+        }
+
+        .trial-info {
+            font-size: 11px;
+            color: var(--mut);
+        }
+
+        .trial-info.active {
+            color: var(--g);
+        }
+
+        .trial-info.expired {
+            color: var(--danger);
+        }
+
+        .user-actions {
+            display: flex;
+            gap: 6px;
+        }
+
+        .user-action-btn {
+            padding: 8px 12px;
+            border: none;
+            border-radius: 8px;
+            font-size: 12px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            background: rgba(124, 92, 255, 0.2);
+            color: var(--a);
+        }
+
+        .user-action-btn:hover {
+            background: rgba(124, 92, 255, 0.3);
+        }
+
+        .user-action-btn.extend {
+            background: rgba(46, 229, 157, 0.2);
+            color: var(--g);
+        }
+
+        .user-action-btn.extend:hover {
+            background: rgba(46, 229, 157, 0.3);
+        }
+
+        .user-action-btn.ban {
+            background: rgba(255, 92, 122, 0.2);
+            color: var(--danger);
+        }
+
+        .user-action-btn.ban:hover {
+            background: rgba(255, 92, 122, 0.3);
+        }
+
+        .user-action-btn.delete {
+            background: rgba(255, 92, 122, 0.2);
+            color: var(--danger);
+        }
+
+        .user-action-btn.delete:hover {
+            background: rgba(255, 92, 122, 0.3);
+        }
+
+        /* Stats Cards */
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 16px;
+            margin-bottom: 30px;
+        }
+
+        .stat-card {
+            background: linear-gradient(180deg, rgba(14, 18, 40, 0.95), rgba(14, 18, 40, 0.7));
+            border: 1px solid rgba(124, 92, 255, 0.2);
+            border-radius: 16px;
+            padding: 20px;
+            text-align: center;
+        }
+
+        .stat-value {
+            font-size: 32px;
+            font-weight: 800;
+            background: linear-gradient(135deg, var(--g), var(--a));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .stat-label {
+            font-size: 13px;
+            color: var(--mut);
+            margin-top: 4px;
+        }
+
+        /* Online Users Card - Liste görünümü */
+        .online-card {
+            text-align: left;
+            min-height: 150px;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .online-header {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            margin-bottom: 12px;
+        }
+
+        .online-count {
+            font-size: 28px;
+            font-weight: 800;
+            background: linear-gradient(135deg, var(--g), var(--a));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .online-list {
+            flex: 1;
+            max-height: 120px;
+            overflow-y: auto;
+        }
+
+        .online-list::-webkit-scrollbar {
+            width: 4px;
+        }
+
+        .online-list::-webkit-scrollbar-track {
+            background: rgba(0, 0, 0, 0.2);
+            border-radius: 2px;
+        }
+
+        .online-list::-webkit-scrollbar-thumb {
+            background: var(--g);
+            border-radius: 2px;
+        }
+
+        .online-user-item {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 8px 10px;
+            background: rgba(46, 229, 157, 0.1);
+            border-radius: 8px;
+            margin-bottom: 6px;
+            border: 1px solid rgba(46, 229, 157, 0.2);
+        }
+
+        .online-user-info {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .online-dot {
+            width: 8px;
+            height: 8px;
+            background: var(--g);
+            border-radius: 50%;
+            animation: pulse 2s infinite;
+        }
+
+        @keyframes pulse {
+            0% { opacity: 1; }
+            50% { opacity: 0.5; }
+            100% { opacity: 1; }
+        }
+
+        .online-user-name {
+            font-size: 13px;
+            font-weight: 600;
+            color: var(--txt);
+        }
+
+        .online-user-role {
+            font-size: 10px;
+            color: var(--mut);
+            background: rgba(124, 92, 255, 0.2);
+            padding: 2px 6px;
+            border-radius: 4px;
+        }
+
+        .online-user-time {
+            font-size: 10px;
+            color: var(--mut);
+        }
+
+        .no-online-users {
+            text-align: center;
+            padding: 20px;
+            color: var(--mut);
+            font-size: 13px;
+        }
+
+        .status {
+            text-align: center;
+            padding: 40px;
+            color: var(--mut);
+            font-size: 14px;
+        }
+
+        .loading {
+            text-align: center;
+            padding: 40px;
+            color: var(--a);
+        }
+
+        .loading::after {
+            content: '';
+            display: inline-block;
+            width: 20px;
+            height: 20px;
+            border: 2px solid rgba(124, 92, 255, 0.3);
+            border-top-color: var(--a);
+            border-radius: 50%;
+            animation: spin 0.8s linear infinite;
+            margin-left: 10px;
+            vertical-align: middle;
+        }
+
+        @keyframes spin {
+            to { transform: rotate(360deg); }
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            body {
+                padding: 20px;
+            }
+
+            .header {
+                flex-direction: column;
+                gap: 16px;
+                align-items: flex-start;
+            }
+
+            .grid {
+                grid-template-columns: 1fr;
+            }
+
+            .user-item {
+                flex-direction: column;
+                align-items: flex-start;
+                gap: 12px;
+            }
+
+            .user-meta {
+                align-items: flex-start;
+                width: 100%;
+            }
+
+            .user-actions {
+                width: 100%;
+                flex-wrap: wrap;
+            }
+
+            .user-action-btn {
+                flex: 1;
+                min-width: 80px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="header">
+        <div class="header-left">
+            <span class="logo">TRADEPULSE</span>
+            <span class="admin-badge">ADMIN PANEL</span>
+        </div>
+        <a href="/" class="back-btn">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <path d="M19 12H5M12 19l-7-7 7-7"/>
+            </svg>
+            Dashboard'a Dön
+        </a>
+    </div>
+
+    <!-- Stats -->
+    <div class="stats-grid">
+        <div class="stat-card">
+            <div class="stat-value" id="total-users">0</div>
+            <div class="stat-label">Toplam Kullanıcı</div>
+        </div>
+        <div class="stat-card">
+            <div class="stat-value" id="trial-users">0</div>
+            <div class="stat-label">Deneme Kullanıcısı</div>
+        </div>
+        <div class="stat-card">
+            <div class="stat-value" id="active-users">0</div>
+            <div class="stat-label">Aktif Kullanıcı</div>
+        </div>
+        <div class="stat-card online-card">
+            <div class="online-header">
+                <span class="online-count" id="online-users">0</span>
+                <span class="stat-label">Online Şimdi</span>
+            </div>
+            <div class="online-list" id="online-users-list">
+                <!-- Online kullanıcılar buraya listelenecek -->
+            </div>
+        </div>
+    </div>
+
+    <div class="grid">
+        <!-- Yeni Kullanıcı Ekle -->
+        <div class="card">
+            <div class="card-header">
+                <div class="card-icon success">
+                    <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2">
+                        <path d="M16 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/>
+                        <circle cx="8.5" cy="7" r="4"/>
+                        <line x1="20" y1="8" x2="20" y2="14"/>
+                        <line x1="23" y1="11" x2="17" y2="11"/>
+                    </svg>
+                </div>
+                <span class="card-title">Yeni Kullanıcı Ekle</span>
+            </div>
+            <div class="input-group">
+                <label>E-posta Adresi</label>
+                <div class="input-wrapper">
+                    <input type="email" id="newEmail" placeholder="ornek@email.com">
+                </div>
+            </div>
+            <div class="input-group">
+                <label>Kullanıcı Adı</label>
+                <div class="input-wrapper">
+                    <input type="text" id="newUsername" placeholder="kullaniciadi">
+                </div>
+            </div>
+            <div class="input-group">
+                <label>Şifre</label>
+                <div class="input-wrapper">
+                    <input type="password" id="newPassword" placeholder="En az 8 karakter">
+                </div>
+            </div>
+            <div class="input-group">
+                <label>Rol</label>
+                <div class="input-wrapper">
+                    <select id="newRole">
+                        <option value="user">Kullanıcı (User)</option>
+                        <option value="admin">Admin</option>
+                    </select>
+                </div>
+            </div>
+            <button class="btn btn-success" onclick="addUser()">
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <path d="M16 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/>
+                    <circle cx="8.5" cy="7" r="4"/>
+                    <line x1="20" y1="8" x2="20" y2="14"/>
+                    <line x1="23" y1="11" x2="17" y2="11"/>
+                </svg>
+                Kullanıcı Ekle
+            </button>
+            <div id="addMessage" class="msg"></div>
+        </div>
+
+        <!-- Deneme Uzatma -->
+        <div class="card">
+            <div class="card-header">
+                <div class="card-icon warning">
+                    <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2">
+                        <circle cx="12" cy="12" r="10"/>
+                        <path d="M12 6v6l4 2"/>
+                    </svg>
+                </div>
+                <span class="card-title">Deneme Süresi Uzat</span>
+            </div>
+            <div class="input-group">
+                <label>Kullanıcı Adı</label>
+                <div class="input-wrapper">
+                    <input type="text" id="extendUsername" placeholder="kullaniciadi">
+                </div>
+            </div>
+            <div class="input-group">
+                <label>Uzatılacak Gün Sayısı</label>
+                <div class="input-wrapper">
+                    <select id="extendDays">
+                        <option value="3">3 Gün</option>
+                        <option value="7">7 Gün</option>
+                        <option value="14">14 Gün</option>
+                        <option value="30">30 Gün</option>
+                    </select>
+                </div>
+            </div>
+            <button class="btn btn-warning" onclick="extendTrial()">
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <circle cx="12" cy="12" r="10"/>
+                    <path d="M12 6v6l4 2"/>
+                </svg>
+                Deneme Uzat
+            </button>
+            <div id="extendMessage" class="msg"></div>
+        </div>
+
+        <!-- Kullanıcı Durumu -->
+        <div class="card">
+            <div class="card-header">
+                <div class="card-icon info">
+                    <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2">
+                        <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/>
+                    </svg>
+                </div>
+                <span class="card-title">Kullanıcı Durumu Yönet</span>
+            </div>
+            <div class="input-group">
+                <label>Kullanıcı Adı</label>
+                <div class="input-wrapper">
+                    <input type="text" id="statusUsername" placeholder="kullaniciadi">
+                </div>
+            </div>
+            <div class="input-group">
+                <label>Abonelik Durumu</label>
+                <div class="input-wrapper">
+                    <select id="statusSubscription">
+                        <option value="trial">Deneme (Trial)</option>
+                        <option value="active">Aktif (Active)</option>
+                        <option value="expired">Süresi Dolmuş (Expired)</option>
+                        <option value="banned">Yasaklı (Banned)</option>
+                    </select>
+                </div>
+            </div>
+            <div class="input-group">
+                <label>Hesap Durumu</label>
+                <div class="input-wrapper">
+                    <select id="statusActive">
+                        <option value="true">Aktif</option>
+                        <option value="false">Pasif</option>
+                    </select>
+                </div>
+            </div>
+            <button class="btn btn-info" onclick="updateUserStatus()">
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/>
+                </svg>
+                Durumu Güncelle
+            </button>
+            <div id="statusMessage" class="msg"></div>
+        </div>
+
+        <!-- Kullanıcı Sil -->
+        <div class="card">
+            <div class="card-header">
+                <div class="card-icon danger">
+                    <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2">
+                        <polyline points="3 6 5 6 21 6"/>
+                        <path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"/>
+                    </svg>
+                </div>
+                <span class="card-title">Kullanıcı Sil</span>
+            </div>
+            <div class="input-group">
+                <label>Kullanıcı Adı</label>
+                <div class="input-wrapper">
+                    <input type="text" id="deleteUsername" placeholder="Silinecek kullanıcı">
+                </div>
+            </div>
+            <button class="btn btn-danger" onclick="deleteUser()">
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <polyline points="3 6 5 6 21 6"/>
+                    <path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"/>
+                </svg>
+                Kullanıcıyı Sil
+            </button>
+            <div id="deleteMessage" class="msg"></div>
+        </div>
+    </div>
+
+    <!-- Kullanıcı Listesi -->
+    <div class="card full">
+        <div class="card-header">
+            <div class="card-icon">
+                <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2">
+                    <path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/>
+                    <circle cx="9" cy="7" r="4"/>
+                    <path d="M23 21v-2a4 4 0 0 0-3-3.87"/>
+                    <path d="M16 3.13a4 4 0 0 1 0 7.75"/>
+                </svg>
+            </div>
+            <span class="card-title">Kullanıcı Listesi</span>
+        </div>
+        <button class="btn btn-primary" onclick="loadUsers()" style="max-width: 200px; margin-bottom: 10px;">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <path d="M23 4v6h-6M1 20v-6h6"/>
+                <path d="M3.51 9a9 9 0 0 1 14.85-3.36L23 10M1 14l4.64 4.36A9 9 0 0 0 20.49 15"/>
+            </svg>
+            Listeyi Yenile
+        </button>
+        <div id="userList" class="user-list">
+            <div class="status">Kullanıcıları görmek için "Listeyi Yenile" butonuna tıklayın</div>
+        </div>
+    </div>
+
+    <script>
+        const API_BASE = window.location.origin;
+
+        // Show message
+        function showMessage(elId, msgTxt, type, duration = 5000) {
+            const el = document.getElementById(elId);
+            el.textContent = msgTxt;
+            el.className = 'msg show ' + type;
+            if (duration > 0) {
+                setTimeout(() => {
+                    el.className = 'msg';
+                    el.textContent = '';
+                }, duration);
+            }
+        }
+
+        // Add user
+        async function addUser() {
+            const email = document.getElementById('newEmail').value.trim();
+            const username = document.getElementById('newUsername').value.trim();
+            const password = document.getElementById('newPassword').value;
+            const role = document.getElementById('newRole').value;
+
+            if (!email || !username || !password) {
+                showMessage('addMessage', 'Lütfen tüm alanları doldurun.', 'error');
+                return;
+            }
+
+            if (password.length < 8) {
+                showMessage('addMessage', 'Şifre en az 8 karakter olmalıdır.', 'error');
+                return;
+            }
+
+            try {
+                const response = await fetch(API_BASE + '/api/admin/register', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ email, username, password, role })
+                });
+                const data = await response.json();
+
+                if (response.ok) {
+                    showMessage('addMessage', '✅ ' + data.message, 'success');
+                    document.getElementById('newEmail').value = '';
+                    document.getElementById('newUsername').value = '';
+                    document.getElementById('newPassword').value = '';
+                    loadUsers();
+                } else {
+                    showMessage('addMessage', '❌ ' + data.error, 'error');
+                }
+            } catch (error) {
+                showMessage('addMessage', '❌ Bağlantı hatası: ' + error.message, 'error');
+            }
+        }
+
+        // Extend trial
+        async function extendTrial() {
+            const username = document.getElementById('extendUsername').value.trim();
+            const days = document.getElementById('extendDays').value;
+
+            if (!username) {
+                showMessage('extendMessage', 'Kullanıcı adı girin.', 'error');
+                return;
+            }
+
+            try {
+                const response = await fetch(API_BASE + '/api/users/' + username + '/extend-trial', {
+                    method: 'PUT',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ days: parseInt(days) })
+                });
+                const data = await response.json();
+
+                if (response.ok) {
+                    showMessage('extendMessage', '✅ ' + data.message, 'success');
+                    loadUsers();
+                } else {
+                    showMessage('extendMessage', '❌ ' + data.error, 'error');
+                }
+            } catch (error) {
+                showMessage('extendMessage', '❌ Bağlantı hatası', 'error');
+            }
+        }
+
+        // Update user status
+        async function updateUserStatus() {
+            const username = document.getElementById('statusUsername').value.trim();
+            const subscriptionStatus = document.getElementById('statusSubscription').value;
+            const isActive = document.getElementById('statusActive').value === 'true';
+
+            if (!username) {
+                showMessage('statusMessage', 'Kullanıcı adı girin.', 'error');
+                return;
+            }
+
+            try {
+                const response = await fetch(API_BASE + '/api/users/' + username + '/status', {
+                    method: 'PUT',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ subscriptionStatus, isActive })
+                });
+                const data = await response.json();
+
+                if (response.ok) {
+                    showMessage('statusMessage', '✅ ' + data.message, 'success');
+                    loadUsers();
+                } else {
+                    showMessage('statusMessage', '❌ ' + data.error, 'error');
+                }
+            } catch (error) {
+                showMessage('statusMessage', '❌ Bağlantı hatası', 'error');
+            }
+        }
+
+        // Delete user
+        async function deleteUser() {
+            const username = document.getElementById('deleteUsername').value.trim();
+
+            if (!username) {
+                showMessage('deleteMessage', 'Kullanıcı adı girin.', 'error');
+                return;
+            }
+
+            if (username.toLowerCase() === 'admin') {
+                showMessage('deleteMessage', '❌ Admin silinemez!', 'error');
+                return;
+            }
+
+            if (!confirm('"' + username + '" kullanıcısını silmek istediğinizden emin misiniz?')) {
+                return;
+            }
+
+            try {
+                const response = await fetch(API_BASE + '/api/users/' + username, {
+                    method: 'DELETE'
+                });
+                const data = await response.json();
+
+                if (response.ok) {
+                    showMessage('deleteMessage', '✅ ' + data.message, 'success');
+                    document.getElementById('deleteUsername').value = '';
+                    loadUsers();
+                } else {
+                    showMessage('deleteMessage', '❌ ' + data.error, 'error');
+                }
+            } catch (error) {
+                showMessage('deleteMessage', '❌ Bağlantı hatası', 'error');
+            }
+        }
+
+        // Load users
+        async function loadUsers() {
+            const userList = document.getElementById('userList');
+            userList.innerHTML = '<div class="loading">Kullanıcılar yükleniyor</div>';
+
+            try {
+                const response = await fetch(API_BASE + '/api/users');
+                const users = await response.json();
+
+                // Stats güncelle
+                document.getElementById('total-users').textContent = users.length;
+                document.getElementById('trial-users').textContent = users.filter(u => u.subscriptionStatus === 'trial').length;
+                document.getElementById('active-users').textContent = users.filter(u => u.isActive).length;
+
+                // Online kullanıcıları al ve listele
+                try {
+                    const onlineResponse = await fetch(API_BASE + '/api/online-users');
+                    const onlineData = await onlineResponse.json();
+                    document.getElementById('online-users').textContent = onlineData.count;
+
+                    // Online kullanıcılar listesini güncelle
+                    const onlineListEl = document.getElementById('online-users-list');
+                    if (onlineData.users && onlineData.users.length > 0) {
+                        onlineListEl.innerHTML = onlineData.users.map(user => {
+                            const lastActive = new Date(user.lastActive);
+                            const timeStr = formatTimeAgo(lastActive);
+                            return `
+                                <div class="online-user-item">
+                                    <div class="online-user-info">
+                                        <div class="online-dot"></div>
+                                        <span class="online-user-name">${user.username}</span>
+                                        <span class="online-user-role">${user.role}</span>
+                                    </div>
+                                    <span class="online-user-time">${timeStr}</span>
+                                </div>
+                            `;
+                        }).join('');
+                    } else {
+                        onlineListEl.innerHTML = '<div class="no-online-users">Şu an online kullanıcı yok</div>';
+                    }
+                } catch (e) {
+                    document.getElementById('online-users').textContent = '0';
+                    document.getElementById('online-users-list').innerHTML = '<div class="no-online-users">Bağlantı hatası</div>';
+                }
+
+                if (response.ok && users.length > 0) {
+                    userList.innerHTML = users.map(user => {
+                        const isAdmin = user.username === 'admin';
+                        const trialClass = user.subscriptionStatus === 'trial' ? 'trial' : user.subscriptionStatus;
+                        const trialText = user.trialEndDate ? formatTrialDate(user) : '-';
+
+                        let actions = '';
+                        if (!isAdmin) {
+                            actions = `
+                                <button class="user-action-btn extend" onclick="quickExtend('${user.username}')" title="Deneme Uzat">Uzat</button>
+                                <button class="user-action-btn ban" onclick="quickBan('${user.username}')" title="Yasakla">Yasakla</button>
+                                <button class="user-action-btn delete" onclick="quickDelete('${user.username}')" title="Sil">Sil</button>
+                            `;
+                        }
+
+                        return `
+                            <div class="user-item">
+                                <div class="user-info">
+                                    <span class="user-name">${user.username}</span>
+                                    <span class="user-email">${user.email}</span>
+                                </div>
+                                <div class="user-meta">
+                                    <div class="badges">
+                                        <span class="badge badge-${user.role}">${user.role}</span>
+                                        <span class="badge badge-${trialClass}">${user.subscriptionStatus}</span>
+                                        ${!user.isActive ? '<span class="badge badge-banned">Pasif</span>' : ''}
+                                    </div>
+                                    <span class="trial-info ${trialClass}">Deneme: ${trialText}</span>
+                                </div>
+                                <div class="user-actions">
+                                    ${actions}
+                                </div>
+                            </div>
+                        `;
+                    }).join('');
+                } else {
+                    userList.innerHTML = '<div class="status">Kullanıcı bulunamadı</div>';
+                }
+            } catch (error) {
+                userList.innerHTML = '<div class="status">❌ Hata: ' + error.message + '</div>';
+            }
+        }
+
+        // Format trial date
+        function formatTrialDate(user) {
+            if (!user.trialEndDate) return 'Süresiz';
+
+            const end = new Date(user.trialEndDate);
+            const now = new Date();
+            const diff = end - now;
+            const days = Math.ceil(diff / (1000 * 60 * 60 * 24));
+
+            if (days < 0) {
+                return 'Süresi dolmuş';
+            } else if (days === 0) {
+                return 'Son gün';
+            } else {
+                return days + ' gün kaldı';
+            }
+        }
+
+        // Format time ago for online users
+        function formatTimeAgo(date) {
+            const now = new Date();
+            const diff = now - date;
+            const seconds = Math.floor(diff / 1000);
+            const minutes = Math.floor(seconds / 60);
+
+            if (minutes < 1) return 'Az önce';
+            if (minutes < 60) return minutes + ' dk';
+            const hours = Math.floor(minutes / 60);
+            if (hours < 24) return hours + ' s';
+            return Math.floor(hours / 24) + ' g';
+        }
+
+        // Quick actions
+        function quickExtend(username) {
+            document.getElementById('extendUsername').value = username;
+            document.getElementById('extendDays').value = '3';
+            document.querySelector('.card:nth-child(2)').scrollIntoView({ behavior: 'smooth' });
+        }
+
+        function quickBan(username) {
+            document.getElementById('statusUsername').value = username;
+            document.getElementById('statusSubscription').value = 'banned';
+            document.getElementById('statusActive').value = 'false';
+            document.querySelector('.card:nth-child(3)').scrollIntoView({ behavior: 'smooth' });
+        }
+
+        async function quickDelete(username) {
+            if (confirm('"' + username + '" kullanıcısını silmek istediğinizden emin misiniz?')) {
+                document.getElementById('deleteUsername').value = username;
+                await deleteUser();
+            }
+        }
+
+        // Load users on page load
+        document.addEventListener('DOMContentLoaded', loadUsers);
+    </script>
+</body>
+</html>
