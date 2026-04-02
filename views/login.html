@@ -1,190 +1,1148 @@
-<!doctype html>
-<html lang="en">
+<!DOCTYPE html>
+<html lang="tr">
 <head>
-<meta charset="utf-8"/>
-<meta name="viewport" content="width=device-width,initial-scale=1"/>
-<title>TradePulse • Login</title>
-<style>
-:root{--bg:#060816;--txt:#eef1ff;--mut:#aeb6db;--a:#7c5cff;--b:#f0b957;--g:#2ee59d;--r:22px}
-*{box-sizing:border-box}
-body{
-  margin:0;min-height:100vh;font-family:system-ui,-apple-system,Segoe UI,Roboto,Arial;color:var(--txt);
-  background:
-    radial-gradient(1100px 560px at 20% 10%, rgba(124,92,255,.28), transparent 60%),
-    radial-gradient(900px 560px at 86% 30%, rgba(240,185,87,.16), transparent 60%),
-    radial-gradient(900px 560px at 50% 92%, rgba(46,229,157,.12), transparent 60%),
-    linear-gradient(180deg,var(--bg),#0a1030);
-  display:grid;place-items:center;padding:26px;overflow:hidden;
-}
-.cloud{
-  position:fixed;inset:0;pointer-events:none;
-}
-.coincard{
-  position:absolute;width:180px;height:110px;border-radius:22px;
-  border:1px solid rgba(255,255,255,.10);
-  background:rgba(0,0,0,.16);
-  backdrop-filter:blur(10px);
-  box-shadow:0 18px 60px rgba(0,0,0,.35);
-  display:flex;align-items:center;gap:12px;padding:12px;
-  opacity:.55;
-}
-.coincard strong{display:block;letter-spacing:.12em}
-.coincard span{display:block;color:var(--mut);font-size:12px;margin-top:2px}
-.cA{left:5%;top:18%} .cB{right:6%;top:26%} .cC{left:10%;bottom:18%} .cD{right:10%;bottom:14%}
-@media (max-width:900px){.coincard{display:none}}
-.card{
-  width:min(560px,100%);
-  border-radius:calc(var(--r) + 8px);
-  background:linear-gradient(180deg,rgba(14,18,40,.92),rgba(14,18,40,.62));
-  border:1px solid rgba(124,92,255,.22);
-  box-shadow:0 18px 80px rgba(0,0,0,.58);
-  padding:22px;
-  backdrop-filter: blur(12px);
-  position:relative;overflow:hidden;
-}
-.card:before{
-  content:"";position:absolute;inset:-1px;border-radius:inherit;padding:1px;
-  background:linear-gradient(90deg,rgba(124,92,255,.70),rgba(240,185,87,.40),rgba(46,229,157,.35));
-  -webkit-mask:linear-gradient(#000 0 0) content-box,linear-gradient(#000 0 0);
-  -webkit-mask-composite:xor;mask-composite:exclude;
-  opacity:.85;pointer-events:none;
-}
-.card>*{position:relative}
-.brand{display:flex;align-items:center;justify-content:space-between;gap:10px}
-.brand b{letter-spacing:.18em}
-.pill{padding:7px 10px;border-radius:999px;border:1px solid rgba(255,255,255,.10);background:rgba(0,0,0,.14);color:var(--mut);font-size:12px}
-h1{margin:10px 0 6px;font-size:22px;font-weight:1000}
-p{margin:0 0 14px;color:var(--mut);line-height:1.45}
-label{display:block;margin:12px 0 6px;color:var(--mut);font-size:13px}
-input{width:100%;padding:12px 12px;border-radius:14px;border:1px solid rgba(124,92,255,.22);background:rgba(10,16,26,.62);color:var(--txt);outline:none}
-input:focus{border-color:rgba(240,185,87,.35);box-shadow:0 0 0 4px rgba(124,92,255,.18)}
-.btn{margin-top:16px;width:100%;border-radius:999px;border:1px solid rgba(124,92,255,.26);background:linear-gradient(90deg,rgba(124,92,255,.92),rgba(240,185,87,.78));color:#070a12;font-weight:1000;padding:12px 14px;cursor:pointer}
-.btn:disabled{opacity:.6;cursor:not-allowed}
-.msg{margin-top:12px;font-size:13px;color:var(--mut)}
-.err{color:#ff5c7a} .ok{color:#2ee59d}
-a{color:var(--a);text-decoration:none} a:hover{color:var(--b)}
-.foot{margin-top:14px;color:var(--mut);font-size:13px;text-align:center}
-.foot a{font-weight:800}
-.hr{height:1px;background:linear-gradient(90deg,transparent,rgba(255,255,255,.14),transparent);margin:10px 0 0}
-</style>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>TradePulse - Giriş Yap</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --bg: #060816;
+            --txt: #eef1ff;
+            --mut: #aeb6db;
+            --a: #7c5cff;
+            --b: #f0b957;
+            --g: #2ee59d;
+            --r: 22px;
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+            background: var(--bg);
+            min-height: 100vh;
+            color: var(--txt);
+            overflow-x: hidden;
+        }
+
+        .container {
+            display: flex;
+            min-height: 100vh;
+        }
+
+        /* Sol Panel - Platform Bilgisi */
+        .info-panel {
+            flex: 1.2;
+            background:
+                radial-gradient(ellipse 800px 600px at 20% 10%, rgba(124, 92, 255, 0.28), transparent 60%),
+                radial-gradient(ellipse 600px 400px at 80% 40%, rgba(240, 185, 87, 0.16), transparent 60%),
+                radial-gradient(ellipse 600px 400px at 50% 90%, rgba(46, 229, 157, 0.12), transparent 60%),
+                linear-gradient(180deg, var(--bg), #0a1030);
+            padding: 60px;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .info-panel::before {
+            content: '';
+            position: absolute;
+            inset: 0;
+            background: url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg fill='%237c5cff' fill-opacity='0.03'%3E%3Cpath d='M36 34v-4h-2v4h-4v2h4v4h2v-4h4v-2h-4zm0-30V0h-2v4h-4v2h4v4h2V6h4V4h-4zM6 34v-4H4v4H0v2h4v4h2v-4h4v-2H6zM6 4V0H4v4H0v2h4v4h2V6h4V4H6z'/%3E%3C/g%3E%3C/g%3E%3C/g%3E%3C/g%3E%3C/g%3E%3C/g%3E%3C/g%3E%3C/g%3E%3C/g%3E%3C/g%3E%3C/g%3E%3C/g%3E%3C/g%3E%3C/g%3E%3C/g%3E%3C/g%3E%3C/svg%3E");
+            pointer-events: none;
+        }
+
+        .floating-coin {
+            position: absolute;
+            width: 200px;
+            height: 120px;
+            background: rgba(0, 0, 0, 0.3);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 24px;
+            display: flex;
+            align-items: center;
+            gap: 16px;
+            padding: 16px;
+            animation: float 6s ease-in-out infinite;
+        }
+
+        .floating-coin.c1 {
+            top: 15%;
+            left: 8%;
+            animation-delay: 0s;
+        }
+
+        .floating-coin.c2 {
+            top: 35%;
+            right: 5%;
+            animation-delay: -2s;
+        }
+
+        .floating-coin.c3 {
+            bottom: 25%;
+            left: 12%;
+            animation-delay: -4s;
+        }
+
+        @keyframes float {
+            0%, 100% { transform: translateY(0) rotate(0deg); }
+            50% { transform: translateY(-20px) rotate(2deg); }
+        }
+
+        .coin-icon {
+            width: 56px;
+            height: 56px;
+            background: linear-gradient(135deg, var(--a), var(--b));
+            border-radius: 14px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-shrink: 0;
+        }
+
+        .coin-icon svg {
+            width: 32px;
+            height: 32px;
+        }
+
+        .coin-info strong {
+            display: block;
+            font-size: 18px;
+            font-weight: 700;
+            letter-spacing: 0.1em;
+        }
+
+        .coin-info span {
+            color: var(--mut);
+            font-size: 13px;
+        }
+
+        .info-content {
+            position: relative;
+            z-index: 1;
+            max-width: 500px;
+        }
+
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: 14px;
+            margin-bottom: 50px;
+        }
+
+        .logo-icon {
+            width: 56px;
+            height: 56px;
+            background: linear-gradient(135deg, var(--a), var(--b));
+            border-radius: 16px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            box-shadow: 0 8px 32px rgba(124, 92, 255, 0.3);
+        }
+
+        .logo-icon svg {
+            width: 32px;
+            height: 32px;
+        }
+
+        .logo-text {
+            font-size: 32px;
+            font-weight: 800;
+            letter-spacing: -0.5px;
+        }
+
+        .info-panel h1 {
+            font-size: 42px;
+            font-weight: 800;
+            line-height: 1.2;
+            margin-bottom: 20px;
+            background: linear-gradient(135deg, #fff 0%, #cbd5e1 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .info-panel > .info-content > p {
+            font-size: 17px;
+            line-height: 1.8;
+            color: var(--mut);
+            margin-bottom: 40px;
+        }
+
+        .features {
+            display: flex;
+            flex-direction: column;
+            gap: 16px;
+        }
+
+        .feature {
+            display: flex;
+            align-items: flex-start;
+            gap: 16px;
+            padding: 20px;
+            background: rgba(255, 255, 255, 0.03);
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            border-radius: 16px;
+            transition: all 0.3s ease;
+        }
+
+        .feature:hover {
+            background: rgba(255, 255, 255, 0.06);
+            transform: translateX(8px);
+            border-color: rgba(124, 92, 255, 0.3);
+        }
+
+        .feature-icon {
+            width: 48px;
+            height: 48px;
+            background: linear-gradient(135deg, var(--a), var(--b));
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-shrink: 0;
+        }
+
+        .feature-icon svg {
+            width: 24px;
+            height: 24px;
+        }
+
+        .feature h3 {
+            font-size: 16px;
+            font-weight: 600;
+            margin-bottom: 4px;
+        }
+
+        .feature p {
+            font-size: 14px;
+            color: var(--mut);
+        }
+
+        .stats {
+            display: flex;
+            gap: 40px;
+            margin-top: 50px;
+            padding-top: 40px;
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .stat-item {
+            text-align: left;
+        }
+
+        .stat-value {
+            font-size: 28px;
+            font-weight: 800;
+            background: linear-gradient(135deg, var(--g), var(--a));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .stat-label {
+            font-size: 12px;
+            color: var(--mut);
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        /* Sağ Panel - Form */
+        .form-panel {
+            flex: 0 0 520px;
+            background: linear-gradient(180deg, rgba(14, 18, 40, 0.95), rgba(14, 18, 40, 0.8));
+            backdrop-filter: blur(20px);
+            padding: 60px;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            position: relative;
+            border-left: 1px solid rgba(124, 92, 255, 0.2);
+        }
+
+        .form-wrapper {
+            width: 100%;
+            max-width: 400px;
+            margin: 0 auto;
+        }
+
+        .form-header {
+            text-align: center;
+            margin-bottom: 30px;
+        }
+
+        .form-header h2 {
+            font-size: 28px;
+            font-weight: 700;
+            margin-bottom: 8px;
+        }
+
+        .form-header p {
+            color: var(--mut);
+            font-size: 15px;
+        }
+
+        /* Trial Banner */
+        .trial-banner {
+            background: linear-gradient(135deg, rgba(245, 158, 11, 0.15), rgba(245, 158, 11, 0.05));
+            border: 1px solid rgba(245, 158, 11, 0.4);
+            border-radius: 16px;
+            padding: 20px;
+            margin-bottom: 28px;
+            display: flex;
+            align-items: center;
+            gap: 16px;
+        }
+
+        .trial-icon {
+            width: 52px;
+            height: 52px;
+            background: var(--b);
+            border-radius: 14px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-shrink: 0;
+        }
+
+        .trial-icon svg {
+            width: 28px;
+            height: 28px;
+            color: #000;
+        }
+
+        .trial-text h4 {
+            font-size: 15px;
+            font-weight: 700;
+            color: var(--b);
+            margin-bottom: 4px;
+        }
+
+        .trial-text p {
+            font-size: 13px;
+            color: var(--mut);
+            line-height: 1.5;
+        }
+
+        /* Tabs */
+        .tabs {
+            display: flex;
+            background: rgba(0, 0, 0, 0.3);
+            border-radius: 12px;
+            padding: 4px;
+            margin-bottom: 28px;
+        }
+
+        .tab {
+            flex: 1;
+            padding: 14px 20px;
+            border: none;
+            background: transparent;
+            font-family: inherit;
+            font-size: 14px;
+            font-weight: 600;
+            color: var(--mut);
+            cursor: pointer;
+            border-radius: 10px;
+            transition: all 0.3s ease;
+        }
+
+        .tab.active {
+            background: linear-gradient(135deg, var(--a), #6344e5);
+            color: white;
+            box-shadow: 0 4px 16px rgba(124, 92, 255, 0.4);
+        }
+
+        .form-section {
+            display: none;
+        }
+
+        .form-section.active {
+            display: block;
+            animation: fadeIn 0.4s ease;
+        }
+
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+                transform: translateY(16px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        /* Input Groups */
+        .input-group {
+            margin-bottom: 18px;
+        }
+
+        .input-group label {
+            display: block;
+            font-size: 13px;
+            font-weight: 600;
+            color: var(--mut);
+            margin-bottom: 8px;
+        }
+
+        .input-wrapper {
+            position: relative;
+        }
+
+        .input-wrapper svg {
+            position: absolute;
+            left: 16px;
+            top: 50%;
+            transform: translateY(-50%);
+            width: 20px;
+            height: 20px;
+            color: var(--mut);
+            pointer-events: none;
+        }
+
+        .input-wrapper input {
+            width: 100%;
+            padding: 14px 16px 14px 50px;
+            background: rgba(10, 16, 26, 0.8);
+            border: 2px solid rgba(124, 92, 255, 0.2);
+            border-radius: 12px;
+            font-family: inherit;
+            font-size: 15px;
+            color: var(--txt);
+            transition: all 0.3s ease;
+        }
+
+        .input-wrapper input::placeholder {
+            color: rgba(174, 182, 219, 0.5);
+        }
+
+        .input-wrapper input:focus {
+            outline: none;
+            border-color: var(--a);
+            box-shadow: 0 0 0 4px rgba(124, 92, 255, 0.15);
+        }
+
+        .password-toggle {
+            position: absolute;
+            right: 14px;
+            top: 50%;
+            transform: translateY(-50%);
+            background: none;
+            border: none;
+            cursor: pointer;
+            color: var(--mut);
+            padding: 4px;
+            transition: color 0.3s ease;
+        }
+
+        .password-toggle:hover {
+            color: var(--txt);
+        }
+
+        /* Password Strength */
+        .password-strength {
+            margin-top: 10px;
+        }
+
+        .strength-bar {
+            display: flex;
+            gap: 4px;
+            margin-bottom: 6px;
+        }
+
+        .strength-segment {
+            flex: 1;
+            height: 4px;
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 2px;
+            transition: all 0.3s ease;
+        }
+
+        .strength-segment.active.weak {
+            background: #ff5c7a;
+        }
+
+        .strength-segment.active.medium {
+            background: var(--b);
+        }
+
+        .strength-segment.active.strong {
+            background: var(--g);
+        }
+
+        .strength-text {
+            font-size: 12px;
+            color: var(--mut);
+        }
+
+        /* Submit Button */
+        .submit-btn {
+            width: 100%;
+            padding: 16px;
+            background: linear-gradient(135deg, var(--a), #6344e5);
+            border: none;
+            border-radius: 12px;
+            font-family: inherit;
+            font-size: 15px;
+            font-weight: 700;
+            color: white;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+            margin-top: 8px;
+        }
+
+        .submit-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 24px rgba(124, 92, 255, 0.4);
+        }
+
+        .submit-btn:active {
+            transform: translateY(0);
+        }
+
+        .submit-btn:disabled {
+            opacity: 0.6;
+            cursor: not-allowed;
+            transform: none;
+        }
+
+        /* Options Row */
+        .options-row {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin: 18px 0;
+        }
+
+        .remember-me {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            cursor: pointer;
+            font-size: 14px;
+            color: var(--mut);
+        }
+
+        .remember-me input {
+            width: 16px;
+            height: 16px;
+            accent-color: var(--a);
+        }
+
+        .forgot-link {
+            font-size: 14px;
+            color: var(--a);
+            text-decoration: none;
+            transition: color 0.3s ease;
+        }
+
+        .forgot-link:hover {
+            color: var(--b);
+        }
+
+        /* Message */
+        .msg {
+            margin-top: 14px;
+            padding: 12px 16px;
+            border-radius: 10px;
+            font-size: 14px;
+            text-align: center;
+            display: none;
+        }
+
+        .msg.show {
+            display: block;
+        }
+
+        .msg.error {
+            background: rgba(255, 92, 122, 0.15);
+            border: 1px solid rgba(255, 92, 122, 0.3);
+            color: #ff5c7a;
+        }
+
+        .msg.success {
+            background: rgba(46, 229, 157, 0.15);
+            border: 1px solid rgba(46, 229, 157, 0.3);
+            color: var(--g);
+        }
+
+        /* Divider */
+        .divider {
+            display: flex;
+            align-items: center;
+            margin: 24px 0;
+        }
+
+        .divider::before,
+        .divider::after {
+            content: '';
+            flex: 1;
+            height: 1px;
+            background: rgba(255, 255, 255, 0.1);
+        }
+
+        .divider span {
+            padding: 0 16px;
+            font-size: 13px;
+            color: var(--mut);
+        }
+
+        /* Footer */
+        .form-footer {
+            text-align: center;
+            font-size: 14px;
+            color: var(--mut);
+            margin-top: 20px;
+        }
+
+        .form-footer a {
+            color: var(--a);
+            text-decoration: none;
+            font-weight: 600;
+        }
+
+        /* Responsive */
+        @media (max-width: 1024px) {
+            .container {
+                flex-direction: column;
+            }
+
+            .info-panel {
+                display: none;
+            }
+
+            .form-panel {
+                flex: none;
+                padding: 40px 30px;
+                border-left: none;
+                border-top: 1px solid rgba(124, 92, 255, 0.2);
+            }
+        }
+
+        @media (max-width: 640px) {
+            .form-panel {
+                padding: 30px 20px;
+            }
+
+            .form-header h2 {
+                font-size: 24px;
+            }
+
+            .floating-coin {
+                display: none;
+            }
+        }
+
+        /* Loading Spinner */
+        .spinner {
+            width: 20px;
+            height: 20px;
+            border: 2px solid rgba(255, 255, 255, 0.3);
+            border-top-color: white;
+            border-radius: 50%;
+            animation: spin 0.8s linear infinite;
+            display: none;
+        }
+
+        @keyframes spin {
+            to { transform: rotate(360deg); }
+        }
+
+        .loading .spinner {
+            display: block;
+        }
+
+        .loading .btn-text {
+            display: none;
+        }
+    </style>
 </head>
 <body>
-  <div class="cloud" aria-hidden="true">
-    <div class="coincard cA">
-<svg class="coin" viewBox="0 0 64 64" aria-hidden="true">
-  <defs>
-    <radialGradient id="g" cx="30%" cy="30%">
-      <stop offset="0" stop-color="rgba(255,255,255,.75)"/>
-      <stop offset="0.35" stop-color="rgba(255,255,255,.15)"/>
-      <stop offset="1" stop-color="rgba(0,0,0,.15)"/>
-    </radialGradient>
-  </defs>
-  <circle cx="32" cy="32" r="28" fill="rgba(255,255,255,.06)" stroke="rgba(255,255,255,.14)" stroke-width="2"/>
-  <circle cx="32" cy="32" r="22" fill="url(#g)" opacity=".45"/>
-  <path d="M22 34c4 6 16 10 22 3 6-7-2-18-12-18-7 0-12 6-10 15z" fill="rgba(124,92,255,.35)"/>
-  <path d="M26 40h16" stroke="rgba(240,185,87,.65)" stroke-width="3" stroke-linecap="round"/>
-</svg>
-<div><strong>BTC</strong><span>Market pulse</span></div></div>
-    <div class="coincard cB">
-<svg class="coin" viewBox="0 0 64 64" aria-hidden="true">
-  <defs>
-    <radialGradient id="g" cx="30%" cy="30%">
-      <stop offset="0" stop-color="rgba(255,255,255,.75)"/>
-      <stop offset="0.35" stop-color="rgba(255,255,255,.15)"/>
-      <stop offset="1" stop-color="rgba(0,0,0,.15)"/>
-    </radialGradient>
-  </defs>
-  <circle cx="32" cy="32" r="28" fill="rgba(255,255,255,.06)" stroke="rgba(255,255,255,.14)" stroke-width="2"/>
-  <circle cx="32" cy="32" r="22" fill="url(#g)" opacity=".45"/>
-  <path d="M22 34c4 6 16 10 22 3 6-7-2-18-12-18-7 0-12 6-10 15z" fill="rgba(124,92,255,.35)"/>
-  <path d="M26 40h16" stroke="rgba(240,185,87,.65)" stroke-width="3" stroke-linecap="round"/>
-</svg>
-<div><strong>ETH</strong><span>Liquidity flow</span></div></div>
-    <div class="coincard cC">
-<svg class="coin" viewBox="0 0 64 64" aria-hidden="true">
-  <defs>
-    <radialGradient id="g" cx="30%" cy="30%">
-      <stop offset="0" stop-color="rgba(255,255,255,.75)"/>
-      <stop offset="0.35" stop-color="rgba(255,255,255,.15)"/>
-      <stop offset="1" stop-color="rgba(0,0,0,.15)"/>
-    </radialGradient>
-  </defs>
-  <circle cx="32" cy="32" r="28" fill="rgba(255,255,255,.06)" stroke="rgba(255,255,255,.14)" stroke-width="2"/>
-  <circle cx="32" cy="32" r="22" fill="url(#g)" opacity=".45"/>
-  <path d="M22 34c4 6 16 10 22 3 6-7-2-18-12-18-7 0-12 6-10 15z" fill="rgba(124,92,255,.35)"/>
-  <path d="M26 40h16" stroke="rgba(240,185,87,.65)" stroke-width="3" stroke-linecap="round"/>
-</svg>
-<div><strong>SOL</strong><span>Momentum</span></div></div>
-    <div class="coincard cD">
-<svg class="coin" viewBox="0 0 64 64" aria-hidden="true">
-  <defs>
-    <radialGradient id="g" cx="30%" cy="30%">
-      <stop offset="0" stop-color="rgba(255,255,255,.75)"/>
-      <stop offset="0.35" stop-color="rgba(255,255,255,.15)"/>
-      <stop offset="1" stop-color="rgba(0,0,0,.15)"/>
-    </radialGradient>
-  </defs>
-  <circle cx="32" cy="32" r="28" fill="rgba(255,255,255,.06)" stroke="rgba(255,255,255,.14)" stroke-width="2"/>
-  <circle cx="32" cy="32" r="22" fill="url(#g)" opacity=".45"/>
-  <path d="M22 34c4 6 16 10 22 3 6-7-2-18-12-18-7 0-12 6-10 15z" fill="rgba(124,92,255,.35)"/>
-  <path d="M26 40h16" stroke="rgba(240,185,87,.65)" stroke-width="3" stroke-linecap="round"/>
-</svg>
-<div><strong>XRP</strong><span>Trend</span></div></div>
-  </div>
+    <div class="container">
+        <!-- Sol Panel - Platform Bilgisi -->
+        <div class="info-panel">
+            <!-- Floating Coins -->
+            <div class="floating-coin c1">
+                <div class="coin-icon">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2">
+                        <path d="M12 2L2 7l10 5 10-5-10-5z"/>
+                        <path d="M2 17l10 5 10-5"/>
+                        <path d="M2 12l10 5 10-5"/>
+                    </svg>
+                </div>
+                <div class="coin-info">
+                    <strong>BTC/USDT</strong>
+                    <span>Market Pulse</span>
+                </div>
+            </div>
 
-  <div class="card" role="region" aria-label="TradePulse login">
-    <div class="brand">
-      <b>TRADEPULSE</b>
-      <span class="pill">Premium Login</span>
+            <div class="floating-coin c2">
+                <div class="coin-icon">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2">
+                        <circle cx="12" cy="12" r="10"/>
+                        <path d="M12 6v6l4 2"/>
+                    </svg>
+                </div>
+                <div class="coin-info">
+                    <strong>ETH/USDT</strong>
+                    <span>Liquidity Flow</span>
+                </div>
+            </div>
+
+            <div class="floating-coin c3">
+                <div class="coin-icon">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2">
+                        <path d="M22 12h-4l-3 9L9 3l-3 9H2"/>
+                    </svg>
+                </div>
+                <div class="coin-info">
+                    <strong>SOL/USDT</strong>
+                    <span>Momentum</span>
+                </div>
+            </div>
+
+            <div class="info-content">
+                <div class="logo">
+                    <div class="logo-icon">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2">
+                            <path d="M3 3v18h18"/>
+                            <path d="M18 9l-5-6-4 8-3-2"/>
+                        </svg>
+                    </div>
+                    <span class="logo-text">TradePulse</span>
+                </div>
+
+                <h1>Binance Futures Deneyiminizi Dönüştürün</h1>
+
+                <p>
+                    TradePulse, profesyonel yatırımcılar için tasarlanmış modern bir Binance Futures dashboardudur.
+                    Gerçek zamanlı veriler, gelişmiş analiz araçları ve kullanıcı dostu arayüz ile
+                    ticaret stratejinizi bir üst seviyeye taşıyın.
+                </p>
+
+                <div class="features">
+                    <div class="feature">
+                        <div class="feature-icon">
+                            <svg viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2">
+                                <path d="M13 2L3 14h9l-1 8 10-12h-9l1-8z"/>
+                            </svg>
+                        </div>
+                        <div>
+                            <h3>Anlık Veri Takibi</h3>
+                            <p>Binance Futures borsasındaki tüm varlıkları saniye bazında takip edin</p>
+                        </div>
+                    </div>
+
+                    <div class="feature">
+                        <div class="feature-icon">
+                            <svg viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2">
+                                <path d="M12 20V10"/>
+                                <path d="M18 20V4"/>
+                                <path d="M6 20v-4"/>
+                            </svg>
+                        </div>
+                        <div>
+                            <h3>Gelişmiş Grafikler</h3>
+                            <p>Profesyonel seviyede teknik analiz araçları ile piyasayı okuyun</p>
+                        </div>
+                    </div>
+
+                    <div class="feature">
+                        <div class="feature-icon">
+                            <svg viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2">
+                                <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/>
+                            </svg>
+                        </div>
+                        <div>
+                            <h3>Güvenli Altyapı</h3>
+                            <p>Endüstri standardı şifreleme ile verileriniz her zaman korunur</p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="stats">
+                    <div class="stat-item">
+                        <div class="stat-value">10K+</div>
+                        <div class="stat-label">Aktif Kullanıcı</div>
+                    </div>
+                    <div class="stat-item">
+                        <div class="stat-value">$500M+</div>
+                        <div class="stat-label">İşlem Hacmi</div>
+                    </div>
+                    <div class="stat-item">
+                        <div class="stat-value">99.9%</div>
+                        <div class="stat-label">Çalışma Süresi</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Sağ Panel - Form -->
+        <div class="form-panel">
+            <div class="form-wrapper">
+                <div class="form-header">
+                    <h2>Hoş Geldiniz</h2>
+                    <p>TradePulse hesabınıza erişmek için giriş yapın</p>
+                </div>
+
+                <!-- Trial Banner -->
+                <div class="trial-banner">
+                    <div class="trial-icon">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <circle cx="12" cy="12" r="10"/>
+                            <path d="M12 6v6l4 2"/>
+                        </svg>
+                    </div>
+                    <div class="trial-text">
+                        <h4>3 Gün Ücretsiz Deneme</h4>
+                        <p>Kayıt olduktan sonra 3 gün boyunca tüm özelliklere erişin. Kredi kartı gerekmez!</p>
+                    </div>
+                </div>
+
+                <!-- Tabs -->
+                <div class="tabs">
+                    <button class="tab active" onclick="switchTab('login')">Giriş Yap</button>
+                    <button class="tab" onclick="switchTab('register')">Kayıt Ol</button>
+                </div>
+
+                <!-- Login Form -->
+                <div id="login-form" class="form-section active">
+                    <form id="loginForm" onsubmit="handleLogin(event)">
+                        <div class="input-group">
+                            <label>Kullanıcı Adı</label>
+                            <div class="input-wrapper">
+                                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                    <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/>
+                                    <circle cx="12" cy="7" r="4"/>
+                                </svg>
+                                <input type="text" id="login-username" placeholder="Kullanıcı adınızı girin" required autocomplete="username">
+                            </div>
+                        </div>
+
+                        <div class="input-group">
+                            <label>Şifre</label>
+                            <div class="input-wrapper">
+                                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                    <rect x="3" y="11" width="18" height="11" rx="2"/>
+                                    <path d="M7 11V7a5 5 0 0 1 10 0v4"/>
+                                </svg>
+                                <input type="password" id="login-password" placeholder="Şifrenizi girin" required autocomplete="current-password">
+                                <button type="button" class="password-toggle" onclick="togglePassword('login-password')">
+                                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                        <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/>
+                                        <circle cx="12" cy="12" r="3"/>
+                                    </svg>
+                                </button>
+                            </div>
+                        </div>
+
+                        <div class="options-row">
+                            <label class="remember-me">
+                                <input type="checkbox" id="remember-me">
+                                <span>Beni hatırla</span>
+                            </label>
+                            <a href="#" class="forgot-link">Şifremi unuttum</a>
+                        </div>
+
+                        <button type="submit" class="submit-btn" id="login-btn">
+                            <span class="btn-text">Giriş Yap</span>
+                            <span class="spinner"></span>
+                        </button>
+
+                        <div class="msg" id="login-msg"></div>
+                    </form>
+                </div>
+
+                <!-- Register Form -->
+                <div id="register-form" class="form-section">
+                    <form id="registerForm" onsubmit="handleRegister(event)">
+                        <div class="input-group">
+                            <label>E-posta Adresi</label>
+                            <div class="input-wrapper">
+                                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                    <path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/>
+                                    <polyline points="22,6 12,13 2,6"/>
+                                </svg>
+                                <input type="email" id="register-email" placeholder="ornek@email.com" required>
+                            </div>
+                        </div>
+
+                        <div class="input-group">
+                            <label>Kullanıcı Adı</label>
+                            <div class="input-wrapper">
+                                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                    <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/>
+                                    <circle cx="12" cy="7" r="4"/>
+                                </svg>
+                                <input type="text" id="register-username" placeholder="Benzersiz kullanıcı adı" required minlength="3" maxlength="50">
+                            </div>
+                        </div>
+
+                        <div class="input-group">
+                            <label>Şifre</label>
+                            <div class="input-wrapper">
+                                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                    <rect x="3" y="11" width="18" height="11" rx="2"/>
+                                    <path d="M7 11V7a5 5 0 0 1 10 0v4"/>
+                                </svg>
+                                <input type="password" id="register-password" placeholder="En az 8 karakter" required minlength="8" oninput="checkPasswordStrength(this.value)">
+                                <button type="button" class="password-toggle" onclick="togglePassword('register-password')">
+                                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                        <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/>
+                                        <circle cx="12" cy="12" r="3"/>
+                                    </svg>
+                                </button>
+                            </div>
+                            <div class="password-strength">
+                                <div class="strength-bar">
+                                    <div class="strength-segment" id="strength-1"></div>
+                                    <div class="strength-segment" id="strength-2"></div>
+                                    <div class="strength-segment" id="strength-3"></div>
+                                    <div class="strength-segment" id="strength-4"></div>
+                                </div>
+                                <div class="strength-text" id="strength-text">Şifre gücü: -</div>
+                            </div>
+                        </div>
+
+                        <div class="input-group">
+                            <label>Şifreyi Tekrar Girin</label>
+                            <div class="input-wrapper">
+                                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                    <rect x="3" y="11" width="18" height="11" rx="2"/>
+                                    <path d="M7 11V7a5 5 0 0 1 10 0v4"/>
+                                </svg>
+                                <input type="password" id="register-confirm" placeholder="Şifreyi tekrar girin" required>
+                            </div>
+                        </div>
+
+                        <button type="submit" class="submit-btn" id="register-btn">
+                            <span class="btn-text">Ücretsiz Kayıt Ol - 3 Gün Deneme</span>
+                            <span class="spinner"></span>
+                        </button>
+
+                        <div class="msg" id="register-msg"></div>
+                    </form>
+                </div>
+
+                <div class="form-footer">
+                    Hesabınız yok mu? <a href="#" onclick="switchTab('register'); return false;">Hemen kayıt olun</a>
+                </div>
+            </div>
+        </div>
     </div>
 
-    <h1>Welcome</h1>
-    <p>Sign in to continue.</p>
+    <script>
+        // Tab switching
+        function switchTab(tab) {
+            const tabs = document.querySelectorAll('.tab');
+            const loginForm = document.getElementById('login-form');
+            const registerForm = document.getElementById('register-form');
 
-    <form id="f">
-      <label>Username</label>
-      <input id="username" type="text" autocomplete="username" required placeholder="admin or your username"/>
+            tabs.forEach(t => t.classList.remove('active'));
 
-      <label>Password</label>
-      <input id="password" type="password" autocomplete="current-password" required placeholder="••••••••"/>
+            if (tab === 'login') {
+                tabs[0].classList.add('active');
+                loginForm.classList.add('active');
+                registerForm.classList.remove('active');
+            } else {
+                tabs[1].classList.add('active');
+                registerForm.classList.add('active');
+                loginForm.classList.remove('active');
+            }
 
-      <button class="btn" id="btn" type="submit">Sign In</button>
-      <div class="msg" id="msg"></div>
+            // Clear messages
+            document.getElementById('login-msg').className = 'msg';
+            document.getElementById('login-msg').textContent = '';
+            document.getElementById('register-msg').className = 'msg';
+            document.getElementById('register-msg').textContent = '';
+        }
 
-      <div class="hr" aria-hidden="true"></div>
-      <div class="foot" aria-hidden="true" style="margin-top:10px;letter-spacing:.14em;font-size:11px">TRADEPULSE • MARKET INSIGHT ACCESS</div>
-    </form>
-  </div>
+        // Toggle password visibility
+        function togglePassword(inputId) {
+            const input = document.getElementById(inputId);
+            if (input.type === 'password') {
+                input.type = 'text';
+            } else {
+                input.type = 'password';
+            }
+        }
 
-  
-<script>
-const $ = (id)=>document.getElementById(id);
-const msg = (t, cls="") => { $("msg").className="msg "+cls; $("msg").textContent=t; };
+        // Password strength checker
+        function checkPasswordStrength(password) {
+            let strength = 0;
+            const segments = [
+                document.getElementById('strength-1'),
+                document.getElementById('strength-2'),
+                document.getElementById('strength-3'),
+                document.getElementById('strength-4')
+            ];
+            const strengthText = document.getElementById('strength-text');
 
-$("f").addEventListener("submit", async (e)=>{
-  e.preventDefault();
-  $("btn").disabled=true;
-  msg("Signing in…");
-  try{
-    const r = await fetch("/login",{
-      method:"POST",
-      headers:{"Content-Type":"application/json"},
-      body: JSON.stringify({
-        username:$("username").value.trim(),
-        password:$("password").value
-      })
-    });
-    const j = await r.json();
-    if(!r.ok || j.error) throw new Error(j.error || "Login failed");
-    msg("Success! Redirecting…","ok");
-    setTimeout(()=>location.href=(j.redirect || "/"), 350);
-  }catch(err){
-    msg(err.message,"err");
-  }finally{
-    $("btn").disabled=false;
-  }
-});
-</script>
+            // Reset segments
+            segments.forEach(seg => {
+                seg.classList.remove('active', 'weak', 'medium', 'strong');
+            });
 
+            if (password.length >= 8) strength++;
+            if (/[A-Z]/.test(password)) strength++;
+            if (/[0-9]/.test(password)) strength++;
+            if (/[^A-Za-z0-9]/.test(password)) strength++;
+
+            const labels = ['Çok Zayıf', 'Zayıf', 'Orta', 'Güçlü', 'Çok Güçlü'];
+            const classes = ['weak', 'weak', 'medium', 'strong', 'strong'];
+
+            for (let i = 0; i < strength; i++) {
+                segments[i].classList.add('active', classes[strength - 1]);
+            }
+
+            strengthText.textContent = 'Şifre gücü: ' + labels[strength];
+        }
+
+        // Show message
+        function showMessage(elementId, message, type) {
+            const el = document.getElementById(elementId);
+            el.textContent = message;
+            el.className = 'msg show ' + type;
+        }
+
+        // Set loading state
+        function setLoading(buttonId, loading) {
+            const btn = document.getElementById(buttonId);
+            if (loading) {
+                btn.classList.add('loading');
+                btn.disabled = true;
+            } else {
+                btn.classList.remove('loading');
+                btn.disabled = false;
+            }
+        }
+
+        // Handle login
+        async function handleLogin(event) {
+            event.preventDefault();
+            const username = document.getElementById('login-username').value.trim();
+            const password = document.getElementById('login-password').value;
+
+            if (!username || !password) {
+                showMessage('login-msg', 'Lütfen tüm alanları doldurun.', 'error');
+                return;
+            }
+
+            setLoading('login-btn', true);
+            showMessage('login-msg', '', '');
+
+            try {
+                const response = await fetch('/login', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ username, password })
+                });
+
+                const data = await response.json();
+
+                if (!response.ok || data.error) {
+                    throw new Error(data.error || 'Giriş başarısız.');
+                }
+
+                showMessage('login-msg', 'Giriş başarılı! Yönlendiriliyorsunuz...', 'success');
+                setTimeout(() => {
+                    window.location.href = data.redirect || '/';
+                }, 500);
+            } catch (err) {
+                showMessage('login-msg', err.message, 'error');
+            } finally {
+                setLoading('login-btn', false);
+            }
+        }
+
+        // Handle register
+        async function handleRegister(event) {
+            event.preventDefault();
+            const email = document.getElementById('register-email').value.trim();
+            const username = document.getElementById('register-username').value.trim();
+            const password = document.getElementById('register-password').value;
+            const confirm = document.getElementById('register-confirm').value;
+
+            // Validation
+            if (!email || !username || !password || !confirm) {
+                showMessage('register-msg', 'Lütfen tüm alanları doldurun.', 'error');
+                return;
+            }
+
+            if (password !== confirm) {
+                showMessage('register-msg', 'Şifreler eşleşmiyor.', 'error');
+                return;
+            }
+
+            if (password.length < 8) {
+                showMessage('register-msg', 'Şifre en az 8 karakter olmalıdır.', 'error');
+                return;
+            }
+
+            if (username.length < 3 || username.length > 50) {
+                showMessage('register-msg', 'Kullanıcı adı 3-50 karakter arasında olmalıdır.', 'error');
+                return;
+            }
+
+            setLoading('register-btn', true);
+            showMessage('register-msg', '', '');
+
+            try {
+                const response = await fetch('/api/register', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ email, username, password })
+                });
+
+                const data = await response.json();
+
+                if (!response.ok || data.error) {
+                    throw new Error(data.error || 'Kayıt başarısız.');
+                }
+
+                showMessage('register-msg', 'Kayıt başarılı! 3 günlük deneme süreniz başladı. Giriş yapılıyor...', 'success');
+
+                // Auto login after registration
+                setTimeout(async () => {
+                    try {
+                        const loginResponse = await fetch('/login', {
+                            method: 'POST',
+                            headers: { 'Content-Type': 'application/json' },
+                            body: JSON.stringify({ username, password })
+                        });
+
+                        const loginData = await loginResponse.json();
+
+                        if (loginResponse.ok && !loginData.error) {
+                            window.location.href = loginData.redirect || '/';
+                        } else {
+                            switchTab('login');
+                            showMessage('login-msg', 'Kayıt başarılı! Şimdi giriş yapabilirsiniz.', 'success');
+                        }
+                    } catch (e) {
+                        switchTab('login');
+                    }
+                }, 1000);
+            } catch (err) {
+                showMessage('register-msg', err.message, 'error');
+            } finally {
+                setLoading('register-btn', false);
+            }
+        }
+    </script>
 </body>
 </html>
