@@ -75,6 +75,32 @@
 
         .header-right { display: flex; align-items: center; gap: 12px; }
 
+        /* Logout Button */
+        .logout-btn {
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            padding: 8px 14px;
+            background: rgba(248, 81, 73, 0.15);
+            border: 1px solid rgba(248, 81, 73, 0.4);
+            border-radius: 8px;
+            color: #f85149;
+            cursor: pointer;
+            font-size: 12px;
+            font-weight: 600;
+            transition: all 0.3s ease;
+        }
+
+        .logout-btn:hover {
+            background: rgba(248, 81, 73, 0.25);
+            border-color: #f85149;
+            transform: translateY(-1px);
+        }
+
+        .logout-btn svg {
+            flex-shrink: 0;
+        }
+
         /* Language Selector */
         .language-selector {
             position: relative;
@@ -3193,6 +3219,14 @@
                 </div>
             </div>
             <div class="header-right">
+                <button class="logout-btn" onclick="logout()">
+                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"/>
+                        <polyline points="16 17 21 12 16 7"/>
+                        <line x1="21" y1="12" x2="9" y2="12"/>
+                    </svg>
+                    Çıkış Yap
+                </button>
                 <div class="connection-status">
                     <div class="status-dot"></div>
                     <span id="connectionStatus">API Baglanti</span>
@@ -3200,7 +3234,7 @@
                 <span class="ping-indicator" id="pingIndicator">--ms</span>
                 <span class="update-timestamp" id="updateTimestamp" style="display: none;">
                     <span class="icon">🔄</span>
-                    <span>Last update: <span class="time" id="lastUpdateTime">--:--:--</span></span>
+                    <span>Son güncelleme: <span class="time" id="lastUpdateTime">--:--:--</span></span>
                 </span>
             </div>
         </header>
@@ -11730,5 +11764,17 @@
             </div>
         </div>
     </div>
+
+    <script>
+        // Logout function
+        function logout() {
+            if (confirm('Çıkış yapmak istediğinizden emin misiniz?')) {
+                // Clear session storage
+                sessionStorage.clear();
+                // Redirect to login page
+                window.location.href = '/';
+            }
+        }
+    </script>
 </body>
 </html>

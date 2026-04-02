@@ -486,6 +486,107 @@
             margin-top: 4px;
         }
 
+        /* Online Users Card - Liste görünümü */
+        .online-card {
+            text-align: left;
+            min-height: 150px;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .online-header {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            margin-bottom: 12px;
+        }
+
+        .online-count {
+            font-size: 28px;
+            font-weight: 800;
+            background: linear-gradient(135deg, var(--g), var(--a));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .online-list {
+            flex: 1;
+            max-height: 120px;
+            overflow-y: auto;
+        }
+
+        .online-list::-webkit-scrollbar {
+            width: 4px;
+        }
+
+        .online-list::-webkit-scrollbar-track {
+            background: rgba(0, 0, 0, 0.2);
+            border-radius: 2px;
+        }
+
+        .online-list::-webkit-scrollbar-thumb {
+            background: var(--g);
+            border-radius: 2px;
+        }
+
+        .online-user-item {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 8px 10px;
+            background: rgba(46, 229, 157, 0.1);
+            border-radius: 8px;
+            margin-bottom: 6px;
+            border: 1px solid rgba(46, 229, 157, 0.2);
+        }
+
+        .online-user-info {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .online-dot {
+            width: 8px;
+            height: 8px;
+            background: var(--g);
+            border-radius: 50%;
+            animation: pulse 2s infinite;
+        }
+
+        @keyframes pulse {
+            0% { opacity: 1; }
+            50% { opacity: 0.5; }
+            100% { opacity: 1; }
+        }
+
+        .online-user-name {
+            font-size: 13px;
+            font-weight: 600;
+            color: var(--txt);
+        }
+
+        .online-user-role {
+            font-size: 10px;
+            color: var(--mut);
+            background: rgba(124, 92, 255, 0.2);
+            padding: 2px 6px;
+            border-radius: 4px;
+        }
+
+        .online-user-time {
+            font-size: 10px;
+            color: var(--mut);
+        }
+
+        .no-online-users {
+            text-align: center;
+            padding: 20px;
+            color: var(--mut);
+            font-size: 13px;
+        }
+
         .status {
             text-align: center;
             padding: 40px;
@@ -583,9 +684,14 @@
             <div class="stat-value" id="active-users">0</div>
             <div class="stat-label">Aktif Kullanıcı</div>
         </div>
-        <div class="stat-card">
-            <div class="stat-value" id="online-users">0</div>
-            <div class="stat-label">Online Şimdi</div>
+        <div class="stat-card online-card">
+            <div class="online-header">
+                <span class="online-count" id="online-users">0</span>
+                <span class="stat-label">Online Şimdi</span>
+            </div>
+            <div class="online-list" id="online-users-list">
+                <!-- Online kullanıcılar buraya listelenecek -->
+            </div>
         </div>
     </div>
 
@@ -942,13 +1048,35 @@
                 document.getElementById('trial-users').textContent = users.filter(u => u.subscriptionStatus === 'trial').length;
                 document.getElementById('active-users').textContent = users.filter(u => u.isActive).length;
 
-                // Online kullanıcıları al
+                // Online kullanıcıları al ve listele
                 try {
                     const onlineResponse = await fetch(API_BASE + '/api/online-users');
                     const onlineData = await onlineResponse.json();
                     document.getElementById('online-users').textContent = onlineData.count;
+
+                    // Online kullanıcılar listesini güncelle
+                    const onlineListEl = document.getElementById('online-users-list');
+                    if (onlineData.users && onlineData.users.length > 0) {
+                        onlineListEl.innerHTML = onlineData.users.map(user => {
+                            const lastActive = new Date(user.lastActive);
+                            const timeStr = formatTimeAgo(lastActive);
+                            return `
+                                <div class="online-user-item">
+                                    <div class="online-user-info">
+                                        <div class="online-dot"></div>
+                                        <span class="online-user-name">${user.username}</span>
+                                        <span class="online-user-role">${user.role}</span>
+                                    </div>
+                                    <span class="online-user-time">${timeStr}</span>
+                                </div>
+                            `;
+                        }).join('');
+                    } else {
+                        onlineListEl.innerHTML = '<div class="no-online-users">Şu an online kullanıcı yok</div>';
+                    }
                 } catch (e) {
                     document.getElementById('online-users').textContent = '0';
+                    document.getElementById('online-users-list').innerHTML = '<div class="no-online-users">Bağlantı hatası</div>';
                 }
 
                 if (response.ok && users.length > 0) {
@@ -1010,6 +1138,20 @@
             } else {
                 return days + ' gün kaldı';
             }
+        }
+
+        // Format time ago for online users
+        function formatTimeAgo(date) {
+            const now = new Date();
+            const diff = now - date;
+            const seconds = Math.floor(diff / 1000);
+            const minutes = Math.floor(seconds / 60);
+
+            if (minutes < 1) return 'Az önce';
+            if (minutes < 60) return minutes + ' dk';
+            const hours = Math.floor(minutes / 60);
+            if (hours < 24) return hours + ' s';
+            return Math.floor(hours / 24) + ' g';
         }
 
         // Quick actions

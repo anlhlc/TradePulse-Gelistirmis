@@ -510,6 +510,23 @@ app.get('/api/user', requireAuth, async (req, res) => {
   }
 });
 
+// API endpoint - Online kullanıcılar listesi (Admin)
+app.get('/api/online-users', requireAuth, requireAdmin, (req, res) => {
+  const users = [];
+  for (const [userId, userData] of onlineUsers.entries()) {
+    users.push({
+      username: userData.username,
+      role: userData.role,
+      lastActive: userData.lastActive,
+      ip: userData.ip
+    });
+  }
+  res.json({
+    count: users.length,
+    users: users
+  });
+});
+
 // API endpoint - Şifre değiştirme
 app.post('/api/change-password', requireAuth, async (req, res) => {
   const { currentPassword, newPassword } = req.body;
