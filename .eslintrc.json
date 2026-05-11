@@ -1,0 +1,30 @@
+{
+  "env": {
+    "es2022": true,
+    "node": true,
+    "jest": true
+  },
+  "extends": "eslint:recommended",
+  "parserOptions": {
+    "ecmaVersion": 2022,
+    "sourceType": "module"
+  },
+  "rules": {
+    "indent": ["error", 2],
+    "linebreak-style": ["error", "unix"],
+    "quotes": ["error", "single"],
+    "semi": ["error", "always"],
+    "no-unused-vars": ["warn", { "argsIgnorePattern": "^_" }],
+    "no-console": "off",
+    "no-empty": "warn"
+  },
+  "ignorePatterns": [
+    "node_modules/",
+    "public/",
+    "views/",
+    "static-deploy/",
+    "client/",
+    "logs/",
+    "coverage/"
+  ]
+}
