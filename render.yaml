@@ -1,12 +1,22 @@
 services:
   - type: web
-    name: binance-dashboard
+    name: tradepulse
     env: node
+    region: frankfurt
     buildCommand: npm install
     startCommand: npm start
     rootDir: .
+    healthCheckPath: /
     envVars:
       - key: NODE_ENV
         value: production
       - key: PORT
-        value: 3000
+        value: 10000
+      - key: MONGODB_URI
+        sync: false
+      - key: SESSION_SECRET
+        sync: false
+      - key: ADMIN_PASSWORD
+        sync: false
+      - key: LOG_LEVEL
+        value: info
